@@ -1,0 +1,94 @@
+{
+  "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis",
+  "files": 234,
+  "project_owned_matlab_candidates": 121,
+  "classification_counts": {
+    "experiment/prototype or workflow (review required)": 15,
+    "reusable project function or helper (review required)": 81,
+    "maintained analysis/workflow (review required)": 14,
+    "temporary/backup": 13,
+    "data/calibration/reference artifact": 2,
+    "third-party/vendor": 68,
+    "test/validation": 11,
+    "unknown/review required": 30
+  },
+  "extension_counts": {
+    ".m": 121,
+    ".mlx": 14,
+    ".asv": 13,
+    ".mat": 2,
+    ".txt": 2,
+    "[none]": 19,
+    ".yml": 1,
+    ".npy": 42,
+    ".md": 4,
+    ".ipynb": 1,
+    ".py": 1,
+    ".png": 1,
+    ".sample": 13
+  },
+  "manifest": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\inventory\\manifest.csv",
+  "report": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\inventory\\README.md",
+  "largest": [
+    {
+      "relative_path": "data/npy-matlab-master/adc_data_run_24062_srcid_4_ch_36_0000.npy",
+      "bytes": 290600128
+    },
+    {
+      "relative_path": "data/daphneV2_fbk_45pde_int_on.mat",
+      "bytes": 38729204
+    },
+    {
+      "relative_path": "Live_scripts/analysis_daphne_data_vgain_scan_np04.mlx",
+      "bytes": 22577191
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/chelsea_float64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/chelsea_int64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/chelsea_uint64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/matlab_chelsea_float64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/matlab_chelsea_int64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/matlab_chelsea_uint64.npy",
+      "bytes": 3247280
+    },
+    {
+      "relative_path": "data/daphne_1.mat",
+      "bytes": 3017684
+    },
+    {
+      "relative_path": "Live_scripts/analysis_daphne_data_vgain_scan.mlx",
+      "bytes": 2952267
+    },
+    {
+      "relative_path": "Live_scripts/analysis_daphne_data_multivar.mlx",
+      "bytes": 2693840
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/npy.ipynb",
+      "bytes": 2458493
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/chelsea_float32.npy",
+      "bytes": 1623680
+    },
+    {
+      "relative_path": "data/npy-matlab-master/tests/data/chelsea_int32.npy",
+      "bytes": 1623680
+    }
+  ]
+}

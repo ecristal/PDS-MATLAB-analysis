@@ -1,0 +1,146 @@
+{
+  "generated_utc": "2026-08-07T09:35:48.016589Z",
+  "purpose": "Staged, byte-verified sources required by the static dependency scan of analysis_daphne_data.mlx. MATLAB was not executed.",
+  "static_dependency_report": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\inventory\\analysis_daphne_data_static_dependencies.json",
+  "files": [
+    {
+      "role": "live-script",
+      "symbol": "analysis_daphne_data",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\legacy\\live-scripts\\analysis_daphne_data.mlx",
+      "sha256": "2f7438c297e1c46f346c4d7521572068f37c18b55bdd347fec3823e418ca75a9",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "ROC_file_analysis",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\ROC_file_analysis.m",
+      "sha256": "9510a8da83ea0fff6a8b386ec80dce3924aa2e6d65c20cf42dcf26c9da3d06c1",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "calculateMedianPedestal",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\daphne\\calculateMedianPedestal.m",
+      "sha256": "140a655383798f56968dfaf33c04a48bfa51e3bc8d958b062b2ef9b3ad90c73a",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "extract_and_import_DAPHNE_data",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\daphne\\extract_and_import_DAPHNE_data.m",
+      "sha256": "76710983dd3969d7ef22fd473110e143f55710dc6bb599ce004b49a92452da06",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "f_fourier",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\external\\fiuna-pasantia-tesis-matlab\\f_fourier.m",
+      "sha256": "68fbfaf014c9e23d5090b6b1e46f1dcc769fa846bdfab1f0c9e275c372d183de",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "fit2SPE",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\fit2SPE.m",
+      "sha256": "aa9d5dcf44cfa386b4cb29f95c4f949f105bc0fa55509d80ed448433cb268b48",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "gaussian_fit_SNR",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\gaussian_fit_SNR.m",
+      "sha256": "8db067a6e3a3bb690944174fa431cc0b4c1dc17dc94dcc3234218b6d4242312a",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "getDataFromWafflesPickleFile",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\getDataFromWafflesPickleFile.m",
+      "sha256": "2ef47fd2d969ad5203c1e95ba1a14c4d96b93b3d3649d2ff3197b680dd91a0d8",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "my_gaussian_fit",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\my_gaussian_fit.m",
+      "sha256": "b3beaec8c92f7c8894cc77444a8a0deccb6df2995b1d95e2de5cfc63993677af",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "optimal_filter_for_daphne_gpessina_function",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\optimal_filter_for_daphne_gpessina_function.m",
+      "sha256": "3002da9b6428c13b6011be352b83e7a8d61258fd1ee29f30e9aa16e5c9256dbc",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "readBinaryDataRSOsc",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\readBinaryDataRSOsc.m",
+      "sha256": "a25d2dae55eebd3bf1913d6bfff1491167fcac000743b35ed54b56ec3b8753fa",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "sum_fitted_data",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\daphne\\sum_fitted_data.m",
+      "sha256": "a14a6509f4193a9209b9854c5d1a5b0f08a176321f0dbfc537065b6cc7d443dc",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "import_data_daphne_func",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\import_data_daphne_func.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\daphne\\import_data_daphne_func.m",
+      "sha256": "bb84ed91867a2c8ec7a4caab448244fa005abbd2028378beea908e6692046e1e",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "find_peaks_hist_adaptive",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\find_peaks_hist_adaptive.m",
+      "sha256": "4e4e39bcbdc2e9f005019697743125ba4f05891e187baf547129ec38402a7bcb",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "mi_dft",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\mi_dft.m",
+      "sha256": "16716c13f63fd7fdcb2e3ec8e168b3fa2acb1412dd31317eca06a3ced0e1dd20",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "mi_idtft",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_idtft.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\mi_idtft.m",
+      "sha256": "3f2d92eabf174dcbb384d6c1ae873a5ac7179d6782f36328660e471f3aa25ea7",
+      "verified": true
+    },
+    {
+      "role": "m-function-or-script",
+      "symbol": "xmltools",
+      "source": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m",
+      "destination": "C:\\Users\\e_cri\\Documents\\Proyectos\\PDS-MATLAB-analysis\\src\\data\\xmltools.m",
+      "sha256": "148e56bd43cdd3615f2625f484907096cb8b3ca681245aa8339d76a3b7febd83",
+      "verified": true
+    }
+  ],
+  "not_included_yet": [
+    "Large .mat/.npy data artifacts, aging-test artifacts, MATLAB built-ins/toolbox functions, and unresolved/dynamic dependencies."
+  ]
+}

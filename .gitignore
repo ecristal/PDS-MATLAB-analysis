@@ -1,0 +1,11 @@
+# MATLAB editor and build artifacts
+*.asv
+*.autosave
+*.bak
+slprj/
+codegen/
+
+# Local/generated analysis products
+outputs/
+local/
+inventory/TEST_*.md

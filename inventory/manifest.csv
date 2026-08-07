@@ -1,0 +1,235 @@
+relative_path,extension,bytes,modified_utc,sha256,preliminary_classification
+daphne/analisis_1.m,.m,9101,2023-02-20T09:52:28Z,15852d82296d91fdec3e399123e258739e4a0b1ff4ac932add27f7bdfba42191,experiment/prototype or workflow (review required)
+daphne/calculateMedianPedestal.m,.m,1985,2025-12-14T11:22:12.216165Z,140a655383798f56968dfaf33c04a48bfa51e3bc8d958b062b2ef9b3ad90c73a,reusable project function or helper (review required)
+daphne/calculateVbr.m,.m,2334,2024-04-05T09:26:06Z,98c89518bc166fcbee78485973070a4c414e182e55d645086572c1efb57a82a9,reusable project function or helper (review required)
+daphne/concatenate_daphne_wavefomrs.m,.m,538,2022-06-10T07:46:37Z,c598351187560b81089f702d7cb1940a5ad4b9bb267d283a03163becd37da402,reusable project function or helper (review required)
+daphne/extract_and_import_DAPHNE_data.m,.m,2940,2026-02-11T14:17:50.515953Z,76710983dd3969d7ef22fd473110e143f55710dc6bb599ce004b49a92452da06,reusable project function or helper (review required)
+daphne/extract_data_for_daphne_weiner.m,.m,6967,2022-09-15T11:39:53Z,00042c09f42d72d531b5f53a7486ef6ee23ec52ca6a8d990ea959b98faa07074,reusable project function or helper (review required)
+daphne/import_daphne_data_mult_waveforms.m,.m,547,2022-05-30T15:25:44Z,7330bcd322104c285146d9a28dd4c968115b2fa7db21986f7cfb4aa9b7544515,reusable project function or helper (review required)
+daphne/import_data_daphne.m,.m,1003,2023-02-02T08:56:37Z,812be6d2bd0f1f7c60d12698798f98fc6b9b111406d79671835383c39ea35d44,reusable project function or helper (review required)
+daphne/import_data_daphne_func.m,.m,1392,2025-12-10T08:54:22.601751Z,bb84ed91867a2c8ec7a4caab448244fa005abbd2028378beea908e6692046e1e,reusable project function or helper (review required)
+daphne/opt_calc_matched_filter.mlx,.mlx,36488,2024-03-28T17:57:19Z,f16e9a5f7eaac344c14a9301a8e257d1774e8c05934425311277f9359272c745,maintained analysis/workflow (review required)
+daphne/optimun_daphne_weiner.m,.m,2714,2022-09-28T16:06:02Z,ea72dc1268a50d2d91312cc392e5dc20a1025af763e5cbbff031480f06888b76,reusable project function or helper (review required)
+daphne/save_to_dat.m,.m,215,2022-06-14T08:30:17Z,6806121892921a7b889069c723d7736fad337579759f3dc58a8820d233c709dc,reusable project function or helper (review required)
+daphne/sum_fitted_data.m,.m,557,2023-02-26T10:32:51Z,a14a6509f4193a9209b9854c5d1a5b0f08a176321f0dbfc537065b6cc7d443dc,reusable project function or helper (review required)
+daphne/tf_filter.m,.m,149,2023-01-13T08:56:42Z,6cc449e4af37c854aa702c213d981777acf5458be052164b90c5240860152898,reusable project function or helper (review required)
+daphne/trigger_jitter_analisis.m,.m,8672,2023-05-06T07:21:55Z,9e0d85ddff44f646a0924fd498aa811676ba95f2879969c1f0e2058e9b7acc23,experiment/prototype or workflow (review required)
+daphne/weiner_deconv2.m,.m,531,2022-12-04T10:14:32Z,5e265246e37a38f18ade0c0021d46824b28bbfafd3375ba3817fe9f6d6da8711,reusable project function or helper (review required)
+daphne/write_data_to_binary_txt_file.m,.m,536,2023-10-16T23:16:23Z,47b49ad0d7667fe91aca34b9727ae649496b10d4639be07cfdcdbb5cb6ddbde1,reusable project function or helper (review required)
+daphne/z_poles_signal_daphne.m,.m,148,2022-11-25T17:29:25Z,c06f02568771b5ec6c837c1245d5160f512570fccf3b49c959c889356d47e239,reusable project function or helper (review required)
+data/align3d_axis_labels.m,.m,1999,2025-10-08T09:14:26.030595Z,4c0790f33e31cefb9e0311787f13b77d4dc314c53091ec6f6edeec820518e2f0,reusable project function or helper (review required)
+data/align3d_axis_labels_outside.m,.m,3326,2025-10-08T09:20:56.313820Z,3b8cc22fc63c09ef5e9f34cf72acb3e773d06986ab15ff53b486a7b259ddac5c,reusable project function or helper (review required)
+data/analize_data_CAEN.asv,.asv,8709,2022-12-21T10:52:43Z,8a1570d97b9905bd6735f402445183391d8093db68711c2f6c3524177ae5f4d4,temporary/backup
+data/analize_data_CAEN.m,.m,9301,2022-12-22T13:49:37Z,6e861fd6d519232809108cbfb191f6126ad8878e88bac4a113e5302fbde26ee4,experiment/prototype or workflow (review required)
+data/analyze_roc_data_selftrigger.m,.m,858,2025-01-11T09:31:02.779387Z,32f11011cb970c778b1da70797074385b79d0d8718235d6980885bd1ffe725b4,experiment/prototype or workflow (review required)
+data/backfilter.m,.m,2702,2024-04-07T18:56:45Z,e255c1894ace5a4a7f92b59d1da7069af095169a928a2c2e7620b24386ceb0ec,reusable project function or helper (review required)
+data/build_NP04_file_dir.m,.m,3819,2026-02-09T18:23:07.020428Z,fbf099c22fb1f8d74dc319be67158da5c6581f7dbf9255f562070398d1ebac50,reusable project function or helper (review required)
+data/CAENdata2Matlab.m,.m,2182,2023-07-18T14:05:48Z,3731f0cfbd0b5c972752ba10c103b81a358396e4a6b04a3393bd348dffd64c88,reusable project function or helper (review required)
+data/calculate_trigger_cfd.m,.m,1501,2023-10-19T09:58:59Z,656ae2f9c0288fbcc9fa04ac0bda974f1db77dec50c59120f4fe660283387ff8,reusable project function or helper (review required)
+data/calculate_trigger_position.m,.m,230,2023-10-19T09:15:47Z,b50ebc546260ba2872e95251653a51c23bf6d53463ce0d777293c8c7cdd0b44f,reusable project function or helper (review required)
+data/calculateSignalUndershoot.m,.m,479,2024-09-21T10:11:47.740418Z,b93297341dd3e8e98f9fe8501133aa42ba87fd306650167c8ee7c728055e08e8,reusable project function or helper (review required)
+data/calculateTriggerPositionsWithWindow.m,.m,785,2023-10-23T10:55:53Z,7ba9c4bd5e8ef6451deb7e549cea81f4b45d931efd9d86bddf7a5afede322d3a,reusable project function or helper (review required)
+data/cb_teststand_led.m,.m,59,2025-10-23T09:10:35.020988Z,1be896cb43b968367f7d687f4d3255ead9cd08f52d94dc3c8a1de9ea6e5bf518,reusable project function or helper (review required)
+data/charge_pump_calculations.m,.m,3492,2025-11-08T08:38:20.780947Z,030115bb75a25b0213971d04bd3b798797ceddab8c5250a9413dfe2cd4ce9a99,reusable project function or helper (review required)
+data/chooseOption.m,.m,275,2026-02-10T09:31:19.792088Z,fe81935753a40960895b53e6cb60beeac4468a0e42de34f3584cdf95901cb67e,reusable project function or helper (review required)
+data/correct_ROC_data_trigger_analysis.m,.m,247,2024-06-13T08:04:43Z,41fc159571337b353e29a0d6aa93cd1670b023e60ff55f28f0d0beb8b02bdf20,reusable project function or helper (review required)
+data/daphne_1.mat,.mat,3017684,2022-05-30T14:55:31Z,0646f8397331530b6b664798ef73e728e1cc8596fa74dceb7628f6edaf355cfd,data/calibration/reference artifact
+data/daphneV2_fbk_45pde_int_on.mat,.mat,38729204,2022-11-25T16:43:17Z,1c39a8af7722b8c127062254770985d3b9a01d9fb8831231fc540dd90645ac0c,data/calibration/reference artifact
+data/double2binary_coefficients.asv,.asv,194,2023-05-02T16:15:16Z,d660b1792167ca8af71920dfadacc591e748bc6c5a70297e371b8493e4bd1efc,temporary/backup
+data/double2binary_coefficients.m,.m,219,2023-05-04T15:25:26Z,a129c62c08184a7b2a03cd1069271e90c42721806c096902a18669ee1db1c767,reusable project function or helper (review required)
+data/downsample_data.m,.m,506,2023-09-20T20:28:57Z,7331fd079000031882365844405d30dabd40b6df651789fcac39309bddc146a5,reusable project function or helper (review required)
+data/EditorSessionManager/1editorLayout/copyFilesToUserPath.m,.m,1363,2014-06-03T13:48:56Z,5e11b4675a3d026deeaeb8d625cc92be76a6e5c1061efd69022c6cd4e2fe5cb1,third-party/vendor
+data/EditorSessionManager/1editorLayout/createShortcuts.m,.m,2004,2014-06-03T13:48:56Z,d5fd3e5b19fe8ac3e0a2f8509fd278dbe66ac138eb36573808e1e0e353bec929,third-party/vendor
+data/EditorSessionManager/1editorLayout/SessionEditor.m,.m,49795,2014-06-03T13:48:56Z,33b0cf4ad81dd7a818fe036a2d94278985463d58b4dca746eb4c9428baeeaefe,third-party/vendor
+data/EditorSessionManager/chooseOption.m,.m,4520,2014-06-03T13:48:56Z,1f6d69fae8bf416ba641d9f7bbf618b0ff49287b3998bd01f211e061227208f7,third-party/vendor
+data/EditorSessionManager/license.txt,.txt,1504,2014-06-03T13:48:56Z,5d37ad37b1fcc014a43728d85dd5977adfb106c045ba9899255f3d6aa2627878,third-party/vendor
+data/export_matlab_script_dependencies.m,.m,1691,2026-02-10T13:05:35.856453Z,67f3c0e92213070bdf57ab40fefcc35999b226f7cfc83b2c7f5dc50fb51ea8e0,reusable project function or helper (review required)
+data/fbk_tf_analisis.m,.m,2963,2023-10-27T22:20:18Z,e35cdcb255adc5c3f37b95099588eacde0e6c07a606673c66781f7e665f3ebaa,experiment/prototype or workflow (review required)
+data/fbk_tf_analisis_carlas_setup.m,.m,2143,2023-10-27T13:31:56Z,0543793363cb06d48410ebc066845756c9fc58b9ad5e2a6648f7951f5fbb4c52,experiment/prototype or workflow (review required)
+data/find_peaks_hist_adaptive.m,.m,3878,2026-02-10T10:43:26.794264Z,4e4e39bcbdc2e9f005019697743125ba4f05891e187baf547129ec38402a7bcb,reusable project function or helper (review required)
+data/fit2SPE.m,.m,1234,2025-10-25T15:12:10.450456Z,aa9d5dcf44cfa386b4cb29f95c4f949f105bc0fa55509d80ed448433cb268b48,reusable project function or helper (review required)
+data/float2bin.m,.m,1053,2023-05-04T15:04:04Z,d57d541c75cdb6d19265ecb83c808d2b80df9eb2052cbd9f4b0a010f5c9e0a5a,reusable project function or helper (review required)
+data/fourier_z_transform.asv,.asv,603,2023-06-03T01:18:41Z,b83dbce7d1facfb011993bc0f8419fa25d5855248650c28a0c55029842b082eb,temporary/backup
+data/fourier_z_transform.m,.m,622,2023-05-26T14:59:37Z,f5e371658e355a4a7836fd9f59f51cc57b9cc21eedb278ed68829f538539d1ba,reusable project function or helper (review required)
+data/gaussian_fit_SNR.m,.m,3599,2026-02-10T10:47:59.204508Z,8db067a6e3a3bb690944174fa431cc0b4c1dc17dc94dcc3234218b6d4242312a,reusable project function or helper (review required)
+data/general_tf_estimation_pds_algorithm.m,.m,6205,2026-04-14T13:43:27.150445Z,c570ca4bd9c73dfb287da2fbd9b3e7472cc5e0307cdadd9bececb70aaf33db5e,reusable project function or helper (review required)
+data/generate_hg.m,.m,947,2023-06-09T20:38:39Z,5aa9ea9bbb22646dc8bd787c445b874521e3244b43b80e3dfc9fb626cd482c26,reusable project function or helper (review required)
+data/generate_hg_h.m,.m,108,2023-06-09T16:30:50Z,b1c4aa0517e05f8f7541cb17948851409a7585378e2da8926e244e0b775cc3c0,reusable project function or helper (review required)
+data/generate_HV_matrices.m,.m,1073,2023-06-09T20:06:36Z,309ff819c53be9642299f59b35525c562493932d6ce53fa6b9eac171b98b256a,reusable project function or helper (review required)
+data/generateFractionalZeroCompensator.asv,.asv,434,2025-07-26T20:03:07.077821Z,ecea7aa50c47dbacbab3b538062b404fa6640291d9b2f1f8a29383e2f453ed19,temporary/backup
+data/generateFractionalZeroCompensator.m,.m,449,2025-07-26T20:03:08.723994Z,c85c02a40b20abc54b410802473f208a3f2fc5e058ac8fd1562c82b75eb80c65,reusable project function or helper (review required)
+data/get_dat_paths.m,.m,540,2026-02-09T18:04:30.047603Z,ec87272fc4359b62479a6af143a71dd346a46e23b7b28da132972c6d70026423,reusable project function or helper (review required)
+data/get_NP04_channel_numbers.m,.m,735,2026-02-09T18:44:06.068690Z,03031a9753c8e2e143c9577d33e5c5390b8f1b847c7065b4927618374c06ec94,reusable project function or helper (review required)
+data/getDataFromWafflesPickleFile.m,.m,2676,2024-10-05T15:34:28Z,2ef47fd2d969ad5203c1e95ba1a14c4d96b93b3d3649d2ff3197b680dd91a0d8,reusable project function or helper (review required)
+data/getProminentMaximums.m,.m,533,2026-02-10T10:25:37.691268Z,80dba0c44a66a826a686a9c9f545d651474c08ea5cbd61949759babd0ce143cb,reusable project function or helper (review required)
+data/gradient_descent_tf_estimator_test.m,.m,7716,2023-04-04T16:39:59Z,e67b68370540647f1b7a7866f7b91bfbe81ff4750e5d6aa4cc958f8453885e0e,experiment/prototype or workflow (review required)
+data/gradient_descent_tf_estimator_test_2.m,.m,6729,2023-04-05T10:23:23Z,27cb973ad4b2f8e942096a65b8533abe4ee3a9fb506706b935d23751bc517ed7,experiment/prototype or workflow (review required)
+data/gradient_descent_tf_estimator_test_3.m,.m,3100,2023-04-05T10:06:39Z,510ebd4f10fbc258168de410736abda505c62fad40678d606a9c77b33b399f81,experiment/prototype or workflow (review required)
+data/hpk_tf_analisis_carlas_setup.m,.m,1374,2023-09-06T09:03:08Z,ae93d7724a78412cd1011c574e6d1c4ae506cdfafc9f48405924502f40edf7c0,experiment/prototype or workflow (review required)
+data/import_lecroy.m,.m,770,2023-11-24T13:51:30Z,bbdc33add5b7511c1332ec5958ec45e9f32a20d198c4b170fe074d5a11eceab9,reusable project function or helper (review required)
+data/mi_dft.m,.m,628,2023-06-05T10:13:51Z,16716c13f63fd7fdcb2e3ec8e168b3fa2acb1412dd31317eca06a3ced0e1dd20,reusable project function or helper (review required)
+data/mi_fcdft.m,.m,799,2023-06-09T10:10:17Z,855e46de6d0801e758ddb20a61173d13e78d70a636cf4e22ae4e0caa24d31799,reusable project function or helper (review required)
+data/mi_fdft.m,.m,371,2023-06-13T10:27:02Z,0b9f3b6e42da7793ead55fa3bbdfd4218d9dad4b0c3bdbd1ae45bed4f6498288,reusable project function or helper (review required)
+data/mi_idtft.m,.m,334,2023-05-26T14:53:32Z,3f2d92eabf174dcbb384d6c1ae873a5ac7179d6782f36328660e471f3aa25ea7,reusable project function or helper (review required)
+data/mi_wiener_deconv.asv,.asv,506,2023-05-31T14:12:33Z,cc872867b93da76ef0b6b9a3544f31bbe3d5c52ec09e12db784195b2a659abc7,temporary/backup
+data/mi_wiener_deconv.m,.m,540,2023-06-05T10:19:15Z,e978fabdca3c293eb6ddb30f21497b9fad458711fcaa7fe1a601fbf61046033c,reusable project function or helper (review required)
+data/modify_daphne_analysis_titles.m,.m,1640,2024-06-12T11:52:06Z,3060e41f25acdeb54e7b1cee72d7f4b0cea0e6113ee3f63f17cb115dacdadbb6,reusable project function or helper (review required)
+data/moving_median.m,.m,731,2025-10-08T07:46:34.058306Z,db0abcfaea1fd3dada98d49447372f0d9fdb7c78f770b361599df24f3afaa3ad,reusable project function or helper (review required)
+data/my_gaussian_fit.m,.m,849,2024-06-12T17:41:18Z,b3beaec8c92f7c8894cc77444a8a0deccb6df2995b1d95e2de5cfc63993677af,reusable project function or helper (review required)
+data/myfiltfilt.m,.m,2271,2023-10-26T16:53:47Z,6404363d18da6c6637b591ccf9d38f4fe532e1c137759c6b2c8121b236144695,reusable project function or helper (review required)
+data/myfiltfilt2.m,.m,2753,2023-10-27T12:29:24Z,b05b6d457c19cd7276d5e72a1185326de7f485c66133c73b8e2ddef37216776a,reusable project function or helper (review required)
+data/noise_transfer_function_estimation.m,.m,1626,2023-07-06T11:26:57Z,23995a9e3c4c94991cae49c69a324016c7b3ce621d8db58279667e453bfbf161,reusable project function or helper (review required)
+data/noiseGenerator.m,.m,1356,2023-11-30T15:44:42Z,64526be4b04f9b4f25dda7c5f80271f03142efb8bd72f53c78c1c099357ea4ad,reusable project function or helper (review required)
+data/noiseGeneratorFromFile.m,.m,1523,2023-12-11T16:08:48Z,5e40520807e08daf3bec6d65ff7310798628753b20cc179e2387555563f13079,reusable project function or helper (review required)
+data/NP04_channel2idx.m,.m,1240,2026-02-10T09:23:32.000247Z,59935cea49e09df4c2eab0e511dd61e8c167f439d9e953a0ccf2dff4852f8f81,reusable project function or helper (review required)
+data/NP04_endpoint2idx.m,.m,275,2026-02-10T09:32:19.792333Z,fe81935753a40960895b53e6cb60beeac4468a0e42de34f3584cdf95901cb67e,reusable project function or helper (review required)
+data/NP04_idx2pde.m,.m,94,2026-02-10T09:04:15.554207Z,9f6beb090db05887900032e7625f6110ec89166fe5edd8770d24853c39035b34,reusable project function or helper (review required)
+data/NP04_pde2idx.m,.m,254,2026-02-10T09:03:26.334766Z,2db3749eab9bb0e057ee29d8ada9fafe75cf6bf977f7859f775c841602bd1754,reusable project function or helper (review required)
+data/NP04_snr_dr_set.m,.m,1365,2026-02-10T09:38:19.817414Z,1658864d730f20ee50c105bf8ab87b841ab961337b4bf644607fda2808bfb3b3,reusable project function or helper (review required)
+data/NP04_vgain2idx.m,.m,634,2026-02-10T09:26:57.290294Z,f918e9525460097ca970ab0d450cab93795fcb3c7344ac7804d53d63e4d598b8,reusable project function or helper (review required)
+data/npy-matlab-master/.gitignore,[none],38,2023-01-24T17:13:19Z,04136d467cbf19fee7c486e27863f6f4adf7e0bfaeba631c08f3c9bac4c6dbdf,third-party/vendor
+data/npy-matlab-master/.travis.yml,.yml,1371,2023-01-24T17:13:19Z,324eebdcfd087d17d91db35fb3322c12ff6d02d38d23e39dfa231e805f341899,third-party/vendor
+data/npy-matlab-master/adc_data_run_24062_srcid_4_ch_36_0000.npy,.npy,290600128,2024-03-07T14:26:56Z,712922b04445e3867c9fee09e4e2cf8644cfce1f42267cc1197a34df9501159e,third-party/vendor
+data/npy-matlab-master/examples/exampleMemmap.m,.m,755,2023-01-24T17:13:19Z,5bbea38781b2593f827307e33de32b2a7d8174eb16cfdec8965457ded5afab16,third-party/vendor
+data/npy-matlab-master/LICENSE,[none],1331,2023-01-24T17:13:19Z,f5f57d76a0c04198c5413b4d2664fd989024add8eee9b117f07536ea573dfde0,third-party/vendor
+data/npy-matlab-master/npy-matlab/constructNPYheader.m,.m,2844,2023-01-24T17:13:19Z,bbaf0ec6604c036dee1a8ac764d3f113cf5613023c02df4c07510d737ab0210c,third-party/vendor
+data/npy-matlab-master/npy-matlab/datToNPY.m,.m,1490,2023-01-24T17:13:19Z,5b46391190ed97f20eb86b3768533b592e1e8efb265fe89315102257b336e230,third-party/vendor
+data/npy-matlab-master/npy-matlab/readNPY.m,.m,878,2023-01-24T17:13:19Z,b49773aabd0b50ee8f60b0098e38b66c097bf88f9e9b7396102a54165675138f,third-party/vendor
+data/npy-matlab-master/npy-matlab/readNPYheader.m,.m,2181,2023-01-24T17:13:19Z,8750b88f0252035e6579e4da625713cc1a5ab8e6becd37279ee614ad4b5aff81,third-party/vendor
+data/npy-matlab-master/npy-matlab/writeNPY.m,.m,470,2023-01-24T17:13:19Z,94b3afcfbeed28b54ecb50e3a7f09f1a300d6fe9fbba698b8994bc668b59192d,third-party/vendor
+data/npy-matlab-master/README.md,.md,1909,2023-01-24T17:13:19Z,bc43fcb9fe6ce606e0f121b87aa403bf6836ff05eb0f6444737283e54da6a15e,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_float32.npy,.npy,1623680,2023-01-24T17:13:19Z,c316446303219e5ecf10dcfdf85ecadb6b5ad3a17217056ef952bf2e947c3d3a,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_float64.npy,.npy,3247280,2023-01-24T17:13:19Z,2a47d362dbde145f39e868288a51762e77338d5c46578ff251de3806e5b88a7e,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_int16.npy,.npy,811880,2023-01-24T17:13:19Z,a99f1077da8fe319657607668a68027d3e58c5ce756dfc7785b90b2e956c3ed2,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_int32.npy,.npy,1623680,2023-01-24T17:13:19Z,941a2890dabab89e33f1b3a9a6f53765d519c0f923f7041e7b052b30cae4a61d,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_int64.npy,.npy,3247280,2023-01-24T17:13:19Z,c3436b5a9205518875bcd0cea900cc5deea471345b63ea1e7a871558fc5bcede,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_int8.npy,.npy,405980,2023-01-24T17:13:19Z,2af0f5becb01d9c79484e8018eeaf41a15a894f2eeaa5a8cf9a1aa21b8c81c33,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_uint16.npy,.npy,811880,2023-01-24T17:13:19Z,98af2cd7d8c69f7c5c777a19b4cfb77f13442123a22cfc95b453e64c474766d7,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_uint32.npy,.npy,1623680,2023-01-24T17:13:19Z,a6858c157a9d975dda0faff981c48740444a7990ff7c6fb346a85739b0565aa0,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_uint64.npy,.npy,3247280,2023-01-24T17:13:19Z,6d0bc4b0bba546326fde3e93b6dcad8a112344e9ee114a20dc4a8b1bee5ed668,third-party/vendor
+data/npy-matlab-master/tests/data/chelsea_uint8.npy,.npy,405980,2023-01-24T17:13:19Z,fb13bf266f6ddba79de03e5d7ca266196eef2ca9b58c2a97748c3d49359a1cda,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_float32.npy,.npy,1623680,2023-01-24T17:13:19Z,1aa27959287a3331ef7ec3d10ae1a30b74aa79b19cf67c0de8b7d34c795a7006,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_float64.npy,.npy,3247280,2023-01-24T17:13:19Z,37a082b53269fb596761b2c5edd385022a25ee1f273b1beff7721ac44e623ba0,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_int16.npy,.npy,811880,2023-01-24T17:13:19Z,0fee5c1bd7c2f55ce1326a05cf6a29c6a193a2d861360c3d6939be79b6602397,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_int32.npy,.npy,1623680,2023-01-24T17:13:19Z,4f27353739477d3800a3aeed0d5c4d823bd475cca482133db367e063f5a9313e,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_int64.npy,.npy,3247280,2023-01-24T17:13:19Z,6911c479934ede25f2d0005d30528577018586b362643113386f146044f2c05f,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_int8.npy,.npy,405980,2023-01-24T17:13:19Z,4ce035fc8efe629c5016b3619adec5c9d088af28d07c3172616701f06fba9c5b,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_uint16.npy,.npy,811880,2023-01-24T17:13:19Z,1ad56c50970a3c4d1a036b287dd2266d4d0e7f10f431d2a0ace5d018adc2c167,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_uint32.npy,.npy,1623680,2023-01-24T17:13:19Z,1c01e29de6a0aa94eff3e8cb767c205d35e7deacd6af00f2b09435fd883e65e1,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_uint64.npy,.npy,3247280,2023-01-24T17:13:19Z,4fc045d42c4796f8d7e97c4b393a528402a9f3b0ca7b1f2fdbda71f3c0cd82e5,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_chelsea_uint8.npy,.npy,405980,2023-01-24T17:13:19Z,c009584b7f4d632789398ff2f6983bf7ddac8be1f6ef9fd014fdde27ccd28eee,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_float32.npy,.npy,40080,2023-01-24T17:13:19Z,b3a3bc896eb9f8e16aed321ce1800804fc89e5c9d42883c3e045a51a01fb6dba,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_float64.npy,.npy,80080,2023-01-24T17:13:19Z,e62e418648ffd8e8c408e85205b40243bb08b076cd62c91e7a197521e0b9439b,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_int16.npy,.npy,20080,2023-01-24T17:13:19Z,f113532166a2b15df2576fa389aecf5aa987c67e846d8ae47cd9ad43f6294296,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_int32.npy,.npy,40080,2023-01-24T17:13:19Z,4823cc6b43ddbe790c185ec291b02305bbd6fff1a32ae67afc9ebe05437e8ab2,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_int64.npy,.npy,80080,2023-01-24T17:13:19Z,38dd453145bec5ebf197966dc99944445dc0cdad4295bbae34e0fdbe3d3daa3b,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_int8.npy,.npy,10080,2023-01-24T17:13:19Z,e127d16ed7ad1b634c4a1599bc9610d4b3dfef6f6c97e5db20a8713ff649c603,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_uint16.npy,.npy,20080,2023-01-24T17:13:19Z,b5ba8a82c5ebe3b1b7a4faa1751eefe4f15ba27201315b217ebed0a289d1c721,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_uint32.npy,.npy,40080,2023-01-24T17:13:19Z,2062aba4a1407783c33cfe118dddd5edfb120367b288aeea49d79152e2f4c43c,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_uint64.npy,.npy,80080,2023-01-24T17:13:19Z,5c6a44ad109efc02603a892d1d8133c04591c843209e4b534c22f007ad8e3c76,third-party/vendor
+data/npy-matlab-master/tests/data/matlab_sine_uint8.npy,.npy,10080,2023-01-24T17:13:19Z,b5432a8a8c76491dea85a6cb1cef21d19939604f34baa30cf3df169951cb9fb6,third-party/vendor
+data/npy-matlab-master/tests/data/sine_float32.npy,.npy,40080,2023-01-24T17:13:19Z,0fe3636f3b59b93cbeaa7d0080a5fac93351ff347f91cd5a1ae9a3aa7b50160a,third-party/vendor
+data/npy-matlab-master/tests/data/sine_float64.npy,.npy,80080,2023-01-24T17:13:19Z,e3237da7ace479696f78150dffd3acbace934adacdeda924d54ec72880b28075,third-party/vendor
+data/npy-matlab-master/tests/data/sine_int16.npy,.npy,20080,2023-01-24T17:13:19Z,b41af71e871054c6b0ff4bebf6d2c73b0e2585ece6acf355308af14546483515,third-party/vendor
+data/npy-matlab-master/tests/data/sine_int32.npy,.npy,40080,2023-01-24T17:13:19Z,bce6cc7749a1ad1ce8632f32b2c4e09a5a8828a381e4b50f43b61d554f30be32,third-party/vendor
+data/npy-matlab-master/tests/data/sine_int64.npy,.npy,80080,2023-01-24T17:13:19Z,3cdaa6f345ac8bb6be6cf1ea373b15ea373cb363613363ca2baea34ed5481a98,third-party/vendor
+data/npy-matlab-master/tests/data/sine_int8.npy,.npy,10080,2023-01-24T17:13:19Z,b959cd4b47c974bf19aa2f5e3db493c93536615c00b105165978ac352e3b6f75,third-party/vendor
+data/npy-matlab-master/tests/data/sine_uint16.npy,.npy,20080,2023-01-24T17:13:19Z,e7b8581f852677325bdb291e45c4f30e420d45849676026b9c08ca24550c289f,third-party/vendor
+data/npy-matlab-master/tests/data/sine_uint32.npy,.npy,40080,2023-01-24T17:13:19Z,578b4f745ca60e5b784f83058f1e219dfcd534daabb7d4efbccf5b912d60da55,third-party/vendor
+data/npy-matlab-master/tests/data/sine_uint64.npy,.npy,80080,2023-01-24T17:13:19Z,f743d360f859ebe03bd3656fdf081f0900dfaf41bafef9a71fe1b30ca27cc0bc,third-party/vendor
+data/npy-matlab-master/tests/data/sine_uint8.npy,.npy,10080,2023-01-24T17:13:19Z,6201482c9f154a09844c7cc29380a81404ec66a786369439d919dc59e3c845a4,third-party/vendor
+data/npy-matlab-master/tests/data/test.npy,.npy,160,2023-01-24T17:13:19Z,4418fe311fad4f6103dbd40e988a293fdab57d39bca3109884d57844a88035ce,third-party/vendor
+data/npy-matlab-master/tests/npy.ipynb,.ipynb,2458493,2023-01-24T17:13:19Z,b97dacf881a391a135de5a94f27ed88de24ec311819d97d60d490c96dee75eef,third-party/vendor
+data/npy-matlab-master/tests/test_npy_roundtrip.py,.py,2925,2023-01-24T17:13:19Z,23848ea2cf7e8f87275e9b5b1f24a9e85b2a430e5ce36bcaef07ccc7a9912ad6,third-party/vendor
+data/npy-matlab-master/tests/test_readNPY.m,.m,1303,2023-01-24T17:13:19Z,e4629051cf3200c1d7f8135fe224228a436a5905eeb73707e149e0439a44ab15,third-party/vendor
+data/npy2dat_CAENdigitizer_format.m,.m,1154,2024-03-07T14:28:31Z,f591791c51de288211c18753563767af19da8b7326199e240d9dddedd2b1954d,reusable project function or helper (review required)
+data/numberAsPow2.m,.m,485,2024-04-12T10:00:10Z,8106ceba23473b5fd2ca0fbe061a67229c837b1a6dba5b621c161d698c44b7da,reusable project function or helper (review required)
+data/optimal_filter_for_daphne_gpessina.asv,.asv,1136,2023-05-30T13:25:39Z,ebcf3139ef28225d749f3716c5f1c56fb07ffaba5c679975e796e76a437120c4,temporary/backup
+data/optimal_filter_for_daphne_gpessina.m,.m,1738,2023-07-06T11:44:46Z,91dc741e83b9e03ae041e29baf98b289c6bde7748fde4b88a39dfcb532f1150a,experiment/prototype or workflow (review required)
+data/optimal_filter_for_daphne_gpessina_function.asv,.asv,2465,2024-03-27T12:15:04Z,a0cf99dfe7fc65ff4b13245e0ad06816c708cd5f1d2d028ac4433a4f7315edd8,temporary/backup
+data/optimal_filter_for_daphne_gpessina_function.m,.m,2838,2024-10-05T14:43:54Z,3002da9b6428c13b6011be352b83e7a8d61258fd1ee29f30e9aa16e5c9256dbc,experiment/prototype or workflow (review required)
+data/ParforProgMon/.github/ISSUE_TEMPLATE/bug_report.md,.md,910,2023-06-05T11:51:43Z,7796c7bcf27b24caba5a851b169b13eb92ebcb1bdd2c3824df51c52263b908e4,third-party/vendor
+data/ParforProgMon/.github/ISSUE_TEMPLATE/feature_request.md,.md,458,2023-06-05T11:51:43Z,2af8493da3d1efbdaa84cc027e8612c8d9cf50b248baf4d9431605eae2bc08e6,third-party/vendor
+data/ParforProgMon/license.txt,.txt,1665,2023-06-05T11:51:43Z,6fc09427f78186ec4ed9f3613988f6f5c164d5c2e8abde6f4eaa6429b8a9aabe,third-party/vendor
+data/ParforProgMon/ParforProgressbar.m,.m,15599,2023-06-05T11:51:43Z,1a9284c41bcc35409ca0d8f035a429b0565b078e00f8165d2de5bdb5563dd390,third-party/vendor
+data/ParforProgMon/progress.png,.png,46891,2023-06-05T11:51:43Z,12a3974b13bfb95e42bf2893236ccc192f2bfb1f2bc4b1a7aa6a660357859a27,third-party/vendor
+data/ParforProgMon/progressbar.m,.m,12126,2023-06-05T11:51:43Z,15a19b8b9b236b5febefca1dbf547afd15d2cbae0bfe6d087398eec99f835f5e,third-party/vendor
+data/ParforProgMon/Readme.md,.md,6952,2023-06-05T11:51:43Z,8b7dc91cdcebbf64bfd7d2866951c04bcdc524f1e70d81f80ff9b940db374503,third-party/vendor
+data/ParforProgMon/testParforProgressbar.m,.m,1845,2023-06-05T11:51:43Z,ca78646c016de625debcef3fde07ea055da21c872059ec57d35950ecf05e9774,third-party/vendor
+data/parseXML.m,.m,2087,2023-02-03T09:01:30Z,ff5d0bd034abb971d749ab0a006963a34fd49c3ceba45d45aab2c656ae8b7e86,reusable project function or helper (review required)
+data/plotOverimposeSignals.m,.m,695,2024-03-29T10:15:44Z,d7e88e45230f3d95215e879bbe45b5edcd0ba56610a8a431b0dfa695664cadb8,reusable project function or helper (review required)
+data/plotPersistance.asv,.asv,400,2024-02-02T17:12:38Z,829eacf3f73ca77e6c7c182033de75755f9d1d8d8cea5b945e6ce3acb4e08b4d,temporary/backup
+data/plotPersistance.m,.m,403,2024-02-02T17:18:33Z,66b11997fc401438903327733bd1fb90fe1b4d70dc36b9b5e99c13d402992b80,reusable project function or helper (review required)
+data/plotSNRandDynamicRange.m,.m,495,2024-11-22T21:14:50.993453Z,21e8b6f37f105fed7e9dd3847be88920fb273d2f779d4f46c1d782d668706b58,reusable project function or helper (review required)
+data/plotWignerDistribution.m,.m,141,2023-06-16T10:25:30Z,32df7c30da8108fae846c8a476d2f2c70a94345fbef8f44d61a84a87cab4e5bb,reusable project function or helper (review required)
+data/radon_transform_frac_fourier.m,.m,854,2023-06-23T12:37:58Z,ab84024c0987e667e258fef08d45a18e72258939a2287d4c6b63efb8b6ca34cf,reusable project function or helper (review required)
+data/readBinaryDataRSOsc.m,.m,1910,2026-02-03T09:58:48.771046Z,a25d2dae55eebd3bf1913d6bfff1491167fcac000743b35ed54b56ec3b8753fa,reusable project function or helper (review required)
+data/ReadLeCroyBinaryWaveform.m,.m,15490,2023-01-17T08:18:35Z,dfcadc95331677875916d9994acdf67fab3a8c96f6c03c36351fad2244b0a583,reusable project function or helper (review required)
+data/ROC_file_analysis.m,.m,1664,2024-06-13T16:03:16Z,9510a8da83ea0fff6a8b386ec80dce3924aa2e6d65c20cf42dcf26c9da3d06c1,reusable project function or helper (review required)
+data/sinple_pe_input_estimator.m,.m,4062,2023-06-30T09:35:13Z,f70eaae4752796d7df6db13601fedb0db0cfcaab4ac1c131a504719266edf8cc,reusable project function or helper (review required)
+data/test_active_filters.m,.m,1714,2023-06-28T09:50:25Z,b84f144d7b75f58124ef726033a04d1d077a85b198cd39f0e389a5a23a2e240d,test/validation
+data/test_avg_wiener-MSI-ESTEBAN-CRISTALDO.m,.m,1260,2023-06-05T15:24:49Z,7bded7244f73204aad0a12267df9a6dfc8464a43941137fd9ca7bac137928cf4,test/validation
+data/test_avg_wiener.asv,.asv,2820,2024-02-03T11:12:46Z,cbc8f71f51d7fd2636c5f8ed42968ae3c5f2ff682ec10c596f4f2106b4497e5e,temporary/backup
+data/test_avg_wiener.m,.m,2766,2024-02-03T13:10:30Z,2d8e680da581728c49baef06985665f142711450605057bddd272d521b177996,test/validation
+data/test_fractional_fourier_filter.asv,.asv,2309,2023-07-05T14:36:36Z,7fa8cad73edb6df78c33ac67af75be4ccf784108bdb6995b7becfc3298bbbd31,temporary/backup
+data/test_fractional_fourier_filter.m,.m,2642,2023-07-05T15:07:01Z,f2b7d6b64b13ad3e35f1d1e4ba161b18dca62e555983a87d99578b8c4dcc4e4b,test/validation
+data/test_fractional_fourier_filter_decimated.m,.m,2338,2023-06-28T14:25:54Z,aa16c85848bf6d1fa864a67b41498c454f1216c5a0bc33acd5de739cc7b77ca1,test/validation
+data/test_fractional_pedestal_filter.m,.m,1982,2023-06-23T09:58:02Z,0bdfd23cd516e0156686c703afbfde74cefabfd3ce2c0c6a43129b577380d40a,test/validation
+data/test_weiner.m,.m,1371,2022-12-29T21:19:45Z,958d1c11b311d71d4867507491aa2b6bf29967cb8dd9b5303527409a74238b37,test/validation
+data/testscripts/test_dft.m,.m,878,2024-02-03T12:54:45Z,39a06c3a5e52ccea563894300ccb851ef7107a4aca5df4294a6e9caab4771ce4,test/validation
+data/testscripts/test_fir_wiener.m,.m,1231,2024-02-03T22:13:09Z,3f8e6fff2bfc388e29437cb4f8dd69b9e506c62cb8880a1049cebadae37c90ed,test/validation
+data/testscripts/test_irr_wiener.asv,.asv,1704,2024-02-03T18:29:08Z,b4c96bcf0f334236c5cbfac4a661790df4d29094395d6ad4a3fa330e002cdc6a,temporary/backup
+data/testscripts/test_irr_wiener.m,.m,2288,2024-02-03T20:26:35Z,83b324de2349d0f99d36f4e7a4389cb5a285fd8c2bcacd4ad88c7dabf31c526f,test/validation
+data/testscripts/test_irr_wiener_symbolic.asv,.asv,2810,2024-02-03T22:32:14Z,904b019d07761fbf2c21fb555f5f8d1dfd7a705146e96e88268512223ea94d03,temporary/backup
+data/testscripts/test_irr_wiener_symbolic.m,.m,2995,2024-02-03T23:14:12Z,1339df3b40aa6f8137dd768556c677c4f896fd7c57ba350e222b34aa9bc0c46b,test/validation
+data/tf_op_amp_comparisson.asv,.asv,139,2022-09-20T09:30:24Z,72647323369a5624e94334186e82536632fb35bb05175a5e545dbeb9d3c6d5ef,temporary/backup
+data/tf_op_amp_comparisson.m,.m,469,2022-09-20T09:49:14Z,17a9c8ed83437dd3e3d1d9a060c0965705815bac9ee323ec5adb835230e0f461,experiment/prototype or workflow (review required)
+data/trigger_tests_ROC_analisis.m,.m,8132,2024-07-11T12:01:57Z,5a0ca62f99012d4d29a7dcaf7c092b1a3924178bc693667d8521fcc60a055e33,experiment/prototype or workflow (review required)
+data/wiener_deconvolve.m,.m,802,2022-12-29T21:25:41Z,9f584eeca5eb6de4a084c0b4c2f8107802996e28f670e0d510a9f3c063a4b019,reusable project function or helper (review required)
+data/wienerFilt.m,.m,1060,2022-12-23T21:51:48Z,b850b48e9839cb917c01b57ee5d06bea535ad033e36bd9550af82befc11001fd,reusable project function or helper (review required)
+data/xmltools.m,.m,14067,2023-02-03T09:42:09Z,148e56bd43cdd3615f2625f484907096cb8b3ca681245aa8339d76a3b7febd83,reusable project function or helper (review required)
+data/zo_ths4531.m,.m,255,2023-06-20T11:37:05Z,b70046ffa2a90844adab675ebd3915e5a6c46d2f71b449684ff33d00a07d278b,reusable project function or helper (review required)
+Live_scripts/.git/COMMIT_EDITMSG,[none],95,2024-03-21T16:51:31Z,eeaaa8e8363442d669c2959b660b7cecf4ef4a901ca74c051ef2c6647fe05ef4,unknown/review required
+Live_scripts/.git/config,[none],130,2024-03-19T11:45:47Z,05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc,unknown/review required
+Live_scripts/.git/description,[none],73,2024-03-19T11:45:47Z,85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee,unknown/review required
+Live_scripts/.git/HEAD,[none],23,2024-03-19T11:45:47Z,f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10,unknown/review required
+Live_scripts/.git/hooks/applypatch-msg.sample,.sample,478,2024-03-19T11:45:47Z,0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7,unknown/review required
+Live_scripts/.git/hooks/commit-msg.sample,.sample,896,2024-03-19T11:45:47Z,1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437,unknown/review required
+Live_scripts/.git/hooks/fsmonitor-watchman.sample,.sample,4655,2024-03-19T11:45:47Z,f3c0228d8e827f1c5260ac59fdd92c3d425c46e54711ef713c5a54ae0a4db2b4,unknown/review required
+Live_scripts/.git/hooks/post-update.sample,.sample,189,2024-03-19T11:45:47Z,81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5,unknown/review required
+Live_scripts/.git/hooks/pre-applypatch.sample,.sample,424,2024-03-19T11:45:47Z,e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475,unknown/review required
+Live_scripts/.git/hooks/pre-commit.sample,.sample,1643,2024-03-19T11:45:47Z,f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a,unknown/review required
+Live_scripts/.git/hooks/pre-merge-commit.sample,.sample,416,2024-03-19T11:45:47Z,d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53,unknown/review required
+Live_scripts/.git/hooks/pre-push.sample,.sample,1374,2024-03-19T11:45:47Z,ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a,unknown/review required
+Live_scripts/.git/hooks/pre-rebase.sample,.sample,4898,2024-03-19T11:45:47Z,4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3,unknown/review required
+Live_scripts/.git/hooks/pre-receive.sample,.sample,544,2024-03-19T11:45:47Z,a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989,unknown/review required
+Live_scripts/.git/hooks/prepare-commit-msg.sample,.sample,1492,2024-03-19T11:45:47Z,e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619,unknown/review required
+Live_scripts/.git/hooks/push-to-checkout.sample,.sample,2783,2024-03-19T11:45:47Z,a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f,unknown/review required
+Live_scripts/.git/hooks/update.sample,.sample,3650,2024-03-19T11:45:47Z,8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106,unknown/review required
+Live_scripts/.git/index,[none],257,2024-03-21T16:51:31Z,7264acef836646c6451f8953355af04e36ab694aa9c188938d71edf65ea2fd8d,unknown/review required
+Live_scripts/.git/info/exclude,[none],240,2024-03-19T11:45:47Z,6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1,unknown/review required
+Live_scripts/.git/logs/HEAD,[none],479,2024-03-21T16:51:31Z,2a70e947e78fd78d9845472a304b4fa533c686c23e07c1a8e656ecce8cd62a77,unknown/review required
+Live_scripts/.git/logs/refs/heads/master,[none],479,2024-03-21T16:51:31Z,2a70e947e78fd78d9845472a304b4fa533c686c23e07c1a8e656ecce8cd62a77,unknown/review required
+Live_scripts/.git/objects/11/ab3d32bb34eedbc6050a001c5a49157f71794a,[none],173,2024-03-19T11:48:36Z,99d88c39e697a78619fbfcc1feb42db06189c7812de6e3fcaba886754352cf76,unknown/review required
+Live_scripts/.git/objects/4a/3be1738b13dd34beb2635c6d6498699587102a,[none],10149,2024-03-19T11:45:59Z,557281aed800c3e026e4b831795009669ed0fdf19e668e542ad859a6f7fadac4,unknown/review required
+Live_scripts/.git/objects/5d/5fd19b5908d82fc6664015dae975d1606aeace,[none],116,2024-03-19T11:48:36Z,d4c953adf403b1754a78f3861b99f5cf5de699145d85402a2ef79e6efc4d85e8,unknown/review required
+Live_scripts/.git/objects/66/8205e41b067893f537bd29f493c471a66d53f0,[none],99966,2024-03-21T16:50:34Z,226026e91947882909560f1f152df0c858d0426b34510b8f624f222015d56fa9,unknown/review required
+Live_scripts/.git/objects/cc/85b2fd65ef9cc64a93b230640ab8963f7146d3,[none],62284,2024-03-19T11:45:59Z,f0777785a076ca010b9c5c05ec26ff00820df99128215f34497d2a716395b930,unknown/review required
+Live_scripts/.git/objects/e3/f7f3f5ac6af60614edf16a85659c95ed7d0636,[none],116,2024-03-21T16:51:31Z,d7ed9e888ec7fbae5c37865866305fa88dd08940e45367a9a3081ccec413757f,unknown/review required
+Live_scripts/.git/objects/f8/144de7084f74b0e6ee4d4b4dd39e4c8c949090,[none],218,2024-03-21T16:51:31Z,e9e50b610fcdc20eb9b78d864a1dc204197233fbaee5df155b97146a2fe2d6b7,unknown/review required
+Live_scripts/.git/refs/heads/master,[none],41,2024-03-21T16:51:31Z,adab765e46937f7eabd3b1bb9d828dc02176797d1a3772dd4cde65fcaa72a5f2,unknown/review required
+Live_scripts/.git/refs/tags/v1_00_00,[none],41,2024-03-19T11:48:58Z,50260b22de47982e9644848878025aa8492e2ccbf226a50a3fe8024a2b569686,unknown/review required
+Live_scripts/analysis_daphne_data-BR-Lenovo.mlx,.mlx,15289,2024-06-11T15:59:56Z,e66f85169fa01d3ed1ae0b35c1d9aad780f222988d198321ad76f8905e673d08,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data.mlx,.mlx,132597,2026-04-20T13:07:51.875087Z,2f7438c297e1c46f346c4d7521572068f37c18b55bdd347fec3823e418ca75a9,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_debug_purposes.mlx,.mlx,224416,2024-09-27T14:11:19Z,c6b6e3999cd6ec08602f975e053a093346f3591b17cafe6e0c3ce725633c2907,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_multirun.mlx,.mlx,191130,2025-03-10T09:08:11Z,9a50a3d0c2fc4c2d6ed10f84932515adea976ff71c1f92c8ce3f009e27cb14b2,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_multivar.mlx,.mlx,2693840,2025-07-17T20:20:34.440346Z,78b8c92d59506ccb16af400e5583ae1c7317dbea9509cd723333f227945ecfe6,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_V2.mlx,.mlx,12240,2024-03-19T17:44:47Z,d087ce7e88ff031a6b6eca2f948e5c26e31d41a7739c187be1a05d4d1d2e8d34,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan.mlx,.mlx,2952267,2026-02-03T09:11:45.264065Z,ad256597db1e3490283bb61457ce0693b172fa9714e07c301d96282ba58efdfa,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan_mezz.mlx,.mlx,1458000,2025-10-30T08:35:53.724505Z,5ce5bc0ee8b536f0368065a1ec0093d1fc926d823cd03c97c574de8144a25a61,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan_november_coldbox.mlx,.mlx,1110480,2025-12-22T14:47:21.455334Z,523d3197c534b47f8e4dc10afc3de24824f37f2b49f40708f9d0e2d7a9e19ccf,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan_np04.mlx,.mlx,22577191,2025-09-20T06:18:27.907585Z,525eb3336264bfdaa931e2bc194cea610cca43da45f26bf680ccf9a2574b1b13,maintained analysis/workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan_np04_final.m,.m,56795,2026-02-25T13:02:00.466521Z,6de35b143f5a2d1c61b155f11f261a5844077fc403562ba605efdf756d6cdd5e,experiment/prototype or workflow (review required)
+Live_scripts/analysis_daphne_data_vgain_scan_np04_final.mlx,.mlx,137510,2026-02-10T11:23:41.292359Z,708863e3b464e0151182c6bc6de052ec8aa6798ed5f71c9ee34ef69949778de3,maintained analysis/workflow (review required)
+Live_scripts/analysis_data_megacell_test_stand.mlx,.mlx,62860,2023-12-07T17:16:26Z,394ffbf50d2d749795dead69458c59e25a9cc0e332d72126f6e9438795714fda,maintained analysis/workflow (review required)
+Live_scripts/calculate_matched_filter.mlx,.mlx,7383,2024-03-27T17:37:29Z,064e708b778d9ba124589fa18f8ab7859e6157c357e391dcc9145b3bb27030fc,maintained analysis/workflow (review required)

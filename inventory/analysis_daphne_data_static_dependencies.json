@@ -1,0 +1,649 @@
+{
+  "analysis_entry": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+  "matlabpath_roots": [
+    "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ParforProgMon",
+    "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data",
+    "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB",
+    "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne",
+    "C:\\Users\\e_cri\\OneDrive\\Documents\\MATLAB"
+  ],
+  "method": "Static function-token resolution over the supplied MATLABPATH only; MATLAB was not launched.",
+  "resolved_files": [
+    {
+      "symbol": "analysis_daphne_data",
+      "kind": "live-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "parent": null
+    },
+    {
+      "symbol": "ROC_file_analysis",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "calculateMedianPedestal",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "extract_and_import_DAPHNE_data",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "f_fourier",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "fit2SPE",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "gaussian_fit_SNR",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "getDataFromWafflesPickleFile",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "my_gaussian_fit",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "optimal_filter_for_daphne_gpessina_function",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "readBinaryDataRSOsc",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "sum_fitted_data",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    },
+    {
+      "symbol": "import_data_daphne_func",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\import_data_daphne_func.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m"
+    },
+    {
+      "symbol": "find_peaks_hist_adaptive",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    },
+    {
+      "symbol": "mi_dft",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    },
+    {
+      "symbol": "mi_idtft",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_idtft.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    },
+    {
+      "symbol": "xmltools",
+      "kind": "m-function-or-script",
+      "path": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m",
+      "parent": "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m"
+    }
+  ],
+  "ambiguous_resolution": [],
+  "unresolved_symbols": {
+    "A": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "E": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "Format": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m"
+    ],
+    "P1i": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "P2": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "Pc1i": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "Pc2": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "SNR_vec": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "V": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "acc": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "all_sampled_vector": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "amplitude_sweep": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m"
+    ],
+    "annotation": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "assert": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "binEdges": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "butter": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "center": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "channels": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "circshift": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "cond_absent_vector": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "cond_present_vector": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "condition_waveform": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "condition_waveform_matrix": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "conj": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "cutoff": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "data": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_2": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_i_d": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_ip": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_trigger": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_trigger_i": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "data_trigger_shifted": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "deblank": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "delete": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m"
+    ],
+    "diff": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "downsample": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "emptystruct": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "endpoint": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "f": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m"
+    ],
+    "f_beg": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "f_end": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "filename": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\import_data_daphne_func.m"
+    ],
+    "fileparts": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m"
+    ],
+    "filtfilt": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "findpeaks": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "fitoptions": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m"
+    ],
+    "fpr": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "ft_function": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_idtft.m"
+    ],
+    "gauss_fitted_trigger": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "get_childs": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "getfield": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "gof_cutoff": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "gof_shift": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "goodnessOfFit": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "gunzip": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m"
+    ],
+    "h_filt": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "hf": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "hist_max_values": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "histfit": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "histogram": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "histogram_bin_vec": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "horizontal_gof": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m"
+    ],
+    "iirlp2bs": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "iirnotch": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "imported_data": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m"
+    ],
+    "input_signal": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m"
+    ],
+    "input_signal_opt": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "int64": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "int8": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "integral": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "integral_triggered": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "isfield": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "isfinite": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "islocalmax": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "islogical": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "isnumeric": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "isscalar": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "isstr": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "isstring": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "isstruct": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "legend": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "max_gof_shift_pos": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "mean_data": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "mean_data_f": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "mean_values": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m"
+    ],
+    "mod": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "mu_vec": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m"
+    ],
+    "mu_vec_sorted": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "new_attribs": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "new_tag": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "noise": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "noise_dir": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "noise_waveforms": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "normfit": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "normpdf": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m"
+    ],
+    "nxt": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "omega": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_idtft.m"
+    ],
+    "p": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m"
+    ],
+    "parse_attribs": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "parse_xml": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "pds": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m"
+    ],
+    "peak_jitter": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "peak_position": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "pedestal": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "pedestal_quantiles": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m"
+    ],
+    "pedestal_single": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "pks": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "plot": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "proms": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "quantile": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m"
+    ],
+    "real": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "regions": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m"
+    ],
+    "repmat": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "rms": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "rms_": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "rms_quantiles": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "rms_waveform": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "rms_waveform_equal": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "rng": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m"
+    ],
+    "s": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "save_dir": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "saveas": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "selected_values_fit": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "semilogx": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "senhal": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m"
+    ],
+    "setfield": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "sigma_vec": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m"
+    ],
+    "sigma_vec_sorted": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "signal": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\calculateMedianPedestal.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "signal1": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "signal2": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "smoothdata": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "snr_gauss_fit": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "stairs": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "str": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "str2double": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\readBinaryDataRSOsc.m"
+    ],
+    "strcmpi": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\extract_and_import_DAPHNE_data.m"
+    ],
+    "strtok": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "those_children": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "threshold": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "tiempo": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "timeseries": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "timestamp": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\getDataFromWafflesPickleFile.m"
+    ],
+    "tokens": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "tpr": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "trapz": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\FIUNA\\Pasantia-Tesis\\MATLAB\\f_fourier.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "trigger_data_i": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "true_negatives_vector": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "true_positives_vector": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "tukeywin": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\optimal_filter_for_daphne_gpessina_function.m"
+    ],
+    "u": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "udeblank": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "vertical_gof": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\fit2SPE.m"
+    ],
+    "virtual_trigger_pos": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "waveform": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m"
+    ],
+    "weights_": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\my_gaussian_fit.m"
+    ],
+    "widths": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m"
+    ],
+    "window_f": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_dft.m"
+    ],
+    "write_xml": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ],
+    "x": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\mi_idtft.m"
+    ],
+    "x_data1": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m"
+    ],
+    "x_data2": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\daphne\\sum_fitted_data.m"
+    ],
+    "x_hist": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "xline": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\ROC_file_analysis.m"
+    ],
+    "y_hist": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\find_peaks_hist_adaptive.m",
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\gaussian_fit_SNR.m"
+    ],
+    "yline": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\Live_scripts\\analysis_daphne_data.mlx"
+    ],
+    "z": [
+      "C:\\Users\\e_cri\\OneDrive\\Documents\\PhD\\Investigacion\\MATLAB\\Scripts_analisis\\data\\xmltools.m"
+    ]
+  }
+}
