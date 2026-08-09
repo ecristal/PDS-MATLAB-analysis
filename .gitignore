@@ -9,3 +9,6 @@ codegen/
 outputs/
 local/
 inventory/TEST_*.md
+
+# Local Obsidian UI/workspace configuration
+.obsidian/
