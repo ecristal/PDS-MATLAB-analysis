@@ -392,16 +392,15 @@ Este ejemplo sirve para explorar PSD y dispersión de RMS. No sustituye una vali
 
 Esta llamada sigue funcionando, pero emite un warning de deprecación. El código nuevo debe utilizar la API namespaced.
 
-## Limitaciones de la validación
+## Limitaciones de la validación de `f_fourier`
 
-- Se usaron señales sintéticas; no se ejecutó un dataset experimental DAPHNE.
+- La etapa original de `f_fourier` usó señales sintéticas; la validación DAPHNE experimental se añadió después para [[designOptimalFilter]] y está documentada en [[optimal-filter-daphne-reference]].
 - No se ejecutó de extremo a extremo `analysis_daphne_data.mlx`.
 - El wrapper conserva deliberadamente la rama histórica `doPlot=true, normalize=true`; esta puede volver a aplicar `20*log10` y producir resultados poco intuitivos, especialmente combinada con `"dBFS"`. No debe usarse en código nuevo.
-- No se modificó ni validó todavía `optimal_filter_for_daphne_gpessina_function`.
-- La regularización de la PSD para filtros sigue pendiente.
-- No se realizaron benchmarks de rendimiento o memoria.
-- No se aplicaron ventanas ni se caracterizaron estimadores tipo Welch.
-- No se comparó con `periodogram`/`pwelch`; la normalización se validó directamente con Parseval.
+- El filtro óptimo fue refactorizado posteriormente con PSD bilateral, regularización explícita y ganancia unitaria; véase [[designOptimalFilter]].
+- No se realizaron benchmarks de rendimiento o memoria de `f_fourier`.
+- `computeSpectrum` no aplica ventanas ni Welch; las ventanas para estimar ruido se implementan separadamente en [[estimateNoisePsd]].
+- No se comparó `computeSpectrum` con `periodogram`/`pwelch`; su normalización se validó directamente con Parseval.
 
 ## Decisiones resueltas
 
@@ -412,9 +411,9 @@ Esta llamada sigue funcionando, pero emite un warning de deprecación. El códig
 - La normalización dB usa una referencia explícita en la API nueva.
 - La copia original fue adoptada como código propio y preservada como referencia legacy.
 
-## Riesgo pendiente en el filtro óptimo
+## Riesgo histórico del filtro óptimo — resuelto en la API nueva
 
-[[optimal_filter_for_daphne_gpessina_function]] todavía llama la interfaz legacy con tres argumentos y mezcla una DFT bilateral con la PSD históricamente unilateral. La nueva API ya puede producir PSD bilateral, pero la migración del filtro debe hacerse durante su revisión individual, junto con una política explícita de regularización.
+La implementación histórica preservada de [[optimal_filter_for_daphne_gpessina_function]] mezclaba una DFT bilateral con una PSD unilateral y carecía de regularización. El wrapper actual delega en [[designOptimalFilter]], que usa espectros bilaterales de longitud `N`, ventanas configurables y regularización explícita. El Live Script completo aún no se ejecutó de extremo a extremo.
 
 ## Enlaces
 

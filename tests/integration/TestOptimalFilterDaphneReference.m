@@ -1,0 +1,159 @@
+classdef TestOptimalFilterDaphneReference < matlab.unittest.TestCase
+    methods (Test)
+        function referenceDataProducesResolvedFilteredHistogram(testCase)
+            repositoryRoot = fileparts(fileparts(fileparts(mfilename('fullpath'))));
+            sourceDirectory = fullfile(repositoryRoot, 'src');
+            dataFunctionsDirectory = fullfile(sourceDirectory, 'data');
+            helperDirectory = fullfile(repositoryRoot, 'tests', 'helpers');
+            addpath(sourceDirectory);
+            addpath(dataFunctionsDirectory);
+            addpath(helperDirectory);
+            testCase.addTeardown(@() rmpath(helperDirectory));
+            testCase.addTeardown(@() rmpath(dataFunctionsDirectory));
+            testCase.addTeardown(@() rmpath(sourceDirectory));
+
+            archivePath = fullfile(repositoryRoot, 'data', 'DAPHNE', ...
+                'FBK_SiPM', 'vgain_1700', 'channel_24.7z');
+            testCase.assumeTrue(isfile(archivePath), ...
+                'Local ignored DAPHNE reference archive is not available.');
+            testCase.assumeFalse(isempty(which('fit')), ...
+                'Curve Fitting Toolbox function fit is required.');
+
+            [data, metadata] = readDaphneReferenceForTest(repositoryRoot);
+            testCase.verifyEqual(metadata.recordCount, 30000);
+            testCase.verifyEqual(metadata.sampleCount, 2048);
+            testCase.verifyEqual(metadata.dataType, "uint16");
+
+            pedestalSampleCount = 300;
+            pedestal = mean(data(:, 1:pedestalSampleCount), 2);
+            broadReference = mean(data, 1) - mean(pedestal);
+            [referenceMaximum, referencePeakIndex] = max(broadReference);
+            testCase.verifyGreaterThan(referenceMaximum, 10);
+            testCase.verifyGreaterThan(referencePeakIndex, pedestalSampleCount);
+
+            initialWhiteFilter = pds.signal.designOptimalFilter( ...
+                broadReference, [], NoiseModel="white", ...
+                PedestalSampleCount=pedestalSampleCount);
+            initialScores = pds.signal.applyOptimalFilter( ...
+                data, initialWhiteFilter, ...
+                PedestalSampleCount=pedestalSampleCount);
+            initialFit = fitGaussianPeaksForTest(initialScores);
+
+            singlePeMask = abs(initialScores - initialFit.mu1) <= ...
+                1.5 * initialFit.sigma1;
+            testCase.verifyGreaterThan(sum(singlePeMask), 500);
+            referenceSignal = mean(data(singlePeMask, :), 1);
+            referenceSignal = referenceSignal - ...
+                mean(referenceSignal(1:pedestalSampleCount));
+
+            whiteFilter = pds.signal.designOptimalFilter( ...
+                referenceSignal, [], NoiseModel="white", ...
+                PedestalSampleCount=pedestalSampleCount);
+            whiteScores = pds.signal.applyOptimalFilter( ...
+                data, whiteFilter, PedestalSampleCount=pedestalSampleCount);
+            whiteFit = fitGaussianPeaksForTest(whiteScores);
+
+            [coloredFilter, coloredDiagnostics] = ...
+                pds.signal.designOptimalFilter( ...
+                    referenceSignal, [], NoiseModel="estimated", ...
+                    CandidateWaveforms=data, ...
+                    PedestalSampleCount=pedestalSampleCount, ...
+                    Window="hann", TukeyRatio=0.1, ...
+                    NoiseSelectionSigma=2, ...
+                    RegularizationFraction=1e-3);
+            coloredScores = pds.signal.applyOptimalFilter( ...
+                data, coloredFilter, PedestalSampleCount=pedestalSampleCount);
+            coloredFit = fitGaussianPeaksForTest(coloredScores);
+
+            centeredScores = coloredScores - coloredFit.mu0;
+            centeredFit = fitGaussianPeaksForTest(centeredScores);
+            [legacyFitSucceeded, legacyMetrics] = tryLegacyGaussianFit( ...
+                centeredScores, centeredFit);
+
+            testCase.verifyEqual(coloredDiagnostics.noiseSource, "estimated");
+            testCase.verifyEqual(coloredDiagnostics.windowName, "hann");
+            testCase.verifyGreaterThan(sum(coloredDiagnostics.selectedNoiseMask), 1000);
+            testCase.verifyTrue(all(abs( ...
+                coloredDiagnostics.preliminaryScores( ...
+                    coloredDiagnostics.selectedNoiseMask) - ...
+                coloredDiagnostics.pedestalMean) <= ...
+                2 * coloredDiagnostics.pedestalSigma + 1e-12));
+            testCase.verifyGreaterThan(centeredFit.mu1, centeredFit.mu0);
+            testCase.verifyGreaterThan(centeredFit.sigma0, 0);
+            testCase.verifyTrue(isfinite(centeredFit.snr));
+            testCase.verifyLessThan(abs(centeredFit.mu0), 0.1 * centeredFit.sigma0);
+            testCase.verifyGreaterThan(centeredFit.snr, 4.5);
+            testCase.verifyGreaterThan(centeredFit.snr, whiteFit.snr);
+
+            outputDirectory = fullfile(repositoryRoot, 'outputs', 'validation');
+            if ~isfolder(outputDirectory)
+                mkdir(outputDirectory);
+            end
+            outputPath = fullfile(outputDirectory, ...
+                'optimal_filter_reference_histogram.png');
+            figureHandle = figure('Visible', 'off');
+            testCase.addTeardown(@() closeIfValid(figureHandle));
+            histogram(centeredScores, 'BinWidth', centeredFit.binWidth, ...
+                'DisplayStyle', 'stairs', 'LineWidth', 1.5);
+            hold on;
+            plot(centeredFit.evaluationAxis, centeredFit.pedestalCurve, ...
+                'LineWidth', 1.5);
+            plot(centeredFit.evaluationAxis, centeredFit.onePeCurve, ...
+                'LineWidth', 1.5);
+            xline(centeredFit.mu0, '--');
+            xline(centeredFit.mu1, '--');
+            grid on;
+            xlabel('Filtered amplitude [1 PE normalized units]');
+            ylabel('Events per bin');
+            title(sprintf(['DAPHNE channel 24 optimal filter, ', ...
+                'SNR = %.3f'], centeredFit.snr));
+            legend('Data', 'Pedestal Gaussian', '1 PE Gaussian', ...
+                '\mu_0', '\mu_1', 'Location', 'northeast');
+            exportgraphics(figureHandle, outputPath, 'Resolution', 150);
+            testCase.verifyTrue(isfile(outputPath));
+
+            fprintf(['DAPHNE_REFERENCE_RESULT records=%d singlePE=%d ', ...
+                'noiseSelected=%d whiteSNR=%.9g coloredSNR=%.9g ', ...
+                'mu0=%.9g mu1=%.9g sigma0=%.9g legacyFit=%d ', ...
+                'legacySNR=%.9g plot=%s\n'], ...
+                metadata.recordCount, sum(singlePeMask), ...
+                sum(coloredDiagnostics.selectedNoiseMask), ...
+                whiteFit.snr, centeredFit.snr, centeredFit.mu0, ...
+                centeredFit.mu1, centeredFit.sigma0, ...
+                legacyFitSucceeded, legacyMetrics.snr, outputPath);
+        end
+    end
+end
+
+function [succeeded, metrics] = tryLegacyGaussianFit(scores, preliminaryFit)
+    succeeded = false;
+    metrics = struct('mu0', NaN, 'sigma0', NaN, 'mu1', NaN, 'snr', NaN);
+    figureHandle = figure('Visible', 'off');
+    cleanupFigure = onCleanup(@() closeIfValid(figureHandle));
+    spacing = preliminaryFit.mu1 - preliminaryFit.mu0;
+    try
+        [mu0, sigma0, mu1, ~, ~, snr] = gaussian_fit_SNR( ...
+            scores, preliminaryFit.binWidth, spacing / 2, ...
+            preliminaryFit.mu0 - spacing / 2, ...
+            preliminaryFit.mu0 - 3 * preliminaryFit.sigma0, ...
+            preliminaryFit.mu1 + 1.5 * spacing, ...
+            preliminaryFit.mu0 - 2 * preliminaryFit.sigma0, ...
+            (preliminaryFit.mu0 + preliminaryFit.mu1) / 2, ...
+            preliminaryFit.sigma0 * sqrt(2), 3, 50);
+        succeeded = all(isfinite([mu0, sigma0, mu1, snr])) && ...
+            sigma0 > 0 && mu1 > mu0;
+        if succeeded
+            metrics = struct('mu0', mu0, 'sigma0', sigma0, ...
+                'mu1', mu1, 'snr', snr);
+        end
+    catch
+        % The legacy routine has hard-coded gauss3 assumptions. The caller
+        % retains the validated test-only fit when those assumptions fail.
+    end
+end
+
+function closeIfValid(figureHandle)
+    if isgraphics(figureHandle)
+        close(figureHandle);
+    end
+end

@@ -35,9 +35,14 @@ graph TD
 
     Extract --> Import[import_data_daphne_func]
     GSNR --> Peaks[find_peaks_hist_adaptive]
-    Opt --> DFT[mi_dft]
-    Opt --> IDTFT[mi_idtft]
-    Opt --> FF
+    Opt --> Design[pds.signal.designOptimalFilter]
+    Design --> DFT[pds.signal.forwardDft]
+    Design --> IDTFT[pds.signal.inverseDft]
+    Design --> PSD[pds.signal.estimateNoisePsd]
+    PSD --> Window[pds.signal.createWindow]
+    Validation[TestOptimalFilterDaphneReference] --> Design
+    Validation --> Apply[pds.signal.applyOptimalFilter]
+    Validation --> GSNR
     FF --> Core[pds.signal.computeSpectrum]
     FF -. doPlot=true .-> LegacyPlot[legacy plotting branch]
     RSO --> XML[xmltools]
@@ -65,9 +70,12 @@ graph TD
 |---|---|---|
 | `extract_and_import_DAPHNE_data` | `import_data_daphne_func` | [[import_data_daphne_func]] |
 | `gaussian_fit_SNR` | `find_peaks_hist_adaptive` | [[find_peaks_hist_adaptive]] |
-| `optimal_filter_for_daphne_gpessina_function` | `mi_dft` | [[mi_dft]] |
-| `optimal_filter_for_daphne_gpessina_function` | `mi_idtft` | [[mi_idtft]] |
-| `optimal_filter_for_daphne_gpessina_function` | `f_fourier` | [[f_fourier]] |
+| `optimal_filter_for_daphne_gpessina_function` wrapper | `pds.signal.designOptimalFilter` | [[designOptimalFilter]] |
+| `pds.signal.designOptimalFilter` | `pds.signal.forwardDft` | [[forwardDft]] |
+| `pds.signal.designOptimalFilter` | `pds.signal.inverseDft` | [[inverseDft]] |
+| `pds.signal.designOptimalFilter` | `pds.signal.estimateNoisePsd` | [[estimateNoisePsd]] |
+| `pds.signal.estimateNoisePsd` | `pds.signal.createWindow` | [[createWindow]] |
+| `TestOptimalFilterDaphneReference` | `pds.signal.applyOptimalFilter` y fitting legacy | [[applyOptimalFilter]]; [[optimal-filter-daphne-reference]] |
 | `readBinaryDataRSOsc` | `xmltools` | [[xmltools]] |
 
 ## API espectral refactorizada
@@ -80,6 +88,20 @@ graph TD
 | `f_fourier` wrapper | Adaptación temporal de 2–5 argumentos, cinco salidas y plotting legacy | [[f_fourier]]; 5 tests runtime |
 
 La implementación original está preservada fuera del MATLABPATH en `legacy/functions/f_fourier/f_fourier.m`.
+
+## API de filtro óptimo refactorizada
+
+| Componente | Rol | Evidencia |
+|---|---|---|
+| `pds.signal.forwardDft` / `inverseDft` | Transformadas bilaterales optimizadas | [[forwardDft]]; [[inverseDft]]; 13 tests modernos + 3 de caracterización legacy |
+| `pds.signal.createWindow` | Tukey, Hann, Hamming y ventanas explícitas | [[createWindow]]; 6 tests |
+| `pds.signal.estimateNoisePsd` | PSD bilateral medida con normalización de potencia | [[estimateNoisePsd]]; 7 tests |
+| `pds.signal.designOptimalFilter` | Diseño normalizado para ruido blanco y coloreado | [[designOptimalFilter]]; 11 tests |
+| `pds.signal.applyOptimalFilter` | Aplicación FIR y scores por evento | [[applyOptimalFilter]]; 4 tests |
+| wrappers `mi_dft`, `mi_idtft` y filtro histórico | Compatibilidad temporal | [[mi_dft]]; [[mi_idtft]]; [[optimal_filter_for_daphne_gpessina_function]]; 5 tests |
+| validación DAPHNE | 30,000 waveforms, histograma y ajuste gaussiano | [[optimal-filter-daphne-reference]]; SNR 5.38283353 |
+
+Las tres implementaciones originales están preservadas bajo `legacy/functions/`, fuera del MATLABPATH.
 
 ## Dependencias no staged o externas
 

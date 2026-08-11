@@ -1,88 +1,73 @@
 ---
 type: matlab-function
-status: dependency
-review_status: reviewed-static
-review_mode: static
-repo_path: src/data/optimal_filter_for_daphne_gpessina_function.m
+status: compatibility-wrapper
+review_status: tested-runtime
+repo_path: src/compat/optimal_filter_for_daphne_gpessina_function.m
+legacy_path: legacy/functions/optimal_filter_for_daphne_gpessina_function/optimal_filter_for_daphne_gpessina_function.m
 source_path: Scripts_analisis/data/optimal_filter_for_daphne_gpessina_function.m
-workflow:
-  - "[[analysis_daphne_data]]"
-tags: [matlab, optimal-filter, spectral, daphne]
+tags: [matlab, optimal-filter, legacy, compatibility]
 ---
 
 # optimal_filter_for_daphne_gpessina_function
 
-## Descripción cualitativa
+Wrapper deprecated para las firmas históricas de cinco a ocho argumentos. El código nuevo debe usar [[designOptimalFilter]] y [[applyOptimalFilter]].
 
-Construye un filtro óptimo en frecuencia a partir de un waveform de señal y un conjunto de ruido, siguiendo el comentario de “G. Pessina lectures”. Puede ponderar por PSD de ruido y aplicar filtrado adicional.
-
-## Firma
+## Firma legacy
 
 ```matlab
-function h_filt = optimal_filter_for_daphne_gpessina_function( ...
-    signal_waveforms, noise_waveforms, apply_decimation, n_decimation, ...
-    is_inverted, filt, use_noise, pedestal_value)
+h = optimal_filter_for_daphne_gpessina_function( ...
+    signalWaveforms, noiseWaveforms, applyDecimation, decimationFactor, ...
+    isInverted, applyLowPass, useNoise, pedestalSampleCount)
 ```
 
-## Algoritmo o procedimiento
+La firma completa contiene ocho argumentos. También se aceptan las variantes históricas de cinco a siete argumentos, con defaults `applyLowPass=false`, `useNoise=true` y `pedestalSampleCount=200`.
 
-1. Corrige pedestal e inversión de la señal.
-2. Recorta el ruido a la longitud de señal y sustrae su media.
-3. Opcionalmente aplica un Butterworth antialias antes de la decimación indicada, aunque no realiza `downsample` en esa rama.
-4. Genera una ventana Tukey y calcula DFT/desplazamiento mediante [[mi_dft]].
-5. Calcula PSD de ruido con [[f_fourier]].
-6. Forma `conj(S)/PSD_ruido` o `conj(S)`.
-7. Vuelve al tiempo con [[mi_idtft]].
-8. Opcionalmente aplica un low-pass con `filtfilt`, recorta desde el máximo y grafica.
+## Comportamiento del wrapper
 
-## Dependencias
+- Promedia `signalWaveforms` por filas.
+- Aplica inversión explícita cuando corresponde.
+- `useNoise=true` usa PSD coloreada medida; `false` usa ruido blanco.
+- Delega el diseño en `pds.signal.designOptimalFilter`.
+- Devuelve coeficientes FIR con respuesta unitaria.
+- No crea figuras.
+- Emite warning de deprecación.
 
-- Locales: [[mi_dft]], [[mi_idtft]], [[f_fourier]].
-- MATLAB/toolboxes: `butter`, `filter`, `filtfilt`, `tukeywin`, plotting; Signal Processing Toolbox.
+## Correcciones intencionales
 
-## Efectos secundarios
+La implementación histórica está preservada fuera del MATLAB path. Presentaba:
 
-Abre/modifica la figura 2 y grafica siempre `h_filt`.
+- mezcla de DFT bilateral con PSD unilateral;
+- división por PSD sin regularización;
+- ventana fija de longitud 4096;
+- plotting dentro del cálculo;
+- recortes/alineamientos no documentados;
+- flag llamado `apply_decimation` que aplicaba un low-pass pero no decimaba;
+- normalización final no definida.
 
-## Supuestos, unidades y dimensiones
+El wrapper no reproduce estos errores. Los flags históricos de low-pass/“decimation” se rechazan explícitamente para impedir que una operación solicitada sea ignorada o reemplazada por procesamiento oculto.
 
-- Sample rate fijo de 62.5 MHz y período 16 ns en llamadas internas.
-- `signal_waveforms` se trata como un vector; `noise_waveforms` como matriz waveform × muestra.
-- `pedestal_value` se usa como cantidad de muestras iniciales, pese al nombre.
+## Arquitectura nueva
 
-## Riesgos y limitaciones
+```text
+reference/noise
+  -> pds.signal.designOptimalFilter
+  -> FIR coefficients
+  -> pds.signal.applyOptimalFilter
+  -> scores/histogram
+```
 
-- El wrapper actual de [[f_fourier]] acepta ya la llamada de tres argumentos, por lo que la incompatibilidad de firma quedó resuelta en la capa de compatibilidad.
-- [[mi_dft]] devuelve un espectro bilateral de longitud N, mientras el wrapper legacy de [[f_fourier]] conserva por defecto una PSD unilateral de longitud `floor(N/2)+1`; la división sigue sin ser dimensionalmente compatible.
-- La API nueva [[computeSpectrum]] puede producir PSD bilateral mediante `Sidedness="two-sided"`, pero esta función aún no fue migrada ni probada con esa opción.
-- La API nueva ya no fuerza DC a cero; aun así, ruido con media sustraída puede producir un bin DC nulo o muy pequeño. La división directa continúa necesitando una política explícita de regularización.
-- La ventana para la segunda llamada `mi_dft` está fija a longitud 4096, que puede no coincidir con la señal.
-- `apply_decimation` diseña/aplica filtro, pero no decima explícitamente.
-- Variables de IDFT intermedias se calculan sin afectar la salida.
-- Mezcla diseño del filtro, diagnóstico y plotting.
-- La sustracción de media del ruido usa `mean` matricial y puede depender de dimensiones/expansión implícita.
+Soporta ruido blanco, medido, PSD proporcionada, estimación desde pedestal, AR(1), power law, ventanas configurables y regularización explícita. Véase [[designOptimalFilter]].
 
-## Destino provisional en el paquete
+## Evidencia
 
-Candidato a `+pds/+filter/designOptimalFilter.m`, con sample rate, regularización y política de normalización explícitos; plotting separado.
-
-## Evidencia y grado de certeza
-
-- **Observado:** construcción conjugada/PSD, DFT/IDFT y sample rate fijo.
-- **Inferido:** aproximación de matched/optimal filter para maximizar SNR.
-- **Desconocido:** derivación matemática exacta, normalización requerida y conjunto de ruido representativo.
-
-## Preguntas pendientes
-
-- ¿Qué regularización se aplica cuando la PSD se acerca a cero? no se aplica ninguna regularización. Debemos pensar cual implementar.
-- ¿Debe normalizarse `h_filt` por ganancia, energía o respuesta a 1 PE? Lo mejor es normalizar por ganacia, pero podriamos pensar en aplicar diversos tipos de normalización.
-- ¿`n_decimation` implica decimación real en otra etapa? Si, implica que se realizo una decimación anterior, si no se realiza explicitamente en este algoritmo.
+- `TestOptimalFilterCompatibility`: 5 tests sobre firmas de 5–8 argumentos, respuesta unitaria, errores explícitos y wrappers DFT/IDFT.
+- `TestDesignOptimalFilter`: 11 tests de modelos, normalización, preservación de pedestal y entradas/opciones enteras.
+- [[optimal-filter-daphne-reference]]: test con 30,000 waveforms reales.
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
+- [[designOptimalFilter]]
+- [[applyOptimalFilter]]
+- [[estimateNoisePsd]]
 - [[mi_dft]]
 - [[mi_idtft]]
-- [[f_fourier]]
-- [[computeSpectrum]]
-- [[analysis_daphne_data_dependencies]]

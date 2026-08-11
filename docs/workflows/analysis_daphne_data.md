@@ -125,14 +125,14 @@ La lista exacta de toolboxes requiere validación posterior; no se consultó MAT
 7. **Índices sin límites:** ventanas alrededor de máximos, trigger e integración no están protegidas contra valores fuera de `[1,N]`; la configuración observada `int_low_limit=127` e `integration_window=1000` puede superar 1024 muestras en la rama clásica.
 8. **RNG repetido:** [[calculateMedianPedestal]] recibe la misma semilla dentro del loop y reinicia el RNG; se reutilizan las mismas posiciones aleatorias entre eventos.
 9. **Importación binaria:** [[import_data_daphne_func]] usa una llamada `fread` con posiciones de argumentos aparentemente incompatibles con el contrato MATLAB habitual.
-10. **Filtro óptimo:** además de la firma 3-versus-5 de [[f_fourier]], existe una incompatibilidad N-versus-`floor(N/2)+1` entre espectro bilateral y PSD unilateral, y la división incluye una componente DC forzada a cero.
+10. **Filtro óptimo histórico:** la implementación preservada presentaba la firma 3-versus-5 de [[f_fourier]], una incompatibilidad N-versus-`floor(N/2)+1` entre espectro bilateral y PSD unilateral, y división por una componente DC forzada a cero. La API nueva corrige estos puntos; véanse [[designOptimalFilter]] y [[optimal-filter-daphne-reference]].
 11. **Acoplamiento:** IO, procesamiento, fitting, plotting y persistencia conviven en un único archivo.
 12. **Variantes inactivas:** abundante código comentado y ramas experimentales dificultan identificar el pipeline autoritativo.
 13. **Rutas locales y archivos externos:** el workflow no es portable y depende de nombres/variables contenidos en `.mat` no versionados.
 14. **Dimensiones/unidades:** varios índices y ventanas están hard-coded para campañas o longitudes concretas.
 15. **Side effects:** figuras y archivos pueden sobrescribirse según `save_dir`/nombres.
 16. **Dependencias estáticas incompletas:** funciones dinámicas y toolboxes pueden faltar.
-17. **Validación pendiente:** no existe todavía un dataset/configuración baseline documentado para comparar resultados.
+17. **Validación del workflow completo pendiente:** existe un baseline local documentado para el filtro óptimo, pero todavía no se ejecutó ni validó de extremo a extremo `analysis_daphne_data.mlx`.
 
 ## Candidatos a refactorización
 

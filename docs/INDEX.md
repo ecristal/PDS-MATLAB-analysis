@@ -48,24 +48,32 @@ La documentación cubre el workflow histórico `analysis_daphne_data.mlx` y las 
 
 ## Procesamiento espectral y filtrado
 
-- [[optimal_filter_for_daphne_gpessina_function]]
-- [[mi_dft]]
-- [[mi_idtft]]
+- [[designOptimalFilter]] — diseño autoritativo: ruido blanco, coloreado medido/estimado/proporcionado, AR(1) y 1/f.
+- [[applyOptimalFilter]] — aplicación FIR y scores por evento.
+- [[estimateNoisePsd]] — PSD bilateral con corrección de ventana.
+- [[createWindow]] — Tukey, Hann, Hamming, rectangular y ventanas numéricas.
+- [[forwardDft]] / [[inverseDft]] — transformadas discretas optimizadas.
+- [[optimal_filter_for_daphne_gpessina_function]] — wrapper legacy deprecated.
+- [[mi_dft]] / [[mi_idtft]] — wrappers deprecated y referencias preservadas.
+- [[optimal-filter-daphne-reference]] — validación con 30,000 waveforms DAPHNE y SNR.
 - [[f_fourier]] — wrapper legacy, resultados de tests y ejemplos completos.
 - [[computeSpectrum]] — API numérica namespaced y validada.
 - [[plotSpectrum]] — visualización lineal/dB con referencia explícita.
 
 ## Estado de validación
 
-La mayoría de las fichas continúa en `review_mode: static`. Las expresiones “dependencia” y “utilizada por” del workflow se basan en resolución estática, no en una ejecución end-to-end.
+La mayor parte del workflow histórico continúa en `review_mode: static`. Las APIs espectrales y de filtro óptimo ya cuentan con validación runtime aislada en MATLAB R2025b Update 3.
 
-Validación runtime completada para el primer foco:
+Resultados actuales:
 
-- `TestComputeSpectrum`: 11/11.
-- `TestPlotSpectrum`: 4/4.
-- `TestFFourierCompatibility`: 5/5.
-- `TestFFourierLegacyCharacterization`: 3/3.
-- `TestSetupPDSAnalysisPath`: 1/1.
-- Total: 24/24 tests aprobados en MATLAB R2025b Update 3.
+- Baseline espectral previo: 24 tests.
+- Transformadas DFT/IDFT: 13 tests.
+- Ventanas y PSD de ruido: 13 tests.
+- Diseño y aplicación del filtro: 15 tests.
+- Compatibilidad del filtro legacy: 5 tests.
+- Caracterización DFT/IDFT legacy preservada: 3 tests.
+- Integración DAPHNE local: 1 test con 30,000 waveforms.
+- Total: **74/74 tests aprobados**, 0 fallos y 0 incompletos.
+- `checkcode`: 0 mensajes sobre código y tests revisados.
 
-Véase [[f_fourier]] para entorno, tolerancias, limitaciones y ejemplos.
+La validación DAPHNE obtuvo `SNR=5.38283353` con PSD coloreada estimada preservando la corrección de pedestal configurada, y documentó concordancia con el ajuste legacy. Véase [[optimal-filter-daphne-reference]].

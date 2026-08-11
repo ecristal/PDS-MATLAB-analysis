@@ -8,6 +8,7 @@ codegen/
 # Local/generated analysis products
 outputs/
 local/
+/data/
 inventory/TEST_*.md
 
 # Local Obsidian UI/workspace configuration

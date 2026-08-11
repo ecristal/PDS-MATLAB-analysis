@@ -9,11 +9,13 @@ This workspace contains a byte-verified working copy of the primary DAPHNE Live 
 - `legacy/live-scripts/analysis_daphne_data.mlx` — preserved copy of the primary Live Script.
 - `src/data/` — resolved helper files originating from `Scripts_analisis/data`.
 - `src/daphne/` — resolved helper files originating from `Scripts_analisis/daphne`.
-- `legacy/functions/f_fourier/f_fourier.m` — byte-preserved implementation originally staged from the FIUNA MATLAB directory; kept outside MATLABPATH.
-- `src/+pds/+signal/` — project-owned spectral computation API.
-- `src/+pds/+plotting/` — project-owned spectral plotting API.
-- `src/compat/` — temporary wrappers for historical call signatures.
-- `setupPDSAnalysisPath.m` — explicit path setup function for staged and project-owned code.
+- `legacy/functions/f_fourier/f_fourier.m` — implementación espectral histórica fuera del MATLABPATH.
+- `legacy/functions/mi_dft/`, `mi_idtft/` y `optimal_filter_for_daphne_gpessina_function/` — referencias históricas preservadas fuera del MATLABPATH.
+- `src/+pds/+signal/` — APIs de espectro, DFT/IDFT, ventaneo, PSD de ruido y filtro óptimo.
+- `src/+pds/+plotting/` — API de plotting espectral.
+- `src/compat/` — wrappers temporales para firmas históricas, incluidos los tres componentes del filtro.
+- `tests/integration/` — validación opcional con datos locales ignorados.
+- `setupPDSAnalysisPath.m` — configuración explícita; añade el Live Script preservado, pero no añade `legacy/functions`, tests ni datos.
 
 ## MATLAB setup when execution is authorized
 
@@ -26,6 +28,6 @@ Do not add the entire workspace recursively with `genpath`: that would also expo
 
 ## Provenance and limitations
 
-`inventory/analysis_daphne_data_staged_sources.json` records every copied file, its original source path, staging destination, SHA-256 hash, and verification result. For `f_fourier`, the manifest retains the original staging destination under `external/`; the byte-identical file now resides under `legacy/functions/f_fourier/` after adoption of the project-owned API.
+`inventory/analysis_daphne_data_staged_sources.json` registra cada archivo copiado, su ruta fuente original, destino inicial de staging, SHA-256 y resultado de verificación. El manifiesto conserva destinos históricos que ya no son el layout autoritativo: `f_fourier` apuntaba a `external/`, mientras `mi_dft`, `mi_idtft` y `optimal_filter_for_daphne_gpessina_function` apuntaban a `src/data/`. Los cuatro archivos byte-identical residen ahora bajo `legacy/functions/`; las APIs autoritativas viven bajo `+pds` y los wrappers bajo `src/compat`.
 
 `inventory/analysis_daphne_data_static_dependencies.json` records the static scan. Static resolution cannot prove runtime completeness: MATLAB built-ins/toolboxes, data files, dynamic function calls, runtime path changes, and branches not inspected at execution time may add requirements. Large `.mat`/`.npy` artifacts and aging-test files were intentionally not copied at this stage.

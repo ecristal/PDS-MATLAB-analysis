@@ -1,67 +1,44 @@
 ---
 type: matlab-function
-status: dependency
-review_status: reviewed-static
-review_mode: static
-repo_path: src/data/mi_idtft.m
+status: compatibility-wrapper
+review_status: tested-runtime
+repo_path: src/compat/mi_idtft.m
+legacy_path: legacy/functions/mi_idtft/mi_idtft.m
 source_path: Scripts_analisis/data/mi_idtft.m
-workflow:
-  - "[[analysis_daphne_data]]"
-tags: [matlab, inverse-dft, spectral]
+tags: [matlab, idft, legacy, compatibility]
 ---
 
 # mi_idtft
 
-## Descripción cualitativa
-
-Implementación explícita de la transformada discreta inversa, utilizada para llevar al dominio temporal espectros construidos por el filtro óptimo.
+Wrapper deprecated que delega en [[inverseDft]].
 
 ## Firma
 
 ```matlab
-function x = mi_idtft(ft_function)
+waveform = mi_idtft(coefficients)
 ```
 
-## Algoritmo o procedimiento
+## Corrección nominal y computacional
 
-Para cada muestra temporal suma todos los bins complejos con fase positiva y divide el resultado por N.
+El algoritmo histórico era una IDFT finita O(N²), aunque el nombre hacía referencia a una DTFT inversa. `pds.signal.inverseDft` usa `ifft`, conserva la convención `1/N` y ofrece validación hermítica cuando se solicita salida real.
 
-## Entradas y salidas
+## Preservación
 
-- `ft_function`: vector complejo de N bins.
-- `x`: vector complejo de N muestras; el llamante puede tomar su parte real.
+```text
+legacy/functions/mi_idtft/mi_idtft.m
+```
 
-## Dependencias y efectos secundarios
+El blob Git se verificó antes y después del movimiento.
 
-Solo funciones MATLAB básicas. No realiza IO ni plotting.
+## Evidencia
 
-## Supuestos, unidades y dimensiones
-
-Aplica la convención IDFT estándar con normalización 1/N. Trata la entrada como vector lineal.
-
-## Riesgos y limitaciones
-
-- Complejidad O(N²); `ifft` debería ser equivalente bajo la misma convención.
-- No valida forma, finitud ni simetría hermítica.
-- No fuerza salida real, aunque el espectro represente una señal real.
-
-## Destino provisional en el paquete
-
-Mantener temporalmente como referencia en `+pds/+signal/idft.m`; evaluar sustitución por `ifft` tras comparación autorizada.
-
-## Evidencia y grado de certeza
-
-- **Observado:** suma IDFT completa y división por N.
-- **Inferido:** función de validación/didáctica.
-- **Desconocido:** razón para no usar `ifft`.
-
-## Preguntas pendientes
-
-- ¿Existen casos donde difiera intencionalmente de `ifft`?
-- ¿Debe devolver explícitamente `real(x)`?
+- `TestInverseDft`: 6 tests.
+- `TestOptimalFilterCompatibility`: equivalencia del wrapper con `ifft`.
+- `TestDftLegacyCharacterization`: reconstrucción runtime usando las dos referencias históricas preservadas.
 
 ## Enlaces
 
+- [[inverseDft]]
+- [[forwardDft]]
+- [[designOptimalFilter]]
 - [[mi_dft]]
-- [[optimal_filter_for_daphne_gpessina_function]]
-- [[analysis_daphne_data_dependencies]]

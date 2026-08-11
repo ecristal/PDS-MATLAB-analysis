@@ -31,10 +31,19 @@ La mayor parte del catálogo corresponde todavía a revisión estática. El conj
 | `src/data/gaussian_fit_SNR.m` | Fitting/métrica | Ajusta picos gaussianos de integrales y deriva separación y SNR | dependency; reviewed-static | Separar `+pds/+fitting` y `+pds/+metrics` | [[gaussian_fit_SNR]] |
 | `src/data/getDataFromWafflesPickleFile.m` | IO Python | Deserializa pickle waffles y extrae dos canales sincronizados | dependency; reviewed-static | `+pds/+io` o conversor externo | [[getDataFromWafflesPickleFile]] |
 | `src/data/my_gaussian_fit.m` | Fitting auxiliar | Ejecuta un ajuste `gauss1` ponderado alrededor de una región | dependency; reviewed-static | `+pds/+fitting` | [[my_gaussian_fit]] |
-| `src/data/optimal_filter_for_daphne_gpessina_function.m` | Filtrado | Construye un filtro óptimo espectral, opcionalmente ponderado por PSD de ruido | dependency; reviewed-static | `+pds/+filter` | [[optimal_filter_for_daphne_gpessina_function]] |
+| `src/compat/optimal_filter_for_daphne_gpessina_function.m` | Wrapper de filtrado | Traduce la firma histórica hacia el diseño namespaced corregido | compatibility-wrapper; tested-runtime | Retirar tras migrar consumidores | [[optimal_filter_for_daphne_gpessina_function]] |
 | `src/data/readBinaryDataRSOsc.m` | IO instrumental | Lee encabezado XML y waveforms binarios de osciloscopio Rohde & Schwarz | dependency; reviewed-static | `+pds/+io` | [[readBinaryDataRSOsc]] |
-| `src/data/mi_dft.m` | Transformada | DFT explícita con shift de fase y estimación de PSD | transitive-dependency; reviewed-static | `+pds/+signal` o reemplazo por FFT validado | [[mi_dft]] |
-| `src/data/mi_idtft.m` | Transformada | IDFT explícita usada por el filtro óptimo | transitive-dependency; reviewed-static | `+pds/+signal` o reemplazo por IFFT validado | [[mi_idtft]] |
+| `src/compat/mi_dft.m` | Wrapper de transformada | Conserva firma, corrige ventaneo/PSD y delega en FFT namespaced | compatibility-wrapper; tested-runtime | Retirar tras migrar consumidores | [[mi_dft]] |
+| `src/compat/mi_idtft.m` | Wrapper de transformada | Conserva firma y delega en la IDFT optimizada | compatibility-wrapper; tested-runtime | Retirar tras migrar consumidores | [[mi_idtft]] |
+| `legacy/functions/optimal_filter_for_daphne_gpessina_function/optimal_filter_for_daphne_gpessina_function.m` | Referencia legacy | Filtro óptimo histórico preservado fuera del path | legacy-reference; preserved | Mantener para trazabilidad | [[optimal_filter_for_daphne_gpessina_function]] |
+| `legacy/functions/mi_dft/mi_dft.m` | Referencia legacy | DFT explícita histórica O(N²) | legacy-reference; preserved | Mantener para trazabilidad | [[mi_dft]] |
+| `legacy/functions/mi_idtft/mi_idtft.m` | Referencia legacy | IDFT explícita histórica O(N²) | legacy-reference; preserved | Mantener para trazabilidad | [[mi_idtft]] |
+| `src/+pds/+signal/forwardDft.m` | API de transformada | DFT bilateral, ventana y shift mediante FFT | project-api; tested-runtime | Implementación autoritativa | [[forwardDft]] |
+| `src/+pds/+signal/inverseDft.m` | API de transformada | IDFT optimizada con salida real validada | project-api; tested-runtime | Implementación autoritativa | [[inverseDft]] |
+| `src/+pds/+signal/createWindow.m` | API de ventaneo | Tukey/Hann/Hamming/rectangular/custom | project-api; tested-runtime | Implementación autoritativa | [[createWindow]] |
+| `src/+pds/+signal/estimateNoisePsd.m` | API espectral de ruido | PSD bilateral promediada con normalización de ventana | project-api; tested-runtime | Implementación autoritativa | [[estimateNoisePsd]] |
+| `src/+pds/+signal/designOptimalFilter.m` | API de filtrado | Filtro de ganancia unitaria para ruido blanco y coloreado | project-api; tested-runtime | Implementación autoritativa | [[designOptimalFilter]] |
+| `src/+pds/+signal/applyOptimalFilter.m` | API de filtrado | Aplica FIR y produce scores por evento | project-api; tested-runtime | Implementación autoritativa | [[applyOptimalFilter]] |
 | `src/data/xmltools.m` | Parser XML de terceros | Parser/escritor XML legacy v2.5 usado por el lector R&S | external-dependency; license-review-pending | Aislar en `external/` o reemplazar | [[xmltools]] |
 | `legacy/functions/f_fourier/f_fourier.m` | Referencia legacy preservada | Implementación original FFT/PSD/RMS procedente del trabajo FIUNA; SHA-256 preservado | legacy-reference; tested-characterization | Mantener fuera del MATLABPATH; 3 tests documentan firma, DC/RMS y N impar | [[f_fourier]] |
 | `src/+pds/+signal/computeSpectrum.m` | API espectral | Calcula amplitud/PSD lineales, FFT coherente media y RMS con sidedness y DC explícitos | project-api; tested-runtime | Implementación autoritativa para código nuevo | [[computeSpectrum]] |
@@ -49,10 +58,10 @@ La mayor parte del catálogo corresponde todavía a revisión estática. El conj
 4. **Toolboxes:** el workflow parece depender de Signal Processing, Curve Fitting, Statistics, System Identification, Wavelet e interfaz Python; debe confirmarse más adelante.
 5. **Procedencia:** `xmltools.m` requiere revisión de origen/licencia; `f_fourier` fue confirmado como código propio, adoptado bajo `+pds` y preservado como referencia legacy.
 6. **Importación binaria:** la llamada a `fread` en `import_data_daphne_func` presenta un orden de argumentos aparentemente incompatible con la API habitual.
-7. **Filtro óptimo:** la API espectral nueva ya soporta PSD bilateral, pero el filtro staged continúa llamando el wrapper legacy con tres argumentos y todavía necesita revisión de regularización/DC.
+7. **Filtro óptimo:** refactorizado bajo `pds.signal` con PSD bilateral, ruido blanco/coloreado, ventanas configurables, regularización y ganancia unitaria; la validación DAPHNE local obtuvo SNR 5.3828 con PSD estimada preservando la corrección de pedestal configurada.
 8. **Alineación de eventos:** el Live Script elimina integrales cero sin aplicar la misma máscara a waveforms, pedestales y triggers.
 9. **Unidades:** sample rate de 62.5 MHz y ADU son recurrentes, pero integrales/umbrales y algunas ventanas necesitan confirmación explícita.
-10. **Validación:** el conjunto espectral cuenta con 24 tests runtime aprobados, incluidos 3 tests sobre la referencia legacy preservada y 5 sobre el wrapper de compatibilidad; todavía no existe un run pequeño end-to-end ni un conjunto de métricas baseline del workflow completo.
+10. **Validación:** 74/74 tests runtime aprobados, incluidos 3 tests de caracterización sobre `mi_dft`/`mi_idtft` preservados y 5 tests de compatibilidad del filtro/DFT. La integración local con 30,000 waveforms DAPHNE obtuvo SNR 5.38283353 para ruido coloreado estimado y ejecutó correctamente el ajuste legacy `gaussian_fit_SNR`.
 
 ## Prioridades de documentación siguiente
 
