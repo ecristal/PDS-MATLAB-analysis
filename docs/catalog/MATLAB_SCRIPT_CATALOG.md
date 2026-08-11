@@ -13,14 +13,14 @@ tags: [catalog, matlab, inventory, pds, daphne]
 
 Catálogo cualitativo de los archivos MATLAB incluidos en el primer commit y relacionados con `analysis_daphne_data.mlx`. Complementa el inventario automático; no sustituye `inventory/MATLAB_FILES.md`.
 
-Todos los elementos se revisaron estáticamente. “Revisado” no significa ejecutado ni validado numéricamente.
+La mayor parte del catálogo corresponde todavía a revisión estática. El conjunto `f_fourier`/`computeSpectrum`/`plotSpectrum` y la configuración de path cuentan además con validación runtime mediante MATLAB R2025b; el estado se indica por elemento.
 
 ## Catálogo
 
 | Archivo | Tipo/rol | Descripción cualitativa | Estado | Destino provisional | Nota |
 |---|---|---|---|---|---|
 | `legacy/live-scripts/analysis_daphne_data.mlx` | Workflow legacy | Pipeline monolítico de ingestión, pedestal, filtrado, integración, trigger/ROC, fitting, SNR y gráficos para datos DAPHNE V2A | legacy-reference; reviewed-static | Conservar como entry point y extraer funciones gradualmente | [[analysis_daphne_data]] |
-| `setupPDSAnalysisPath.m` | Utilidad del repositorio | Añade explícitamente al MATLABPATH las carpetas staged sin usar `genpath` global | repository-utility; reviewed-static | Bootstrap raíz o futura configuración MATLAB Project | [[setupPDSAnalysisPath]] |
+| `setupPDSAnalysisPath.m` | Utilidad del repositorio | Añade explícitamente API `+pds`, helpers staged y wrapper compatible, sin exponer la implementación legacy | repository-utility; tested-runtime | Bootstrap raíz o futura configuración MATLAB Project | [[setupPDSAnalysisPath]] |
 | `src/daphne/calculateMedianPedestal.m` | Preprocesamiento | Estima pedestal y cuartiles desde medias de ventanas aleatorias de pretrigger | dependency; reviewed-static | `+pds/+preprocess` | [[calculateMedianPedestal]] |
 | `src/daphne/extract_and_import_DAPHNE_data.m` | IO/fachada | Gestiona `.dat`, `.gz` y `.7z`, delega decodificación y limpia temporales | dependency; reviewed-static | `+pds/+io` | [[extract_and_import_DAPHNE_data]] |
 | `src/daphne/import_data_daphne_func.m` | IO/lector | Lee stream DAPHNE, forma matriz de waveforms y calcula promedio | transitive-dependency; reviewed-static | `+pds/+io` | [[import_data_daphne_func]] |
@@ -36,7 +36,10 @@ Todos los elementos se revisaron estáticamente. “Revisado” no significa eje
 | `src/data/mi_dft.m` | Transformada | DFT explícita con shift de fase y estimación de PSD | transitive-dependency; reviewed-static | `+pds/+signal` o reemplazo por FFT validado | [[mi_dft]] |
 | `src/data/mi_idtft.m` | Transformada | IDFT explícita usada por el filtro óptimo | transitive-dependency; reviewed-static | `+pds/+signal` o reemplazo por IFFT validado | [[mi_idtft]] |
 | `src/data/xmltools.m` | Parser XML de terceros | Parser/escritor XML legacy v2.5 usado por el lector R&S | external-dependency; license-review-pending | Aislar en `external/` o reemplazar | [[xmltools]] |
-| `external/fiuna-pasantia-tesis-matlab/f_fourier.m` | Dependencia externa | Calcula FFT, espectros unilaterales, PSD y RMS; procedencia FIUNA | external-dependency; interface-review-pending | Aislar o adoptar tras resolver autoría/interfaz | [[f_fourier]] |
+| `legacy/functions/f_fourier/f_fourier.m` | Referencia legacy preservada | Implementación original FFT/PSD/RMS procedente del trabajo FIUNA; SHA-256 preservado | legacy-reference; tested-characterization | Mantener fuera del MATLABPATH; 3 tests documentan firma, DC/RMS y N impar | [[f_fourier]] |
+| `src/+pds/+signal/computeSpectrum.m` | API espectral | Calcula amplitud/PSD lineales, FFT coherente media y RMS con sidedness y DC explícitos | project-api; tested-runtime | Implementación autoritativa para código nuevo | [[computeSpectrum]] |
+| `src/+pds/+plotting/plotSpectrum.m` | Visualización | Presenta amplitud o PSD lineal/dB con referencia explícita sin alterar resultados | project-api; tested-runtime | Helper de visualización autoritativo | [[plotSpectrum]] |
+| `src/compat/f_fourier.m` | Wrapper de compatibilidad | Acepta las firmas históricas de 2–5 argumentos, delega el cálculo en `+pds` y reproduce la rama legacy de plotting | compatibility-wrapper; tested-runtime | Retirar tras migrar consumidores | [[f_fourier]] |
 
 ## Hallazgos transversales
 
@@ -44,12 +47,12 @@ Todos los elementos se revisaron estáticamente. “Revisado” no significa eje
 2. **Estado implícito:** celdas, flags y workspace forman parte del contrato de ejecución.
 3. **IO acoplado:** extracción, decodificación, borrado temporal y guardado están mezclados.
 4. **Toolboxes:** el workflow parece depender de Signal Processing, Curve Fitting, Statistics, System Identification, Wavelet e interfaz Python; debe confirmarse más adelante.
-5. **Procedencia:** `xmltools.m` y `f_fourier.m` requieren revisión de origen/licencia.
+5. **Procedencia:** `xmltools.m` requiere revisión de origen/licencia; `f_fourier` fue confirmado como código propio, adoptado bajo `+pds` y preservado como referencia legacy.
 6. **Importación binaria:** la llamada a `fread` en `import_data_daphne_func` presenta un orden de argumentos aparentemente incompatible con la API habitual.
-7. **Filtro óptimo:** además de la firma 3-versus-5 de `f_fourier`, el filtro combina un espectro bilateral de longitud N con una PSD unilateral y divide por una componente DC anulada.
+7. **Filtro óptimo:** la API espectral nueva ya soporta PSD bilateral, pero el filtro staged continúa llamando el wrapper legacy con tres argumentos y todavía necesita revisión de regularización/DC.
 8. **Alineación de eventos:** el Live Script elimina integrales cero sin aplicar la misma máscara a waveforms, pedestales y triggers.
 9. **Unidades:** sample rate de 62.5 MHz y ADU son recurrentes, pero integrales/umbrales y algunas ventanas necesitan confirmación explícita.
-10. **Validación:** aún no existe un run pequeño y un conjunto de métricas baseline versionado.
+10. **Validación:** el conjunto espectral cuenta con 24 tests runtime aprobados, incluidos 3 tests sobre la referencia legacy preservada y 5 sobre el wrapper de compatibilidad; todavía no existe un run pequeño end-to-end ni un conjunto de métricas baseline del workflow completo.
 
 ## Prioridades de documentación siguiente
 

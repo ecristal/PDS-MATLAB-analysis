@@ -52,9 +52,10 @@ Abre/modifica la figura 2 y grafica siempre `h_filt`.
 
 ## Riesgos y limitaciones
 
-- La versión staged de [[f_fourier]] requiere cinco argumentos, mientras esta función le pasa tres; la llamada es incompatible.
-- [[mi_dft]] devuelve un espectro bilateral de longitud N, pero [[f_fourier]] devuelve una PSD unilateral de longitud `floor(N/2)+1`; la división elemento a elemento no es dimensionalmente compatible.
-- [[f_fourier]] fuerza a cero la componente DC de la PSD. Incluso armonizando longitudes, la división directa puede producir infinito/NaN en DC o ante bins muy pequeños; no existe regularización.
+- El wrapper actual de [[f_fourier]] acepta ya la llamada de tres argumentos, por lo que la incompatibilidad de firma quedó resuelta en la capa de compatibilidad.
+- [[mi_dft]] devuelve un espectro bilateral de longitud N, mientras el wrapper legacy de [[f_fourier]] conserva por defecto una PSD unilateral de longitud `floor(N/2)+1`; la división sigue sin ser dimensionalmente compatible.
+- La API nueva [[computeSpectrum]] puede producir PSD bilateral mediante `Sidedness="two-sided"`, pero esta función aún no fue migrada ni probada con esa opción.
+- La API nueva ya no fuerza DC a cero; aun así, ruido con media sustraída puede producir un bin DC nulo o muy pequeño. La división directa continúa necesitando una política explícita de regularización.
 - La ventana para la segunda llamada `mi_dft` está fija a longitud 4096, que puede no coincidir con la señal.
 - `apply_decimation` diseña/aplica filtro, pero no decima explícitamente.
 - Variables de IDFT intermedias se calculan sin afectar la salida.
@@ -73,9 +74,9 @@ Candidato a `+pds/+filter/designOptimalFilter.m`, con sample rate, regularizaci�
 
 ## Preguntas pendientes
 
-- ¿Qué regularización se aplica cuando la PSD se acerca a cero?
-- ¿Debe normalizarse `h_filt` por ganancia, energía o respuesta a 1 PE?
-- ¿`n_decimation` implica decimación real en otra etapa?
+- ¿Qué regularización se aplica cuando la PSD se acerca a cero? no se aplica ninguna regularización. Debemos pensar cual implementar.
+- ¿Debe normalizarse `h_filt` por ganancia, energía o respuesta a 1 PE? Lo mejor es normalizar por ganacia, pero podriamos pensar en aplicar diversos tipos de normalización.
+- ¿`n_decimation` implica decimación real en otra etapa? Si, implica que se realizo una decimación anterior, si no se realiza explicitamente en este algoritmo.
 
 ## Enlaces
 
@@ -83,4 +84,5 @@ Candidato a `+pds/+filter/designOptimalFilter.m`, con sample rate, regularizaci�
 - [[mi_dft]]
 - [[mi_idtft]]
 - [[f_fourier]]
+- [[computeSpectrum]]
 - [[analysis_daphne_data_dependencies]]

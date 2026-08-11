@@ -5,16 +5,18 @@ function addedPaths = setupPDSAnalysisPath()
 %   addpath('C:\Users\e_cri\Documents\Proyectos\PDS-MATLAB-analysis');
 %   setupPDSAnalysisPath;
 %
-% This function adds only the directories that currently contain the staged
-% Live Script dependencies. It intentionally does not add inventory, tests,
-% raw-data, aging-test, or backup directories.
+% This function adds only the directories required by the staged workflow,
+% the project-owned namespaced API, and the temporary compatibility layer.
+% It intentionally does not add inventory, tests, raw-data, aging-test,
+% backup, or preserved legacy-function directories.
 
 repoRoot = fileparts(mfilename('fullpath'));
 relativeDirectories = {
     fullfile('legacy', 'live-scripts')
+    'src'
     fullfile('src', 'data')
     fullfile('src', 'daphne')
-    fullfile('external', 'fiuna-pasantia-tesis-matlab')
+    fullfile('src', 'compat')
 };
 
 addedPaths = strings(0, 1);

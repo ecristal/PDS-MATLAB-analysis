@@ -24,7 +24,7 @@ graph TD
     A --> ROC[ROC_file_analysis]
     A --> Ped[calculateMedianPedestal]
     A --> Extract[extract_and_import_DAPHNE_data]
-    A --> FF[f_fourier]
+    A --> FF[f_fourier compatibility wrapper]
     A --> SPE[fit2SPE]
     A --> GSNR[gaussian_fit_SNR]
     A --> Waffles[getDataFromWafflesPickleFile]
@@ -38,6 +38,8 @@ graph TD
     Opt --> DFT[mi_dft]
     Opt --> IDTFT[mi_idtft]
     Opt --> FF
+    FF --> Core[pds.signal.computeSpectrum]
+    FF -. doPlot=true .-> LegacyPlot[legacy plotting branch]
     RSO --> XML[xmltools]
 ```
 
@@ -48,7 +50,7 @@ graph TD
 | `ROC_file_analysis` | Derivación de métricas/curva ROC a partir de conteos de clasificación | [[ROC_file_analysis]] |
 | `calculateMedianPedestal` | Estimación robusta de pedestal mediante regiones de pretrigger | [[calculateMedianPedestal]] |
 | `extract_and_import_DAPHNE_data` | Extracción e importación de archivos DAPHNE | [[extract_and_import_DAPHNE_data]] |
-| `f_fourier` | FFT, espectros unilaterales, PSD y RMS; procedencia del árbol FIUNA | [[f_fourier]] |
+| `f_fourier` | Wrapper compatible que delega el cálculo en `pds.signal.computeSpectrum` y conserva temporalmente la rama legacy de plotting | [[f_fourier]] |
 | `fit2SPE` | Alineación y escalado de la respuesta de un modelo a un waveform SPE | [[fit2SPE]] |
 | `gaussian_fit_SNR` | Estimación de SNR mediante ajuste de picos gaussianos | [[gaussian_fit_SNR]] |
 | `getDataFromWafflesPickleFile` | Lectura de datos serializados provenientes de waffles/Python | [[getDataFromWafflesPickleFile]] |
@@ -67,6 +69,17 @@ graph TD
 | `optimal_filter_for_daphne_gpessina_function` | `mi_idtft` | [[mi_idtft]] |
 | `optimal_filter_for_daphne_gpessina_function` | `f_fourier` | [[f_fourier]] |
 | `readBinaryDataRSOsc` | `xmltools` | [[xmltools]] |
+
+## API espectral refactorizada
+
+| Componente | Rol | Evidencia |
+|---|---|---|
+| `pds.signal.computeSpectrum` | Cálculo lineal de amplitud, PSD, FFT coherente media y RMS | [[computeSpectrum]]; 11 tests runtime |
+| `pds.plotting.plotSpectrum` | Visualización lineal/dB con referencia explícita | [[plotSpectrum]]; 4 tests runtime |
+| `f_fourier` legacy preservado | Baseline fuera del MATLABPATH | [[f_fourier]]; 3 tests de caracterización |
+| `f_fourier` wrapper | Adaptación temporal de 2–5 argumentos, cinco salidas y plotting legacy | [[f_fourier]]; 5 tests runtime |
+
+La implementación original está preservada fuera del MATLABPATH en `legacy/functions/f_fourier/f_fourier.m`.
 
 ## Dependencias no staged o externas
 
