@@ -24,6 +24,16 @@ classdef TestSubtractPedestal < matlab.unittest.TestCase
                 'pds:preprocess:subtractPedestal:InvalidPedestalLevel');
         end
 
+        function rejectsIntegerInputsNotExactlyRepresentableAsDouble(testCase)
+            unsafe = uint64(flintmax) + uint64(1);
+            testCase.verifyError(@() pds.preprocess.subtractPedestal( ...
+                [unsafe, unsafe], uint64(0)), ...
+                'pds:preprocess:subtractPedestal:InexactIntegerConversion');
+            testCase.verifyError(@() pds.preprocess.subtractPedestal( ...
+                uint64([1, 2]), unsafe), ...
+                'pds:preprocess:subtractPedestal:InexactIntegerConversion');
+        end
+
         function subtractsOneLevelPerIntegerWaveformWithoutUnderflow(testCase)
             waveforms = uint16([100, 101, 99; 200, 199, 201]);
 

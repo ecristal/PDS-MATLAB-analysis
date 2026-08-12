@@ -19,6 +19,10 @@ if iscolumn(waveforms) && numel(waveforms) > 1
         ['A column vector is ambiguous under the events-by-samples ' ...
         'contract; provide one waveform as a row vector.']);
 end
+if hasInexactIntegerValues(waveforms)
+    error('pds:preprocess:estimatePedestal:InexactIntegerConversion', ...
+        'Integer waveform values must be exactly representable as double.');
+end
 if isvector(waveforms)
     waveforms = reshape(waveforms, 1, []);
 end
@@ -31,9 +35,10 @@ if isempty(sampleIndices)
 end
 if any(sampleIndices < 1 | sampleIndices > size(waveforms, 2) | ...
         sampleIndices ~= fix(sampleIndices)) || ...
-        numel(unique(sampleIndices)) ~= numel(sampleIndices)
+        any(diff(sampleIndices) <= 0)
     error('pds:preprocess:estimatePedestal:InvalidSampleIndices', ...
-        'SampleIndices must contain unique integer sample indices in range.');
+        ['SampleIndices must contain strictly increasing integer sample ' ...
+        'indices in range.']);
 end
 
 method = lower(options.Method);
@@ -83,6 +88,17 @@ diagnostics = struct( ...
     'blockSize', blockSize, ...
     'blockCount', blockCount, ...
     'blockMeans', blockMeans);
+end
+
+function tf = hasInexactIntegerValues(value)
+if isa(value, 'uint64')
+    tf = any(value(:) > uint64(flintmax));
+elseif isa(value, 'int64')
+    limit = int64(flintmax);
+    tf = any(value(:) > limit | value(:) < -limit);
+else
+    tf = false;
+end
 end
 
 function blockSize = validateBlockSize(value, sampleCount)

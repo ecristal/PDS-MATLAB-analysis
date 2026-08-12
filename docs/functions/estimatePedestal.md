@@ -11,8 +11,8 @@ Estado: primer tracer bullet de la fase de pedestal.
 
 - Filas: eventos.
 - Columnas: muestras.
-- `SampleIndices` es obligatorio y define explícitamente la región de pedestal.
-- Entradas enteras se convierten a `double` después de validarse.
+- `SampleIndices` es obligatorio, estrictamente creciente y define explícitamente la región temporal de pedestal.
+- Entradas enteras se convierten a `double` después de validarse; valores `int64`/`uint64` fuera del rango entero exacto de `double` se rechazan explícitamente.
 - Salida `level`: columna `evento × 1`, en las mismas unidades lineales de entrada.
 - Métodos implementados: `"mean"`, `"median"` y `"median-of-means"`.
 - `"median-of-means"` exige `BlockSize` como divisor entero de la cantidad de muestras para mantener bloques deterministas, no solapados y de igual tamaño.
@@ -35,8 +35,8 @@ blockMeans
 ## Evidencia inicial — 2026-08-11
 
 - RED observado: `MATLAB:undefinedVarOrClass` antes de crear la API.
-- Pruebas focalizadas: 11/11 passed, 0 failed, 0 incomplete.
-- Suite completa: 85/85 passed, 0 failed, 0 incomplete.
+- Pruebas focalizadas: 14/14 passed, 0 failed, 0 incomplete.
+- Suite completa: 88/88 passed, 0 failed, 0 incomplete.
 - `checkcode` focalizado: 0.
 
 ## Pendiente

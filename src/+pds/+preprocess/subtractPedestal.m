@@ -18,6 +18,14 @@ if iscolumn(waveforms) && numel(waveforms) > 1
         ['A column vector is ambiguous under the events-by-samples ' ...
         'contract; provide one waveform as a row vector.']);
 end
+if hasInexactIntegerValues(waveforms)
+    error('pds:preprocess:subtractPedestal:InexactIntegerConversion', ...
+        'Integer waveform values must be within the exact double range.');
+end
+if hasInexactIntegerValues(pedestalLevel)
+    error('pds:preprocess:subtractPedestal:InexactIntegerConversion', ...
+        'Integer pedestal levels must be within the exact double range.');
+end
 if isvector(waveforms)
     waveforms = reshape(waveforms, 1, []);
 end
@@ -36,4 +44,15 @@ elseif numel(pedestalLevel) ~= size(waveforms, 1)
 end
 
 correctedWaveforms = waveforms - pedestalLevel;
+end
+
+function tf = hasInexactIntegerValues(value)
+if isa(value, 'uint64')
+    tf = any(value(:) > uint64(flintmax));
+elseif isa(value, 'int64')
+    limit = int64(flintmax);
+    tf = any(value(:) > limit | value(:) < -limit);
+else
+    tf = false;
+end
 end

@@ -35,6 +35,20 @@ classdef TestEstimatePedestal < matlab.unittest.TestCase
                 'pds:preprocess:estimatePedestal:AmbiguousColumnVector');
         end
 
+        function rejectsIntegerWaveformsNotExactlyRepresentableAsDouble(testCase)
+            unsafe = uint64(flintmax) + uint64(1);
+            testCase.verifyError(@() pds.preprocess.estimatePedestal( ...
+                [unsafe, unsafe], SampleIndices=1:2), ...
+                'pds:preprocess:estimatePedestal:InexactIntegerConversion');
+        end
+
+        function requiresIncreasingSampleIndices(testCase)
+            testCase.verifyError(@() pds.preprocess.estimatePedestal( ...
+                [10, 11, 12], SampleIndices=[2, 1], ...
+                Method="median-of-means", BlockSize=1), ...
+                'pds:preprocess:estimatePedestal:InvalidSampleIndices');
+        end
+
         function medianRejectsSingleLargePretriggerOutlier(testCase)
             waveforms = [10, 10, 1000, 10, 40; 20, 20, 20, -900, 50];
 
