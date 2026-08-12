@@ -15,5 +15,5 @@ corrected = pds.preprocess.subtractPedestal(waveforms, pedestalLevel);
 
 - RED observado: función inexistente.
 - GREEN: caso `uint16` con residual negativo reproducido exactamente.
-- Incluida en 14/14 pruebas focalizadas y 88/88 pruebas completas.
+- Incluida en 16/16 pruebas focalizadas del pedestal (8 estimación + 3 sustracción + 5 caracterización legacy) y 90/90 pruebas completas.
 - `checkcode` focalizado: 0.

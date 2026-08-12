@@ -60,6 +60,26 @@ classdef TestEstimatePedestal < matlab.unittest.TestCase
             testCase.verifyEqual(diagnostics.sampleIndices, 1:4);
         end
 
+        function medianOfMeansRejectsNondivisibleSampleCount(testCase)
+            testCase.verifyError(@() pds.preprocess.estimatePedestal( ...
+                1:5, SampleIndices=1:5, Method="median-of-means", ...
+                BlockSize=2), ...
+                'pds:preprocess:estimatePedestal:InvalidBlockSize');
+        end
+
+        function medianOfMeansNoiseUsesSampleMedianCenteredMad(testCase)
+            pretrigger = [0, 0, 0, 0, 0, 300, ...
+                0, 0, 300, 0, 0, 300];
+
+            [level, diagnostics] = pds.preprocess.estimatePedestal( ...
+                pretrigger, SampleIndices=1:12, ...
+                Method="median-of-means", BlockSize=3);
+
+            testCase.verifyEqual(level, 100);
+            testCase.verifyEqual(diagnostics.sampleNoiseSigma, 0);
+            testCase.verifyTrue(isnan(diagnostics.pedestalStandardError));
+        end
+
         function medianOfMeansRejectsOneContaminatedBlock(testCase)
             pretrigger = [10, 10, 10, 10, 10, 10, 1000, 1000, 1000, 10, 10, 10];
             waveforms = [pretrigger, 50; 100 + pretrigger, 150];
@@ -73,10 +93,8 @@ classdef TestEstimatePedestal < matlab.unittest.TestCase
             testCase.verifyEqual(diagnostics.blockCount, 4);
             testCase.verifyEqual(diagnostics.blockSize, 3);
             testCase.verifySize(diagnostics.blockMeans, [2, 4]);
-            testCase.verifyEqual( ...
-                diagnostics.pedestalStandardError, ...
-                sqrt(pi / 2) * diagnostics.sampleNoiseSigma / sqrt(12), ...
-                AbsTol=10 * eps);
+            testCase.verifyTrue(all(isnan( ...
+                diagnostics.pedestalStandardError)));
         end
     end
 end

@@ -110,7 +110,6 @@ Firma preliminar:
 [pedestalLevel, diagnostics] = pds.preprocess.estimatePedestal( ...
     waveforms, ...
     SampleIndices=[], ...
-    SampleCount=[], ...
     Method="mean", ...
     BlockSize=[], ...
     OutlierThreshold=3.5, ...
@@ -119,12 +118,9 @@ Firma preliminar:
 
 Reglas:
 
-1. Aceptar vector o matriz numérica real y finita.
-2. Canonizar un vector a una fila; en matrices, filas son eventos.
-3. Exigir exactamente una selección de pretrigger:
-   - `SampleIndices`, o
-   - `SampleCount`, o
-   - default documentado de primer 10 % solo para compatibilidad; en análisis científico debe registrarse siempre el valor explícito.
+1. Aceptar una matriz numérica real y finita; aceptar un vector fila como un solo waveform.
+2. Rechazar vectores columna multielemento por ser ambiguos bajo el contrato `evento × muestra`; el usuario debe proporcionar explícitamente una fila para un waveform.
+3. Exigir una selección explícita de pretrigger mediante `SampleIndices`; no aplicar un default implícito en análisis científico.
 4. Validar índices enteros, únicos, crecientes y dentro de rango.
 5. Convertir a `double` después de validar tipo, forma y dominio.
 6. No modificar el RNG global.
@@ -173,7 +169,7 @@ diagnostics.validEventMask
 - Calcular la media de cada bloque.
 - Usar la mediana de las medias como pedestal.
 - No utilizar ventanas aleatorias ni depender de una semilla.
-- Reportar muestras descartadas cuando el tamaño no sea múltiplo de `BlockSize`.
+- Exigir que el número de muestras sea múltiplo de `BlockSize`; rechazar la configuración en vez de descartar muestras silenciosamente.
 
 No declarar un método “mejor” hasta comparar sesgo, RMSE y estabilidad bajo escenarios controlados.
 
@@ -459,15 +455,15 @@ src/+pds/+preprocess/estimatePedestal.m
 
 **Ciclos TDD:**
 
-1. Vector fila con `SampleCount`.
-2. Vector columna canonizado correctamente.
+1. Vector fila aceptado como un solo waveform con selección explícita.
+2. Vector columna multielemento rechazado como ambiguo.
 3. Matriz `evento × muestra`.
 4. `SampleIndices` explícitos.
 5. Rechazo de selección vacía efectiva.
 6. Rechazo de índices repetidos, desordenados, fraccionarios o fuera de rango.
 7. Rechazo de `NaN`, `Inf`, complejos y matrices vacías.
 8. Conversión segura de `uint8/16/32`, `int8/16/32` y opciones enteras.
-9. Default de primer 10 % registrado en diagnósticos.
+9. Ausencia de selección implícita: `SampleIndices` es obligatorio y queda registrado en diagnósticos.
 
 **Criterio:** Validación con identificadores `pds:preprocess:estimatePedestal:*` propios.
 
@@ -511,7 +507,7 @@ src/+pds/+preprocess/estimatePedestal.m
 **Tests:**
 
 1. Partición exacta en bloques.
-2. Pretrigger no divisible por `BlockSize`.
+2. Rechazo de pretrigger no divisible por `BlockSize`.
 3. Bloque contaminado por pulso.
 4. Varios bloques contaminados hasta superar robustez.
 5. `BlockSize=1` y un único bloque.
@@ -519,7 +515,7 @@ src/+pds/+preprocess/estimatePedestal.m
 7. Ausencia de cambio en RNG.
 8. Repetibilidad bit a bit para entradas iguales.
 
-**Criterio:** `blockMeans`, bloques usados y muestras descartadas trazables.
+**Criterio:** `blockMeans`, tamaño y cantidad de bloques trazables; ninguna muestra se descarta silenciosamente.
 
 ### Tarea 6: Diagnósticos de calidad
 

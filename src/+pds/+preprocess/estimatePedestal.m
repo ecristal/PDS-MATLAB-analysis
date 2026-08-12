@@ -70,10 +70,10 @@ switch method
                 pedestalSamples(:, localIndices), 2);
         end
         pedestalLevel = median(blockMeans, 2);
+        sampleMedian = median(pedestalSamples, 2);
         sampleNoiseSigma = 1.4826 * median( ...
-            abs(pedestalSamples - pedestalLevel), 2);
-        pedestalStandardError = sqrt(pi / 2) * ...
-            sampleNoiseSigma / sqrt(sampleCount);
+            abs(pedestalSamples - sampleMedian), 2);
+        pedestalStandardError = NaN(size(pedestalLevel));
     otherwise
         error('pds:preprocess:estimatePedestal:UnknownMethod', ...
             'Unsupported pedestal method: %s.', options.Method);
