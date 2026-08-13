@@ -1,0 +1,32 @@
+{
+  "artifactType": "preserved-discrete-iir-model",
+  "scientificStatus": "legacy-reference",
+  "sourceMatFile": "templates_np02_large_pulses.mat",
+  "sourceMatSha256": "89754d544c05a50ff593d49fd374c9b3741077de33b305a27e1a708a481c48cb",
+  "sourceVariable": "spe_template_struct",
+  "sourceElement": 16,
+  "sourceField": "tf",
+  "sourceClass": "idtf",
+  "sampleTimeSeconds": 1.6000000000000001e-8,
+  "variable": "z^-1",
+  "numerator": [
+    0,
+    0.0088026439303778188,
+    -0.019438862952395563,
+    -0.010314461109645002,
+    0.071859796463767514,
+    -0.050728519674255949
+  ],
+  "denominator": [
+    1,
+    -4.2879317764247569,
+    7.3805603507627371,
+    -6.3819378994539075,
+    2.7748600051038181,
+    -0.48554670349888979
+  ],
+  "observedStable": true,
+  "observedMaximumPoleMagnitude": 0.99490267701232382,
+  "preservationMethod": "Read from a hash-verified temporary copy; the original MAT file was unchanged and is not versioned.",
+  "limitations": "This preserves the stored element-16 IIR coefficients and metadata. It is not a new scientific validation or a claim that this model generalizes beyond the historical NP02 configuration."
+}

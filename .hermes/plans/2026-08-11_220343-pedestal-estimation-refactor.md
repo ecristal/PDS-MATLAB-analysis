@@ -593,37 +593,95 @@ docs/legacy/np02-transfer-function-estimation.md
 
 **Criterio:** Originales NP02 intactos, código preservado byte a byte y datos fuera de Git.
 
-### Tarea 9: Caracterizar y refactorizar la estimación de función de transferencia
+**Estado 2026-08-13:** completado para preservación y caracterización no destructiva. El script origen/copia permanece idéntico (6517 bytes, SHA-256 `e5ebdfe...f6429302`). Los tres `.mat` catalogados se inspeccionaron solo mediante copias temporales con hashes antes/después. El IIR no vacío del elemento 16 se preservó como coeficientes textuales trazables en `legacy/np02/np02_iir_model_element16.json`; los `.mat` siguen fuera de Git. La caracterización legacy ejecutable pasa 6/6 sin ejecutar el script histórico.
+
+### Tarea 9: Caracterizar y refactorizar la estimación de funciones de transferencia
 
 **Crear:**
 
 ```text
-tests/TestEstimateTransferFunction.m
-src/+pds/+modeling/estimateTransferFunction.m
+tests/TestEstimateContinuousTransferFunction.m
+tests/TestEstimateDiscreteTransferFunction.m
+tests/integration/TestDaphneVgain1700TransferFunctionIdentification.m
+src/+pds/+identification/estimateContinuousTransferFunction.m
+src/+pds/+identification/estimateDiscreteTransferFunction.m
 src/+pds/+plotting/plotTransferFunctionEstimate.m
+docs/functions/estimateContinuousTransferFunction.md
+docs/functions/estimateDiscreteTransferFunction.md
 ```
+
+**Contrato común de identificación:**
+
+1. APIs genéricas bajo `pds.identification`, sin nombres ni supuestos NP02.
+2. Entradas SISO `inputSignal` y `outputSignal` en memoria, con `SampleTime` explícito.
+3. Buscar `poleOrder=1:MaxOrder`; `MaxOrder` limita el número de polos y evita órdenes extremos.
+4. Usar por defecto una sola estructura por orden, `zeroOrder=max(0,poleOrder-1)`, reproduciendo de forma acotada la relación histórica `tfest(data,ord+1,ord)` sin una búsqueda combinatoria de todos los numeradores.
+5. Buscar cada orden sobre `DelayRange`, configurable y expresado en samples.
+6. Seleccionar por defecto el menor orden cuyo fit de selección esté dentro de `FitTolerance` puntos porcentuales del mejor fit estable (`SelectionCriterion="parsimonious-fit"`).
+7. Permitir criterios explícitos posteriores como `"best-fit"`, `"bic"` y `"aicc"`, pero no declararlos equivalentes sin tests.
+8. Reportar si la solución alcanza `MaxOrder`, sin aumentar el límite automáticamente.
+9. Mantener el núcleo libre de carga de archivos, plotting y persistencia.
+
+**Separación de dominios:**
+
+- `estimateContinuousTransferFunction` llama `tfest` con `Ts=0` y devuelve un modelo racional en `s`.
+- `estimateDiscreteTransferFunction` llama `tfest` con `Ts=SampleTime`, identifica directamente el IIR discreto y devuelve coeficientes utilizables como `filter(B,A,u)` con variable `z^-1`.
+- La API discreta no se implementa mediante `c2d` del modelo continuo. Una conversión continuo→discreto solo puede usarse como comparación diagnóstica separada.
 
 **Ciclos TDD:**
 
-1. Respuesta IIR sintética conocida + impulso conocido.
-2. Recuperación de shift exacto dentro de candidatos.
-3. Modelo estable y respuesta impulsional finita.
-4. Normalización por pico igual a 1 SPE después de sustracción de baseline, con polaridad registrada.
-5. Comparación contra template FIR sin adoptar el truncamiento FIR como modelo científico final.
-6. Orden y shifts configurables.
-7. Rechazo de template degenerado, no finito o demasiado corto.
-8. Ausencia de plotting y escritura desde el núcleo.
-9. Diagnósticos reproducibles.
-10. Comparación global mediante NRMSE/residuales.
-11. Comparación específica del undershoot: mínimo, índice temporal, área negativa y residual de cola.
-12. Recuperación de una constante de tiempo larga sintética.
-13. Detección de polo inestable o marginal.
-14. Verificación de dominio discreto: no `c2d` redundante.
-15. Plotting probado separadamente con figura invisible.
+1. Respuestas continuas y discretas sintéticas conocidas con impulso conocido.
+2. Recuperación del delay exacto dentro de `DelayRange`.
+3. Sweep determinista de `1:MaxOrder` con una estructura numerador/denominador por orden.
+4. Selección parsimoniosa: escoger el menor orden dentro de `FitTolerance` del máximo.
+5. Caso en que se alcanza `MaxOrder`, registrado en diagnósticos.
+6. Modelos estables y respuestas impulsionales finitas; candidatos fallidos/inestables quedan registrados y no se seleccionan silenciosamente.
+7. Modelo discreto expresado en `z^-1`; equivalencia de `filter(B,A,u)` con la respuesta del modelo.
+8. Modelo continuo con `Ts=0` y modelo discreto con `Ts=SampleTime`.
+9. Rechazo de señales incompatibles, degeneradas, no finitas o demasiado cortas.
+10. Validación de `SampleTime`, `MaxOrder`, `DelayRange`, `FitTolerance` y criterio.
+11. Ausencia de cambios en RNG, plotting y escritura desde el núcleo.
+12. Diagnósticos reproducibles con tabla por candidato: dominio, órdenes, delay, fit, criterio, estabilidad, validez y fallo de estimación.
+13. Comparación global mediante fit/NRMSE y residuales.
+14. Comparación específica del undershoot: mínimo, índice temporal, área negativa y residual de cola.
+15. Recuperación de una constante de tiempo larga sintética.
+16. Normalización por pico igual a 1 SPE después de sustracción de baseline, con polaridad registrada, como etapa explícita de preparación/validación y no como efecto oculto del identificador.
+17. Plotting probado separadamente con figura invisible.
 
-**Validación NP02 posterior:** ejecutar sobre una plantilla importada en memoria, nunca mediante ruta hard-coded ni escritura automática al `.mat`.
+**Caracterización histórica NP02:** conservar el script byte a byte y documentar su carga, selección fija, normalización, búsqueda de shift, relación de órdenes, `c2d`, representación `z^-1`, plotting, dependencia faltante y `save`. Cualquier reproducción se ejecutará solo sobre copias temporales verificadas; la validación moderna recibirá una plantilla ya importada en memoria.
 
-**Criterio:** La respuesta IIR simulada tiene pico unitario, reproduce la forma principal y preserva el undershoot/retorno largo dentro de tolerancias separadas. El fit no se aprobará únicamente por un porcentaje global dominado por el pico.
+**Criterio:** ambas APIs seleccionan modelos acotados y trazables; la respuesta IIR reproduce pico, undershoot y retorno largo dentro de tolerancias separadas. Ningún modelo se aprobará únicamente por un porcentaje global dominado por el pico.
+
+**Estado 2026-08-13 — tracer bullet de identificación:**
+
+- Implementadas `pds.identification.estimateContinuousTransferFunction` y `pds.identification.estimateDiscreteTransferFunction` con núcleo común privado.
+- Búsqueda acotada a `MaxOrder × numel(DelayRange)` y una estructura `zeroOrder=max(0,poleOrder-1)` por orden de polos.
+- Implementados `parsimonious-fit`, `best-fit`, BIC y AICc; todos los scores actuales son in-sample.
+- El delay se aplica con padding de ceros y se reporta separadamente; no se usa wrapping circular.
+- La API discreta identifica directamente en `z^-1`; no usa `c2d`.
+- `tfest` se ejecuta con semilla interna fija y el RNG del llamador se restaura mediante `onCleanup`.
+- Diagnósticos por candidato: órdenes, delay, fit, RMSE, NRMSE, BIC, AICc, estabilidad, validez y fallo.
+- Revisión independiente detectó y se corrigió mediante RED/GREEN: validez indebidamente acoplada a AICc, sobreconteo discreto de un coeficiente fijo, residuales continuos FOH inconsistentes y protección insuficiente del JSON NP02.
+- `valid` exige estimación estable y fit/RMSE finitos; NRMSE puede quedar indefinida sin acoplar la elegibilidad, y BIC/AICc exigen finitud solo para su propio criterio.
+- Conteo BIC/AICc: continuo `np+nz+1`; discreto `np+1` para `nz=0` y `np+nz` para `nz>0` estrictamente propio.
+- Residuales continuos y plots de integración usan explícitamente ZOH.
+- El JSON NP02 está fijado por SHA-256 y una copia temporal con coeficiente alterado es rechazada por test.
+- Los errores de selección sin score finito conservan el namespace de la API pública y restauran el RNG del llamador incluso tras la identificación interna.
+- Integración local sobre la plantilla congelada DAPHNE FBK SiPM, VGAIN 1700, canal 24, para ambos dominios.
+- La integración genera por dominio PNG/FIG de waveform+pico+cola, PNG/FIG del mapa orden-delay, CSV de candidatos y JSON de métricas bajo `outputs/validation/`, ignorado por Git.
+- Hallazgo DAPHNE: ambos fits globales superan 90 %, pero ninguno reproduce el undershoot real de aproximadamente -2.30 %; esto queda fijado por assertions y plots revisables.
+- Evidencia post-fix: 17/17 pruebas focalizadas identificación+legacy, 106/106 suite estándar, integración local separada 1/1 con 12 artefactos, y `checkcode=0` en MATLAB R2025b. `runtests('tests')` no descubre automáticamente el subdirectorio `tests/integration`, por lo que ambos gates se reportan separadamente.
+
+**Pendiente para satisfacer el criterio científico completo de Tarea 9:**
+
+1. partición train/holdout y métricas de validación fuera de muestra;
+2. métricas y tests explícitos de pico, undershoot, área negativa, polo lento, cola y retorno;
+3. comparación continuo→discretizado versus identificación discreta directa;
+4. preparación explícita baseline/polaridad/normalización 1 SPE;
+5. plotting como API reutilizable separado del pipeline de integración (la integración ya genera y valida plots invisibles para revisión);
+6. validación científica adicional sobre copias controladas NP02/DAPHNE, incluyendo holdout y métricas de cola, antes de recomendar un modelo.
+
+La caracterización histórica detectó una diferencia relevante: la plantilla procesada del elemento 16 contiene mínimo post-pico negativo (`-0.001365...`), mientras que el IIR almacenado reconstruido no cruza cero en 4096 muestras. Por ello el tracer bullet de software no se presenta como aprobación científica del modelo.
 
 ### Tarea 10: Implementar generador de ruido coloreado
 
