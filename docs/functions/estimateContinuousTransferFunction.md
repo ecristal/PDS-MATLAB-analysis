@@ -75,7 +75,14 @@ Para los modelos continuos, la predicción usada por RMSE, NRMSE, BIC y AICc se
 simula explícitamente con zero-order hold (`lsim(...,'zoh')`), coherente con la
 convención de entrada del `iddata` usado por `tfest`.
 
-`FitPercent`, BIC y AICc son actualmente métricas **in-sample**. No equivalen a rendimiento de validación holdout. El conteo usado en BIC/AICc es:
+`FitPercent`, BIC y AICc se calculan sobre las muestras de entrenamiento. Si
+`TrainingSampleCount` se omite, entrenamiento significa toda la señal. Si se
+especifica un entero entre 4 y `N-1`, `tfest` y la selección ven únicamente el
+prefijo `1:TrainingSampleCount`; el modelo seleccionado se simula desde el inicio
+sobre la señal completa y el sufijo se reporta por separado como extrapolación
+temporal.
+
+El conteo usado en BIC/AICc es:
 
 ```text
 parameterCount = poleOrder + zeroOrder + 1
@@ -93,6 +100,14 @@ maxOrder
 delayRange
 fitTolerance
 selectionCriterion
+trainingSampleCount
+trainingIndices
+validationIndices
+validationMode
+fullPrediction
+validationRmse
+validationNrmse
+validationFitPercent
 numeratorOrderPolicy
 selectedPoleOrder
 selectedZeroOrder
@@ -110,7 +125,7 @@ candidateTable
 `candidateTable` contiene por candidato:
 
 ```text
-poleOrder, zeroOrder, delaySamples, fitPercent,
+poleOrder, zeroOrder, delaySamples, trainingSampleCount, fitPercent,
 rmse, nrmse, bic, aicc, stable, valid, failureMessage
 ```
 
@@ -120,24 +135,48 @@ rmse, nrmse, bic, aicc, stable, valid, failureMessage
 
 `tfest` consume el RNG global. El núcleo fija una semilla interna para la identificación y restaura mediante `onCleanup` el estado RNG del llamador, incluso si ocurre un error. Las mismas entradas/opciones producen el mismo sweep sin cambiar el RNG externo.
 
+## Preparación y evaluación científica
+
+La preparación de baseline, polaridad y normalización 1 SPE se realiza mediante
+[[prepareSinglePeTemplate]]. Las métricas de pico, undershoot, área negativa,
+cola, entrada en banda y asentamiento final se calculan mediante
+[[evaluateTransferFunctionResponse]]. El plotting reusable vive en
+[[plotTransferFunctionEstimate]]. Ninguna de estas etapas queda oculta dentro
+del identificador.
+
+`TrainingSampleCount` no convierte una sola plantilla promedio en un holdout
+independiente entre eventos: solo prueba extrapolación temporal del prefijo a la
+cola. En DAPHNE VGAIN 1700 se identifica directamente sobre el waveform promedio
+congelado, sin usar waveforms individuales ni suavizado.
+
 ## Limitaciones científicas actuales
 
 - El delay seleccionado no es identificable de manera universal: una dinámica suficientemente flexible puede absorber parte de un retardo si la excitación no es informativa. La recuperación exacta está caracterizada con un impulso sintético conocido.
-- Todavía no existe partición train/holdout.
-- Todavía no se calculan ni seleccionan candidatos por métricas específicas de pico, undershoot, área negativa, polo lento o cola.
+- Las métricas específicas se calculan después de seleccionar; todavía no forman
+  parte del criterio de selección de candidatos.
 - Un fit global alto no aprueba por sí solo un modelo para NP02/DAPHNE.
-- La preparación de la plantilla —baseline, polaridad y normalización— debe ser explícita y externa a esta API.
+- El holdout temporal de una única forma de onda promedio no reemplaza una
+  validación con adquisiciones o templates promedio independientes.
 
-## Evidencia del tracer bullet — 2026-08-13
+## Evidencia del snapshot candidato — 2026-08-14
 
-- RED inicial: API ausente (`MATLAB:undefinedVarOrClass`).
-- RED de determinismo: `tfest` modificaba el RNG del llamador.
-- GREEN focalizado combinado identificación/legacy después de la revisión independiente: 17/17 passed.
-- Regresiones añadidas: selección por fit independiente de AICc, conteo discreto de parámetros, residuales continuos ZOH y rechazo de JSON NP02 modificado.
-- Suite estándar post-fix: 106/106 passed, 0 failed, 0 incomplete.
-- Integración DAPHNE FBK SiPM, VGAIN 1700: 1/1 passed para ambos dominios; 12 artefactos visuales/numéricos generados bajo `outputs/validation/iir-daphne-fbk-vgain-1700/`.
-- La integración obtiene fit continuo >91 %, pero el plot de cola demuestra que el modelo no reproduce el undershoot real; no es una aprobación científica.
-- `checkcode` de fuentes/tests nuevos: 0 mensajes.
+- Pruebas focalizadas Tareas 6/9/10 + NP02: 52/52 passed.
+- Suite estándar: 133/133 passed, 0 failed, 0 incomplete.
+- Integraciones DAPHNE: 3/3 passed.
+- `checkcode`: 0 mensajes en 15 archivos MATLAB modificados/nuevos.
+- Artefactos nuevos de revisión Tareas 6/9/10: 14/14 no vacíos bajo
+  `outputs/validation/`, ignorados por Git.
+- Regresiones cubiertas: selección por fit independiente de AICc, conteo discreto
+  de parámetros, residuales continuos ZOH, holdout temporal sin leakage para
+  delays negativo/cero/positivo, polo lento conocido, reconstrucción independiente
+  de PSD progenitora/crop y rechazo de JSON NP02 modificado.
+- La integración obtiene fit continuo >91 %, pero el plot de cola demuestra que
+  el modelo no reproduce el undershoot real; `scientificApproval=false`.
+- El test sintético discreto recupera un polo lento conocido; el fallo DAPHNE no
+  se atribuye a ausencia total de sensibilidad de la infraestructura a colas largas.
+- La validación científica adicional separa entrenamiento `1:1200` y cola
+  `1201:2048`, compara identificación continua, discreta directa y continuo→`c2d`
+  con ZOH, y conserva `scientificApproval=false`.
 - MATLAB: R2025b, versión 25.2.
 
 ## Relacionado

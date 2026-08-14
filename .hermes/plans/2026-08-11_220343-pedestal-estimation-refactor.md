@@ -548,6 +548,14 @@ unstable_blocks
 - `validEventMask` resume flags, pero conserva diagnósticos detallados;
 - no descartar eventos automáticamente dentro del estimador.
 
+**Estado 2026-08-14:** completada. `estimatePedestal` devuelve pendiente,
+fracción de outliers, estadísticas de bloques, los cinco flags propuestos y
+`validEventMask`, con thresholds configurables registrados. Los diagnósticos no
+alteran el pedestal ni descartan eventos. La clase focalizada cubre los siete
+escenarios sintéticos, contratos y región de una muestra. La integración DAPHNE
+canal 24 analiza los primeros 3000 registros y genera PNG/FIG, CSV y JSON bajo
+`outputs/validation/pedestal-daphne-fbk-vgain-1700/`.
+
 ### Tarea 7: Implementar sustracción separada
 
 **Crear:**
@@ -672,14 +680,29 @@ docs/functions/estimateDiscreteTransferFunction.md
 - Hallazgo DAPHNE: ambos fits globales superan 90 %, pero ninguno reproduce el undershoot real de aproximadamente -2.30 %; esto queda fijado por assertions y plots revisables.
 - Evidencia post-fix: 17/17 pruebas focalizadas identificación+legacy, 106/106 suite estándar, integración local separada 1/1 con 12 artefactos, y `checkcode=0` en MATLAB R2025b. `runtests('tests')` no descubre automáticamente el subdirectorio `tests/integration`, por lo que ambos gates se reportan separadamente.
 
-**Pendiente para satisfacer el criterio científico completo de Tarea 9:**
+**Cierre de infraestructura y evaluación 2026-08-14:**
 
-1. partición train/holdout y métricas de validación fuera de muestra;
-2. métricas y tests explícitos de pico, undershoot, área negativa, polo lento, cola y retorno;
-3. comparación continuo→discretizado versus identificación discreta directa;
-4. preparación explícita baseline/polaridad/normalización 1 SPE;
-5. plotting como API reutilizable separado del pipeline de integración (la integración ya genera y valida plots invisibles para revisión);
-6. validación científica adicional sobre copias controladas NP02/DAPHNE, incluyendo holdout y métricas de cola, antes de recomendar un modelo.
+1. `TrainingSampleCount` separa fitting/selección en el prefijo y métricas de
+   extrapolación temporal en el sufijo; no se presenta como holdout independiente
+   entre eventos.
+2. `evaluateTransferFunctionResponse` mide pico, timing, undershoot, área
+   negativa, RMSE global/cola, primera entrada en banda y asentamiento permanente.
+3. La validación compara continuo directo, discreto directo y continuo→`c2d` ZOH.
+4. `prepareSinglePeTemplate` hace explícitos baseline, polaridad y normalización
+   1 SPE.
+5. `plotTransferFunctionEstimate` es una API reusable probada con figura invisible.
+6. Un test sintético recupera un polo lento conocido.
+7. La evaluación DAPHNE identifica directamente sobre el waveform promedio
+   congelado `average_single_PE_ch_24.fig` —sin waveforms individuales ni
+   suavizado—, usando `1:1200` para entrenamiento y `1201:2048` para cola.
+8. Se generan seis artefactos científicos adicionales bajo
+   `outputs/validation/iir-daphne-fbk-vgain-1700/scientific-validation/`.
+
+**Resultado científico:** infraestructura de Tarea 9 completada; modelo DAPHNE no
+aprobado. El target promedio tiene undershoot `-0.0229539` y asentamiento en 2036,
+mientras continuo/discreto predicen mínimos positivos de aproximadamente `3e-6`
+y asentamiento prematuro en 846/848. `scientificApproval=false`. Completar la
+evaluación no implica recomendar un IIR que contradice el waveform promedio.
 
 La caracterización histórica detectó una diferencia relevante: la plantilla procesada del elemento 16 contiene mínimo post-pico negativo (`-0.001365...`), mientras que el IIR almacenado reconstruido no cruza cero en 4096 muestras. Por ello el tracer bullet de software no se presenta como aprobación científica del modelo.
 
@@ -708,6 +731,44 @@ src/+pds/+simulation/generateColoredNoise.m
 12. Generación larga + recorte sin discontinuidad periódica visible.
 
 **Verificación estadística:** comparar PSD promedio de un ensemble, no exigir coincidencia bin a bin de una realización.
+
+**Estado 2026-08-14:** completada. `generateColoredNoise` implementa PSD bilateral
+hermítica, N par/impar, eventos por filas, RMS objetivo, seed/stream local sin
+mutar RNG global y generación larga con recorte central. Los tests cubren PSD
+blanca, AR(1), power-law, rechazos y recuperación ensemble. La integración usa la
+PSD medida del pretrigger de los primeros 3000 registros DAPHNE canal 24 y genera
+PNG/FIG, CSV y JSON bajo
+`outputs/validation/colored-noise-daphne-fbk-vgain-1700/`; obtuvo correlación
+log-PSD `0.9999246` y error L2 relativo `0.025861`.
+
+**Gates del snapshot candidato 2026-08-14:**
+
+```text
+pruebas focalizadas Tareas 6/9/10+NP02: 52/52
+suite estándar:                        133/133
+integraciones DAPHNE:                     3/3
+checkcode en 15 archivos .m:                 0
+Wikilinks:                         308/308
+artefactos nuevos no vacíos:         14/14
+hashes NP02/template e ignores:        PASS
+```
+
+Los tres grupos de plots PNG/FIG se revisaron visualmente dos veces; la segunda
+revisión no encontró defectos significativos. Los outputs permanecen ignorados y
+no forman parte del snapshot de código/documentación.
+
+La auditoría pre-commit añadió regresiones RED/GREEN para: RMS objetivo sobre el
+recorte efectivamente entregado, trazabilidad de PSD antes/después del recorte,
+conversión exacta de enteros en opciones/APIs nuevas, y área negativa post-pico
+separada del área negativa total. La integración declara explícitamente sus
+thresholds de pedestal y protege la limpieza para que solo opere bajo
+`outputs/validation/`.
+
+La revisión independiente del árbol anterior detectó que la pendiente diagnóstica
+todavía usaba OLS. El hallazgo se cerró con una regresión RED donde un spike tardío
+sesgaba la pendiente, seguida de un ajuste IRLS Tukey-bisquare GREEN. El cambio es
+solo diagnóstico: el pedestal elegido no cambia. La integración DAPHNE fue
+regenerada y sus fracciones observacionales/documentación se actualizaron.
 
 ### Tarea 11: Implementar procesos de dark counts y grandes perturbaciones
 

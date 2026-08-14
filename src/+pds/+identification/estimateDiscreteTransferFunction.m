@@ -12,6 +12,7 @@ function [model, diagnostics] = estimateDiscreteTransferFunction( ...
         options.DelayRange = 0
         options.FitTolerance = 0.5
         options.SelectionCriterion = "parsimonious-fit"
+        options.TrainingSampleCount = []
     end
 
     [model, diagnostics] = estimateTransferFunctionCore( ...

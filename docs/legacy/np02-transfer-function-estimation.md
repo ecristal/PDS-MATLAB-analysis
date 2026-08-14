@@ -163,7 +163,7 @@ Por contraste, el IIR almacenado reconstruido no cruza cero en 4096 muestras. Es
 - [[estimateContinuousTransferFunction]] identifica directamente en `s`.
 - [[estimateDiscreteTransferFunction]] identifica directamente un IIR en `z^-1`; no usa `c2d`.
 - Ambas limitan el número de polos mediante `MaxOrder` y usan una estructura de numerador por orden para evitar un sweep combinatorio.
-- Pendiente: validación holdout y métricas específicas de pico, undershoot, cola y retorno antes de aplicar a datos NP02/DAPHNE.
+- La infraestructura moderna ya dispone de extrapolación temporal, métricas específicas de pico/undershoot/cola y semántica separada de entrada en banda/asentamiento. Se aplicó al waveform promedio DAPHNE VGAIN 1700 con resultado no aprobado. La validación científica equivalente del artefacto NP02 histórico sigue pendiente y debe ejecutarse solo sobre copias controladas.
 
 ## Evidencia — 2026-08-13
 

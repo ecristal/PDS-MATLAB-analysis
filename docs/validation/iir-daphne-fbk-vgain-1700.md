@@ -174,25 +174,83 @@ La reconstrucción y los diagnósticos residuales del modelo continuo usan
 explícitamente zero-order hold, igual que la convención de entrada del problema
 de identificación. No se usa la interpolación FOH implícita de `lsim`.
 
+## Validación científica adicional — 2026-08-14
+
+La estimación se realiza sobre el **waveform promedio** congelado
+`average_single_PE_ch_24.fig`, no sobre waveforms individuales. Su SHA-256 es
+`3170b4d8090140cf62a38651d4cdebe22ae6fc6ccaa53c94b45977bc504a2a2d`.
+La preparación explícita usa baseline mediano en `1:100`, polaridad positiva y
+normalización a pico 1 SPE. No se suaviza el promedio.
+
+Se reserva `1:1200` para identificación/selección y `1201:2048` para
+extrapolación temporal de cola. Este split evalúa extrapolación dentro de una
+sola forma de onda promedio; no es un holdout independiente entre eventos.
+
+Se comparan:
+
+1. modelo continuo identificado directamente;
+2. IIR discreto identificado directamente;
+3. modelo continuo convertido con `c2d(...,'zoh')` solo como diagnóstico.
+
+Resultados sobre el promedio intacto:
+
+| Métrica | Target | Continuo | Discreto directo | Continuo→`c2d` |
+|---|---:|---:|---:|---:|
+| pico | 1.0000 | 1.00019 | 0.99626 | 1.00019 |
+| undershoot | -0.0229539 | +2.678e-6 | +2.994e-6 | +2.678e-6 |
+| área negativa post-pico | 4.8457e-8 | 0 | 0 | 0 |
+| RMSE cola `1201:2048` | 0 | 0.0071101 | 0.0071095 | 0.0071101 |
+| primer índice dentro de ±1 % | 842 | 846 | 848 | 846 |
+| asentamiento hasta fin | 2036 | 846 | 848 | 846 |
+
+La diferencia entre primera entrada en banda y asentamiento final es esencial:
+el waveform promedio vuelve a salir de la banda antes de asentarse cerca del fin,
+mientras los modelos decaen prematuramente.
+
+El test sintético recupera un polo lento discreto conocido; por tanto, el fallo
+DAPHNE no demuestra que la infraestructura sea incapaz de detectar cualquier
+cola larga. El snapshot no aporta evidencia reproducible para familias racionales
+distintas de la búsqueda documentada; no se extraen conclusiones sobre ellas.
+
+Artefactos adicionales:
+
+```text
+outputs/validation/iir-daphne-fbk-vgain-1700/scientific-validation/
+├── transfer-function-tail-holdout-comparison.png
+├── transfer-function-tail-holdout-comparison.fig
+├── transfer-function-comparison-metrics.csv
+├── transfer-function-comparison-metrics.json
+├── continuous-candidate-table.csv
+└── discrete-candidate-table.csv
+```
+
 ## Conclusión
 
-- La API discreta ejecuta un sweep acotado y determinista sobre una plantilla DAPHNE real ignorada por Git.
-- El modelo describe bien el pico globalmente, pero no reproduce el undershoot/cola negativa observada.
-- No debe seleccionarse ni aprobarse un modelo final usando solo `FitPercent`, BIC o AICc in-sample.
-- La próxima etapa científica debe incluir métricas explícitas de undershoot/cola, validación holdout y una estrategia que no penalice la componente lenta frente al pico dominante.
+- La infraestructura de Tarea 9 —preparación 1 SPE, train/cola, métricas
+  específicas, polo lento sintético, comparación `c2d` y plotting reusable— está
+  implementada y verificada.
+- El modelo describe bien el pico globalmente, pero no reproduce el undershoot,
+  el área negativa ni el asentamiento largo del waveform promedio.
+- `scientificApproval=false`: no se recomienda aún ninguno de los modelos como
+  respuesta IIR física de DAPHNE VGAIN 1700.
+- Completar la infraestructura no equivale a aprobar científicamente el modelo.
 
-## Evidencia de ejecución — 2026-08-13
+## Evidencia de ejecución
 
 ```text
 archive integrity: passed
-local integration: 1/1 passed
-integration checkcode: 0
-review outputs: 12 non-empty files under ignored outputs/
-plot visual QA: passed for both domains
-standard suite (integration excluded by discovery): 106/106 passed
-focused identification+legacy tests: 17/17 passed
+all DAPHNE integrations: 3/3 passed
+changed MATLAB checkcode: 0 messages in 15 files
+new Task 6/9/10 review outputs: 14 non-empty files under ignored outputs/
+plot visual QA: passed for pedestal, colored noise, and transfer functions
+standard suite (integration excluded by discovery): 133/133 passed
+focused Task 6/9/10 + NP02 tests: 52/52 passed
 data tracked by Git: none
 ```
+
+Los gates exactos del snapshot 2026-08-14 se registran en el plan y deben
+actualizarse únicamente después de ejecutar la suite completa y la revisión
+independiente sobre el mismo estado.
 
 ## Relacionado
 
