@@ -798,6 +798,46 @@ src/+pds/+simulation/generateEventTrain.m
 
 **Criterio:** La física implementada queda limitada y explícita; dark rate y large-event rate nunca se confunden.
 
+**Estado 2026-08-14 — componente aislado completado:**
+
+- `generateEventTrain` devuelve matrices evento × muestra en `double` y conserva
+  componentes separados para referencia, dark counts y perturbaciones grandes.
+- Los procesos dark/large son procesos puntuales de Poisson independientes en una
+  traza progenitora; los tiempos continuos se discretizan con
+  `floor(t/samplePeriod)+1` y las colisiones se suman.
+- Dark counts tienen amplitud 1 SPE. Las perturbaciones grandes admiten amplitud
+  fija o uniforme, con tests en 8000, `2^14` y 20000.
+- Seed/stream son locales y mutuamente excluyentes; el RNG global no cambia.
+- Sin saturación los valores superiores a `2^14` se preservan sin wrap. Una
+  `SaturationRange` explícita conserva tren no saturado y máscara de clipping; no
+  se infiere todavía cuantización ni encoding ADC.
+- Ground truth conserva tiempos, índices, amplitudes, conteos, componentes,
+  máscaras, conteos esperados y procedencia RNG. Eventos anteriores a un crop
+  futuro permanecen trazables.
+- Se ejecutaron seis ciclos RED/GREEN y, tras revisión científica independiente,
+  cuatro caracterizaciones adicionales cerraron brechas de cobertura de mapeo,
+  independencia, RNG, tipos seguros y clipping. Evidencia focalizada:
+  `TestGenerateEventTrain` 10/10 y `checkcode` 0 mensajes en implementación/test.
+- La documentación de contrato y límites está en
+  `docs/functions/generateEventTrain.md`.
+
+La integración con respuesta IIR/FIR, ruido, baseline y recorte pertenece a la
+Tarea 13; este cierre no implica validar todavía el simulador compuesto ni elegir
+un estimador de pedestal.
+
+**Gates del snapshot candidato de Tarea 11:**
+
+```text
+TestGenerateEventTrain:            10/10
+suite estándar:                  143/143
+integraciones DAPHNE de regresión:  3/3
+checkcode implementación/test:      0/2
+Wikilinks:                        308/0 faltantes
+artefactos previos no vacíos:       14/14
+hashes NP02/template:               PASS
+git diff --check:                   PASS
+```
+
 ### Tarea 12: Implementar multiplicidad configurable
 
 **Objetivo:** Reproducir ocupación sin imponer prematuramente una distribución logarítmica.
@@ -814,6 +854,42 @@ src/+pds/+simulation/generateEventTrain.m
 8. Ground truth por evento.
 
 **Criterio:** Poisson es el modelo paramétrico inicial del histograma; `empirical-pmf` sirve como control no paramétrico y log-series solo se promoverá si mejora cuantitativamente la descripción en datos holdout.
+
+**Estado del candidato 2026-08-14:**
+
+- Extensión implementada en `pds.simulation.generateEventTrain` sin cambiar el
+  default de Tarea 11: `fixed` con multiplicidad 1 no consume draws adicionales.
+- Modelos disponibles: `fixed`, `poisson` y `empirical-pmf`.
+- La multiplicidad por waveform escala `ReferenceAmplitude`, conserva salida
+  `double` y queda registrada en ground truth junto con parámetros y media esperada.
+- Poisson incluye 0 PE y queda limitado al dominio numérico validado
+  `SignalMultiplicityLambda <= 1e9`; la PMF empírica acepta masa explícita en
+  cero y exige soporte entero creciente y normalización estricta.
+- Fixed y soporte PMF se limitan a `flintmax` para todas las clases numéricas;
+  el producto amplitud×multiplicidad se valida antes del RNG para impedir que
+  overflow aritmético aparezca como saturación física.
+- `log-series` se rechaza explícitamente: no se incorpora sin evidencia cuantitativa
+  en holdout.
+- La multiplicidad se aplica antes de la superposición y del clipping explícito;
+  `unsaturatedEventTrain` continúa siendo reconstruible por componentes.
+- Se completaron seis ciclos RED→GREEN (fixed, Poisson, PMF, validación
+  fail-fast, techo PTRS y prevención de overflow) y nueve caracterizaciones
+  adicionales, incluidas CDF agrupada, compatibilidad exacta con Tarea 11,
+  frontera PMF, RNG, enteros, separación de clases y clipping.
+
+**Gates del candidato de Tarea 12:**
+
+```text
+TestGenerateSignalMultiplicity:      16/16
+regresión TestGenerateEventTrain:    10/10
+suite estándar:                     159/159
+integraciones DAPHNE de regresión:     3/3
+checkcode implementación/tests:        0/3
+```
+
+La integración con respuesta FIR/IIR, baseline, ruido, burn-in y crop sigue fuera
+hasta la Tarea 13. Estos gates no seleccionan todavía un estimador de pedestal ni
+cambian `scientificApproval = false`.
 
 ### Tarea 13: Componer trazas largas y recortar waveforms
 
@@ -1079,3 +1155,18 @@ snapshot y preservación
 ```
 
 Los primeros entregables deben ser: (1) caracterización y contrato probado del pedestal; (2) preservación segura del workflow NP02; y (3) modelo IIR validado con énfasis en undershoot/cola larga antes de usar el simulador para conclusiones científicas. La plantilla FIR se utilizará únicamente como referencia de forma y soporte para tests iniciales.
+
+
+## Reanudación de Tarea 12 — 2026-09-12
+
+Se detectó y corrigió un tercer defecto numérico: para medias Poisson positivas
+extremadamente pequeñas, `exp(-lambda)` puede redondearse a uno y el bucle Knuth
+anterior devolvía -1. Ahora se ejecuta siempre el primer draw para lambda positiva;
+la rama lambda=0 sigue sin consumir RNG. El séptimo ciclo RED→GREEN añade
+`tinyPositivePoissonMeansNeverProduceNegativeCounts`, con realmin, 1e-20, eps/4 y eps.
+
+Verificación ejecutada en esta reanudación: suite estándar 159/159 (incluye
+multiplicidad 16/16 y Tarea 11 10/10), cero fallos/incompletos; checkcode cero
+mensajes en los tres archivos. Las integraciones DAPHNE 3/3 son evidencia previa,
+no repetida hoy. El snapshot anterior `888d45f7…4d82d` queda superado por esta
+corrección y no autoriza aprobar los nuevos bytes. No hubo staging, commit ni push.
