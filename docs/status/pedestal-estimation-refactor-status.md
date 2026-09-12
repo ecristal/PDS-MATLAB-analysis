@@ -1,7 +1,7 @@
 ---
 type: project-status
 status: active
-updated: 2026-08-14
+updated: 2026-09-12
 tags: [pedestal, simulation, refactor, validation, daphne, status]
 ---
 
@@ -17,13 +17,17 @@ el commit local verificado:
 [verified] feat: add scientific validation for pedestal, IIR, and noise
 ```
 
-La Tarea 11 está implementada y auditada en el working tree. La Tarea 12 extiende
-ese componente con multiplicidad configurable y tiene sus gates locales verdes;
-ambas permanecen sin staging, commit ni publicación. El próximo bloque funcional
-es la composición de waveforms de la Tarea 13, seguida por la comparación de
-estimadores de la Tarea 14.
+Las Tareas 11 y 12 están implementadas, verificadas y guardadas juntas en el
+commit local `2c3a286d1a1a24e971070b708317c8d6e24905a2`. La Tarea 12 cuenta con
+aprobación estática independiente del snapshot exacto; véase [[task12-audit-closure]].
+No se realizó push. El próximo bloque funcional es la Tarea 13, seguida por la
+comparación de estimadores de la Tarea 14.
 
-## Estado por tarea
+## Tareas y progreso del proyecto
+
+Los checks indican cumplimiento funcional del alcance de cada tarea, no aprobación
+científica global de DAPHNE. Las tareas pendientes requieren autorización antes
+de comenzar; la documentación/revisión final de Tarea 17 abarca todo el proyecto.
 
 ### Completadas
 
@@ -46,6 +50,8 @@ estimadores de la Tarea 14.
 - [ ] **Tarea 13 — Componer trazas largas y recortar waveforms.**
 - [ ] **Tarea 14 — Comparar estimadores en datos sintéticos.**
 - [ ] **Tarea 15 — Validación exploratoria DAPHNE ampliada.**
+- [ ] **Tarea 16 — Integración conservadora con el filtro.**
+- [ ] **Tarea 17 — Documentación y revisión independiente final del proyecto.**
 
 ## APIs disponibles
 
@@ -144,7 +150,8 @@ checkcode:                             0/3
 El ground truth conserva la multiplicidad de cada waveform, el modelo y sus
 parámetros, además de la media esperada. La referencia se escala antes de sumar dark
 counts y eventos grandes y antes de cualquier clipping explícito. La auditoría
-independiente del snapshot de Tarea 12 es el gate de cierre pendiente.
+independiente de Tarea 12 aprobó el snapshot final `830098f1…67b6d10`, con hashes
+inicial/final idénticos; el certificado está en [[task12-audit-closure]].
 
 ## Estado científico
 
@@ -168,8 +175,9 @@ la Tarea 15.
 ## Estado Git y preservación
 
 - Rama: `master`.
-- HEAD: `2a9bf1bca977c542d88e36a5ef2b1fa046039200`.
-- Tareas 11 y 12: working tree, sin staging ni commit.
+- Base de Tareas 0–10: `2a9bf1bca977c542d88e36a5ef2b1fa046039200`.
+- Commit local conjunto de Tareas 11–12: `2c3a286d1a1a24e971070b708317c8d6e24905a2`.
+- El seguimiento documental se actualiza por separado, sin cambiar producción/tests auditados.
 - No se realizó `push`; no hay remotos configurados.
 - `data/` y `outputs/` permanecen fuera de Git.
 - El script histórico NP02 y sus `.mat` originales permanecen protegidos y no se
@@ -179,7 +187,7 @@ la Tarea 15.
 
 ## Próximo paso
 
-Cerrar la auditoría independiente del snapshot exacto de Tarea 12. Después, la
+La auditoría de Tarea 12 está cerrada. Con autorización posterior, la
 Tarea 13 compondrá trazas progenitoras largas con baseline, ruido y respuesta FIR/IIR
 antes del crop, sin perder la multiplicidad ni los demás componentes de ground truth.
 
@@ -208,3 +216,10 @@ multiplicidad 16/16 y Tarea 11 10/10), cero fallos/incompletos; checkcode cero
 mensajes en los tres archivos. Las integraciones DAPHNE 3/3 son evidencia previa,
 no repetida hoy. El snapshot anterior `888d45f7…4d82d` queda superado por esta
 corrección y no autoriza aprobar los nuevos bytes. No hubo staging, commit ni push.
+
+
+## Nota de trazabilidad documental
+
+Esta actualización de progreso es posterior al snapshot auditado. Los párrafos
+fechados de reanudación y los hashes históricos se conservan como evidencia; el
+estado vigente de las tareas es el checklist anterior y el certificado de cierre.

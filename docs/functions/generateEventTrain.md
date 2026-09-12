@@ -1,12 +1,15 @@
 ---
 type: matlab-function
-status: task12-candidate
+status: validated-isolated
 tags: [simulation, poisson, multiplicity, dark-counts, disturbances, ground-truth, matlab]
 ---
 
 # `pds.simulation.generateEventTrain`
 
 Estado del programa de pedestal: [[pedestal-estimation-refactor-status]].
+Cierre y alcance de la auditoría: [[task12-audit-closure]].
+Esta actualización de estado documental es posterior al snapshot auditado;
+producción y tests permanecen sin cambios.
 
 ## Propósito
 

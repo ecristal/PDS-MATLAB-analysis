@@ -6,6 +6,8 @@ tags: [daphne, pedestal, quality, validation]
 
 # Diagnósticos de pedestal DAPHNE FBK SiPM VGAIN 1700
 
+Contexto y estado del programa: [[pedestal-estimation-refactor-status]].
+
 ## Alcance
 
 Validación exploratoria de [[estimatePedestal]] sobre los primeros 3000 registros del canal 24 de:

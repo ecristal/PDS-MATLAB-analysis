@@ -6,6 +6,8 @@ tags: [simulation, noise, psd, matlab]
 
 # `pds.simulation.generateColoredNoise`
 
+Estado del programa de pedestal: [[pedestal-estimation-refactor-status]].
+
 ## Propósito
 
 Genera ruido estacionario real, por filas, a partir de una PSD bilateral en orden FFT.

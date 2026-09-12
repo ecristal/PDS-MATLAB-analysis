@@ -1,6 +1,7 @@
 # `pds.preprocess.estimatePedestal`
 
-Estado: API validada con diagnósticos de calidad de Tarea 6.
+Estado: API validada con diagnósticos de calidad de Tarea 6. Seguimiento global en
+[[pedestal-estimation-refactor-status]].
 
 ## Uso
 
