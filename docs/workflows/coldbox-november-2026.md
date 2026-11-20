@@ -4,17 +4,18 @@ Abre MATLAB desde la raíz de PDS-MATLAB-analysis y ejecuta
 `setupPDSAnalysisPath`. Los ejemplos requieren MATLAB R2025b, 7-Zip,
 Signal Processing Toolbox, Statistics and Machine Learning Toolbox y
 Curve Fitting Toolbox. La ejecución con hilos usa Parallel Computing
-Toolbox. Las rutas de la campaña, los coeficientes del IIR de referencia
-y los resultados se proporcionan desde fuera del repositorio.
+Toolbox. Los registros DAPHNE se leen desde la carpeta de la campaña.
 
 ## Barrido del módulo M3
 
-En MATLAB, asigna a `runRoot` la carpeta `NOVEMBER2026_RUN` y a
-`shaperFile` la ruta del archivo `fit_filter_vars.mat`. El archivo debe
-contener `numz_planta_integrator` y `denz_planta_integrator`. Para usar la
-misma calibración que en el RUN de referencia, se puede recuperar la ruta
-original de `pipeline.mat` con `source.pipeline.shaperFile`, donde
-`source = load(fullfile(referenceRun,"pipeline.mat"),"pipeline")`.
+En MATLAB, asigna a `runRoot` la carpeta `NOVEMBER2026_RUN`. El perfil
+proporciona `cfg.ShaperFile`, que apunta a
+[`november2026_shaper.mat`](../../src/+pds/+coldbox/private/november2026_shaper.mat).
+El archivo contiene los vectores `numz_planta_integrator` y
+`denz_planta_integrator`, idénticos a `bHp` y `aHp` en el `pipeline.mat`
+del RUN de referencia. El notch y el filtro pasa bajos se diseñan a
+partir de los parámetros del barrido. `analyzeScan` también admite la ruta
+a otro archivo de coeficientes para una campaña diferente.
 
 ```matlab
 setupPDSAnalysisPath;
@@ -22,7 +23,7 @@ cfg = pds.coldbox.november2026(runRoot);
 out = fullfile(pwd,"outputs","coldbox-november-2026");
 
 [summary, scanRun, performance] = pds.coldbox.analyzeScan( ...
-    cfg.ScanRoot, shaperFile, out, ...
+    cfg.ScanRoot, cfg.ShaperFile, out, ...
     Vbias=cfg.Vbias, Vgain=cfg.Vgain, Channels=cfg.ScanChannels, ...
     SamplePeriod=cfg.SamplePeriod, AdcBits=cfg.AdcBits, Campaign=cfg.Campaign, ...
     UseParallel=true, MaxWorkers=0, BootstrapCount=100);
@@ -67,7 +68,7 @@ spe = pds.coldbox.reprocessScan(scanRun,fullfile(out,"spe"), ...
     Mode="spe",Vbias=860,Vgain=500,Channels=8);
 
 % Medir serie e hilos con la misma configuración y salidas.
-comparison = pds.coldbox.benchmarkThreads(cfg.ScanRoot,shaperFile,out, ...
+comparison = pds.coldbox.benchmarkThreads(cfg.ScanRoot,cfg.ShaperFile,out, ...
     struct('Vbias',860,'Vgain',500,'Channels',8,'MaxWorkers',0));
 ```
 

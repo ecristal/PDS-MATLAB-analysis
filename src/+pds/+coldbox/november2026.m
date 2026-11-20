@@ -5,6 +5,8 @@ arguments
 end
 config.Campaign = "ColdBox November 2026";
 config.ScanRoot = fullfile(runRoot,'runs','VGAIN_SCANS','M3');
+config.ShaperFile = fullfile(fileparts(mfilename('fullpath')), ...
+    'private','november2026_shaper.mat');
 config.Vbias = [770 783 796 808 821 834 847 860];
 config.Vgain = 500:100:2500;
 config.ScanChannels = [8 9];
