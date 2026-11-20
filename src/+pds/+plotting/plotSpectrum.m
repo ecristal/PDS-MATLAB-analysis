@@ -8,6 +8,7 @@ function lineHandle = plotSpectrum(spectrum, options)
 %   10*log10(PSD/ref^2). MinimumDecibels optionally floors displayed zeros;
 %   its default -Inf preserves the mathematical result. Normalize="peak"
 %   normalizes the selected linear quantity before any dB conversion.
+%   FrequencyUnit selects display in Hz (default) or MHz.
 arguments
     spectrum (1,1) struct
     options.Quantity (1,1) string ...
@@ -16,6 +17,7 @@ arguments
         {mustBeMember(options.Scale, ["linear", "decibel"])} = "linear"
     options.ReferenceValue (1,1) double {mustBePositive, mustBeFinite} = 1
     options.ReferenceLabel (1,1) string = ""
+    options.FrequencyUnit (1,1) string {mustBeMember(options.FrequencyUnit,["Hz","MHz"])} = "Hz"
     options.Normalize (1,1) string ...
         {mustBeMember(options.Normalize, ["none", "peak"])} = "none"
     options.MinimumDecibels (1,1) double = -Inf
@@ -60,8 +62,12 @@ if options.Scale == "decibel"
     plotData = max(plotData, options.MinimumDecibels);
 end
 
-lineHandle = plot(axesHandle, spectrum.frequencyHz, plotData);
-xlabel(axesHandle, 'Frequency (Hz)');
+frequency = spectrum.frequencyHz;
+if options.FrequencyUnit == "MHz"
+    frequency = frequency/1e6;
+end
+lineHandle = plot(axesHandle, frequency, plotData);
+xlabel(axesHandle, sprintf('Frequency (%s)',options.FrequencyUnit));
 if options.Scale == "decibel"
     if options.ReferenceLabel == ""
         referenceLabel = sprintf('dB re %g %s', ...
