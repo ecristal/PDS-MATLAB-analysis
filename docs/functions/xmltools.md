@@ -1,4 +1,5 @@
 ---
+title: xmltools
 type: matlab-function
 status: external-dependency
 review_status: reviewed-static
@@ -6,15 +7,15 @@ review_mode: static
 repo_path: src/data/xmltools.m
 source_path: Scripts_analisis/data/xmltools.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, xml, parser, third-party]
 ---
 
-# xmltools
+[Código fuente MATLAB](../../src/data/xmltools.m)
 
 ## Descripción cualitativa
 
-Parser/escritor XML genérico que representa nodos como estructuras MATLAB con `tag`, `value`, `attribs` y `child`. [[readBinaryDataRSOsc]] lo usa para leer metadatos del osciloscopio.
+Parser/escritor XML genérico que representa nodos como estructuras MATLAB con `tag`, `value`, `attribs` y `child`. [`readBinaryDataRSOsc`](readBinaryDataRSOsc.md) lo usa para leer metadatos del osciloscopio.
 
 ## Firma
 
@@ -46,7 +47,7 @@ No maneja magnitudes físicas. El modelo XML es una estructura recursiva propia 
 - Código antiguo que usa `isstr` y un parser manual en lugar de APIs XML modernas.
 - La firma multimodo y los argumentos posicionales dificultan validación.
 - La compatibilidad con namespaces, encoding, CDATA, entidades y XML moderno debe confirmarse.
-- Su índice posicional es consumido de forma frágil por [[readBinaryDataRSOsc]].
+- Su índice posicional es consumido de forma frágil por [`readBinaryDataRSOsc`](readBinaryDataRSOsc.md).
 - Procedencia/licencia no están documentadas en el repositorio actual.
 - No debe refactorizarse como si fuese código propio antes de resolver attribution/licencia.
 
@@ -68,6 +69,6 @@ Mantener aislado como `external/` o reemplazar por `xmlread`/DOM/u otro parser m
 
 ## Enlaces
 
-- [[readBinaryDataRSOsc]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
+- [`readBinaryDataRSOsc`](readBinaryDataRSOsc.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

@@ -1,4 +1,5 @@
 ---
+title: mi_idtft
 type: matlab-function
 status: compatibility-wrapper
 review_status: tested-runtime
@@ -8,9 +9,9 @@ source_path: Scripts_analisis/data/mi_idtft.m
 tags: [matlab, idft, legacy, compatibility]
 ---
 
-# mi_idtft
+[Código fuente MATLAB](../../src/compat/mi_idtft.m)
 
-Wrapper deprecated que delega en [[inverseDft]].
+Wrapper deprecated que delega en [`inverseDft`](inverseDft.md).
 
 ## Firma
 
@@ -38,7 +39,7 @@ El blob Git se verificó antes y después del movimiento.
 
 ## Enlaces
 
-- [[inverseDft]]
-- [[forwardDft]]
-- [[designOptimalFilter]]
-- [[mi_dft]]
+- [`inverseDft`](inverseDft.md)
+- [`forwardDft`](forwardDft.md)
+- [`designOptimalFilter`](designOptimalFilter.md)
+- [`mi_dft`](mi_dft.md)

@@ -1,4 +1,5 @@
 ---
+title: f_fourier
 type: matlab-function
 status: compatibility-wrapper
 review_status: tested-runtime
@@ -9,11 +10,11 @@ replacement: src/+pds/+signal/computeSpectrum.m
 plot_helper: src/+pds/+plotting/plotSpectrum.m
 source_path: FIUNA/Pasantia-Tesis/MATLAB/f_fourier.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, fft, psd, runtime-validated, compatibility]
 ---
 
-# f_fourier
+[Código fuente MATLAB](../../src/compat/f_fourier.m)
 
 ## Estado actual
 
@@ -187,7 +188,7 @@ El wrapper emite el warning:
 
 La compatibilidad numérica del cálculo no es una reproducción bit a bit del algoritmo original: el wrapper delega en el núcleo corregido, por lo que incorpora el tratamiento par/impar, Parseval, orientación de vectores y política DC de la API nueva. Para reproducir o investigar exactamente el cálculo anterior debe usarse la copia preservada fuera del path.
 
-La rama de interfaz sí conserva convenciones históricas necesarias para no romper consumidores: RMS como vector fila, flags lógicos o `0`/`1`, `normalize` ignorado cuando `doPlot=false` y plotting normalizado con `20*log10` en la figura 3. Estas convenciones se mantienen solo en el wrapper; el código nuevo debe usar [[plotSpectrum]].
+La rama de interfaz sí conserva convenciones históricas necesarias para no romper consumidores: RMS como vector fila, flags lógicos o `0`/`1`, `normalize` ignorado cuando `doPlot=false` y plotting normalizado con `20*log10` en la figura 3. Estas convenciones se mantienen solo en el wrapper; el código nuevo debe usar [`plotSpectrum`](plotSpectrum.md).
 
 Cuando una llamada histórica solicita `"dBFS"`, el wrapper conserva temporalmente la referencia `2^14`. El código nuevo debe proporcionar siempre una referencia explícita a `plotSpectrum`.
 
@@ -200,10 +201,10 @@ Cuando una llamada histórica solicita `"dBFS"`, el wrapper conserva temporalmen
 - Signal Processing Toolbox: 25.2 disponible, pero el núcleo probado usa `fft` y operaciones MATLAB básicas.
 - Ejecución: batch, sin interacción gráfica; las figuras de prueba fueron invisibles.
 
-Comando final:
+Comando final desde la raíz del repositorio:
 
 ```bash
-matlab -batch "cd('C:/Users/e_cri/Documents/Proyectos/PDS-MATLAB-analysis'); results=runtests('tests','IncludeSubfolders',true); assertSuccess(results);"
+matlab -batch "results=runtests('tests','IncludeSubfolders',true); assertSuccess(results);"
 ```
 
 Resultado final:
@@ -264,8 +265,9 @@ Las comparaciones numéricas principales usan tolerancia absoluta `1e-12` con se
 
 ### 1. Configurar el path
 
+Con la raíz del repositorio como carpeta actual de MATLAB:
+
 ```matlab
-addpath('C:\Users\e_cri\Documents\Proyectos\PDS-MATLAB-analysis');
 setupPDSAnalysisPath;
 ```
 
@@ -394,12 +396,12 @@ Esta llamada sigue funcionando, pero emite un warning de deprecación. El códig
 
 ## Limitaciones de la validación de `f_fourier`
 
-- La etapa original de `f_fourier` usó señales sintéticas; la validación DAPHNE experimental se añadió después para [[designOptimalFilter]] y está documentada en [[optimal-filter-daphne-reference]].
+- La etapa original de `f_fourier` usó señales sintéticas; la validación DAPHNE experimental se añadió después para [`designOptimalFilter`](designOptimalFilter.md) y está documentada en `docs/validation/optimal-filter-daphne-reference.md`.
 - No se ejecutó de extremo a extremo `analysis_daphne_data.mlx`.
 - El wrapper conserva deliberadamente la rama histórica `doPlot=true, normalize=true`; esta puede volver a aplicar `20*log10` y producir resultados poco intuitivos, especialmente combinada con `"dBFS"`. No debe usarse en código nuevo.
-- El filtro óptimo fue refactorizado posteriormente con PSD bilateral, regularización explícita y ganancia unitaria; véase [[designOptimalFilter]].
+- El filtro óptimo fue refactorizado posteriormente con PSD bilateral, regularización explícita y ganancia unitaria; véase [`designOptimalFilter`](designOptimalFilter.md).
 - No se realizaron benchmarks de rendimiento o memoria de `f_fourier`.
-- `computeSpectrum` no aplica ventanas ni Welch; las ventanas para estimar ruido se implementan separadamente en [[estimateNoisePsd]].
+- `computeSpectrum` no aplica ventanas ni Welch; las ventanas para estimar ruido se implementan separadamente en [`estimateNoisePsd`](estimateNoisePsd.md).
 - No se comparó `computeSpectrum` con `periodogram`/`pwelch`; su normalización se validó directamente con Parseval.
 
 ## Decisiones resueltas
@@ -413,13 +415,13 @@ Esta llamada sigue funcionando, pero emite un warning de deprecación. El códig
 
 ## Riesgo histórico del filtro óptimo — resuelto en la API nueva
 
-La implementación histórica preservada de [[optimal_filter_for_daphne_gpessina_function]] mezclaba una DFT bilateral con una PSD unilateral y carecía de regularización. El wrapper actual delega en [[designOptimalFilter]], que usa espectros bilaterales de longitud `N`, ventanas configurables y regularización explícita. El Live Script completo aún no se ejecutó de extremo a extremo.
+La implementación histórica preservada de [`optimal_filter_for_daphne_gpessina_function`](optimal_filter_for_daphne_gpessina_function.md) mezclaba una DFT bilateral con una PSD unilateral y carecía de regularización. El wrapper actual delega en [`designOptimalFilter`](designOptimalFilter.md), que usa espectros bilaterales de longitud `N`, ventanas configurables y regularización explícita. El Live Script completo aún no se ejecutó de extremo a extremo.
 
 ## Enlaces
 
-- [[computeSpectrum]]
-- [[plotSpectrum]]
-- [[optimal_filter_for_daphne_gpessina_function]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[setupPDSAnalysisPath]]
+- [`computeSpectrum`](computeSpectrum.md)
+- [`plotSpectrum`](plotSpectrum.md)
+- [`optimal_filter_for_daphne_gpessina_function`](optimal_filter_for_daphne_gpessina_function.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- [`setupPDSAnalysisPath`](setupPDSAnalysisPath.md)

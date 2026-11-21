@@ -1,10 +1,12 @@
 ---
+title: pds.identification.prepareSinglePeTemplate
 type: matlab-function
 status: validated
 tags: [identification, single-pe, preprocessing, matlab]
+repo_path: src/+pds/+identification/prepareSinglePeTemplate.m
 ---
 
-# `pds.identification.prepareSinglePeTemplate`
+[Código fuente MATLAB](../../src/+pds/+identification/prepareSinglePeTemplate.m)
 
 Prepara explícitamente una plantilla promedio 1 SPE antes de identificar modelos.
 

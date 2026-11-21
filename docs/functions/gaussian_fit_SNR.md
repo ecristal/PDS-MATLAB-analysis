@@ -1,4 +1,5 @@
 ---
+title: gaussian_fit_SNR
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/gaussian_fit_SNR.m
 source_path: Scripts_analisis/data/gaussian_fit_SNR.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, snr, gaussian, histogram]
 ---
 
-# gaussian_fit_SNR
+[Código fuente MATLAB](../../src/data/gaussian_fit_SNR.m)
 
 ## Descripción cualitativa
 
@@ -28,7 +29,7 @@ function [mu1, sigma1, mu2, sigma2, delta, SNR, x_hist_plot, ...
 
 ## Responsabilidad dentro del workflow
 
-Proporciona parámetros de poblaciones gaussianas y SNR para caracterización de respuesta/fotoelectrones en [[analysis_daphne_data]].
+Proporciona parámetros de poblaciones gaussianas y SNR para caracterización de respuesta/fotoelectrones en `docs/workflows/analysis_daphne_data.md`.
 
 ## Algoritmo o procedimiento
 
@@ -36,14 +37,14 @@ Proporciona parámetros de poblaciones gaussianas y SNR para caracterización de
 2. Selecciona un rango de cutoff según `eff`.
 3. Prueba filtros Butterworth y desplazamientos, optimizando NRMSE contra el histograma original.
 4. Filtra y desplaza el histograma.
-5. Detecta máximos mediante [[find_peaks_hist_adaptive]].
+5. Detecta máximos mediante [`find_peaks_hist_adaptive`](find_peaks_hist_adaptive.md).
 6. Recorta el intervalo de ajuste.
 7. Configura y ejecuta un modelo `gaussN` con Curve Fitting Toolbox.
 8. Ordena centros, toma los dos primeros y calcula `delta = mu2-mu1`, `SNR = delta/sigma1`.
 
 ## Dependencias
 
-- Local: [[find_peaks_hist_adaptive]].
+- Local: [`find_peaks_hist_adaptive`](find_peaks_hist_adaptive.md).
 - MATLAB/toolboxes: `histogram`, `butter`, `filter`, `goodnessOfFit`, `fitoptions`, `fit` y plotting; implica Signal Processing, Curve Fitting y posiblemente System Identification Toolboxes.
 
 ## Efectos secundarios
@@ -81,6 +82,6 @@ Candidato a dividirse en `+pds/+fitting/fitPhotoelectronPeaks.m` y `+pds/+metric
 
 ## Enlaces
 
-- [[find_peaks_hist_adaptive]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
+- [`find_peaks_hist_adaptive`](find_peaks_hist_adaptive.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

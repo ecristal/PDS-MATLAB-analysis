@@ -1,4 +1,5 @@
 ---
+title: pds.signal.forwardDft
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,7 +7,7 @@ repo_path: src/+pds/+signal/forwardDft.m
 tags: [matlab, dft, fft, spectral]
 ---
 
-# forwardDft
+[Código fuente MATLAB](../../src/+pds/+signal/forwardDft.m)
 
 Transformada discreta directa bilateral optimizada mediante `fft`. Las entradas numéricas enteras —waveform, ventana, `samplePeriod` y `SampleShift`— se validan y convierten explícitamente a `double` antes de las operaciones de punto flotante.
 
@@ -25,7 +26,7 @@ Transformada discreta directa bilateral optimizada mediante `fft`. Las entradas 
 - Para N=8 y Fs=8 Hz: `[0 1 2 3 4 -3 -2 -1]` Hz.
 - `SampleShift=m` equivale a `fft(circshift(waveform.*window,m))`.
 - Una ventana numérica se multiplica realmente por la señal.
-- No calcula PSD; usar [[estimateNoisePsd]] o [[computeSpectrum]].
+- No calcula PSD; usar [`estimateNoisePsd`](estimateNoisePsd.md) o [`computeSpectrum`](computeSpectrum.md).
 
 ## Ejemplos
 
@@ -55,8 +56,8 @@ w = pds.signal.createWindow(numel(waveform), "tukey", TukeyRatio=0.25);
 
 ## Enlaces
 
-- [[inverseDft]]
-- [[createWindow]]
-- [[estimateNoisePsd]]
-- [[mi_dft]]
-- [[designOptimalFilter]]
+- [`inverseDft`](inverseDft.md)
+- [`createWindow`](createWindow.md)
+- [`estimateNoisePsd`](estimateNoisePsd.md)
+- [`mi_dft`](mi_dft.md)
+- [`designOptimalFilter`](designOptimalFilter.md)

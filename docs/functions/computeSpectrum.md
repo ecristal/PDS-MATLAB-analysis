@@ -1,18 +1,19 @@
 ---
+title: pds.signal.computeSpectrum
 type: matlab-function
 status: project-api
 review_status: tested-runtime
 review_mode: [static, runtime]
 repo_path: src/+pds/+signal/computeSpectrum.m
-replaces: "[[f_fourier]]"
+replaces: src/compat/f_fourier.m
 tags: [matlab, fft, psd, rms, pds, runtime-validated]
 ---
-
-# computeSpectrum
 
 ## Propósito
 
 Núcleo numérico namespaced que calcula espectro de amplitud, PSD, media FFT coherente y RMS sin realizar plotting ni conversión a dB.
+
+[Código fuente MATLAB](../../src/+pds/+signal/computeSpectrum.m)
 
 ## Firma
 
@@ -93,6 +94,8 @@ Casos cubiertos:
 
 ## Ejemplo mínimo
 
+Ejecuta el ejemplo después de [preparar MATLAB](../workflows/index.md#preparar-matlab).
+
 ```matlab
 Fs = 62.5e6;
 Tm = 1/Fs;
@@ -111,8 +114,8 @@ spectrum = pds.signal.computeSpectrum(waveform, Tm, ...
 - Sin detrending lineal: solo eliminación de media.
 - Aún sin baseline experimental DAPHNE.
 
-## Enlaces
+## Funciones relacionadas
 
-- [[f_fourier]]
-- [[plotSpectrum]]
-- [[optimal_filter_for_daphne_gpessina_function]]
+- [`pds.plotting.plotSpectrum`](plotSpectrum.md) grafica la amplitud o la PSD devuelta por `computeSpectrum`.
+- [`f_fourier`](f_fourier.md) conserva la interfaz espectral histórica.
+- [`optimal_filter_for_daphne_gpessina_function`](optimal_filter_for_daphne_gpessina_function.md) conserva la interfaz histórica del filtro óptimo.

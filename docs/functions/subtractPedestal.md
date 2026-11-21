@@ -1,4 +1,9 @@
-# `pds.preprocess.subtractPedestal`
+---
+title: pds.preprocess.subtractPedestal
+repo_path: src/+pds/+preprocess/subtractPedestal.m
+---
+
+[Código fuente MATLAB](../../src/+pds/+preprocess/subtractPedestal.m)
 
 Sustrae niveles de pedestal ya conocidos sin volver a estimarlos.
 

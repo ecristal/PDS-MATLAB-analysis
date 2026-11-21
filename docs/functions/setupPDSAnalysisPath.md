@@ -1,4 +1,5 @@
 ---
+title: setupPDSAnalysisPath
 type: matlab-function
 status: repository-utility
 review_status: tested-runtime
@@ -6,11 +7,9 @@ review_mode: [static, runtime]
 repo_path: setupPDSAnalysisPath.m
 source_path: repository-created
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, path, setup, repository, runtime-validated]
 ---
-
-# setupPDSAnalysisPath
 
 ## Descripción cualitativa
 
@@ -45,8 +44,9 @@ El orden de inserción deja `src/compat` con precedencia para que `f_fourier` re
 
 ## Uso
 
+Con la raíz del repositorio como carpeta actual de MATLAB:
+
 ```matlab
-addpath('C:\Users\e_cri\Documents\Proyectos\PDS-MATLAB-analysis');
 addedPaths = setupPDSAnalysisPath();
 ```
 
@@ -87,9 +87,9 @@ Modifica el path de la sesión MATLAB y escribe feedback en consola. No usa `sav
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[STAGED_ANALYSIS_DAPHNE_DATA]]
-- [[f_fourier]]
-- [[computeSpectrum]]
-- [[plotSpectrum]]
-- [[DOCUMENTATION_GUIDE]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/STAGED_ANALYSIS_DAPHNE_DATA.md`
+- [`f_fourier`](f_fourier.md)
+- [`computeSpectrum`](computeSpectrum.md)
+- [`plotSpectrum`](plotSpectrum.md)
+- `docs/DOCUMENTATION_GUIDE.md`

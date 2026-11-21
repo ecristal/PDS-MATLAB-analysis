@@ -1,4 +1,5 @@
 ---
+title: pds.identification.estimateContinuousTransferFunction
 type: matlab-function
 status: tracer-bullet-validated
 tags:
@@ -6,9 +7,10 @@ tags:
   - transfer-function
   - continuous-time
   - matlab
+repo_path: src/+pds/+identification/estimateContinuousTransferFunction.m
 ---
 
-# `pds.identification.estimateContinuousTransferFunction`
+[Código fuente MATLAB](../../src/+pds/+identification/estimateContinuousTransferFunction.m)
 
 ## Propósito
 
@@ -138,10 +140,10 @@ rmse, nrmse, bic, aicc, stable, valid, failureMessage
 ## Preparación y evaluación científica
 
 La preparación de baseline, polaridad y normalización 1 SPE se realiza mediante
-[[prepareSinglePeTemplate]]. Las métricas de pico, undershoot, área negativa,
+[`prepareSinglePeTemplate`](prepareSinglePeTemplate.md). Las métricas de pico, undershoot, área negativa,
 cola, entrada en banda y asentamiento final se calculan mediante
-[[evaluateTransferFunctionResponse]]. El plotting reusable vive en
-[[plotTransferFunctionEstimate]]. Ninguna de estas etapas queda oculta dentro
+[`evaluateTransferFunctionResponse`](evaluateTransferFunctionResponse.md). El plotting reusable vive en
+[`plotTransferFunctionEstimate`](plotTransferFunctionEstimate.md). Ninguna de estas etapas queda oculta dentro
 del identificador.
 
 `TrainingSampleCount` no convierte una sola plantilla promedio en un holdout
@@ -181,6 +183,6 @@ congelado, sin usar waveforms individuales ni suavizado.
 
 ## Relacionado
 
-- [[estimateDiscreteTransferFunction]]
-- [[np02-transfer-function-estimation]]
-- [[iir-daphne-fbk-vgain-1700]]
+- [`estimateDiscreteTransferFunction`](estimateDiscreteTransferFunction.md)
+- `docs/legacy/np02-transfer-function-estimation.md`
+- `docs/validation/iir-daphne-fbk-vgain-1700.md`

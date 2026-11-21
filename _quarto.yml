@@ -1,0 +1,36 @@
+project:
+  type: website
+  output-dir: outputs/docs-html
+  render:
+    - index.qmd
+    - /docs/functions/*.md
+    - docs/workflows/index.md
+    - docs/validation/index.md
+  resources:
+    - /src/+pds/+*/*.m
+    - /src/compat/*.m
+    - /src/daphne/*.m
+    - /src/data/*.m
+
+website:
+  title: PDS-MATLAB-analysis
+  search: true
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: docs/functions/index.md
+        text: Referencia MATLAB
+      - href: docs/workflows/index.md
+        text: Guías de análisis
+      - href: docs/validation/index.md
+        text: Validación
+
+lang: es
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-copy: true
+    highlight-style: pygments

@@ -1,7 +1,12 @@
-# `pds.preprocess.estimatePedestal`
+---
+title: pds.preprocess.estimatePedestal
+repo_path: src/+pds/+preprocess/estimatePedestal.m
+---
+
+[Código fuente MATLAB](../../src/+pds/+preprocess/estimatePedestal.m)
 
 Estado: API validada con diagnósticos de calidad de Tarea 6. Seguimiento global en
-[[pedestal-estimation-refactor-status]].
+`docs/status/pedestal-estimation-refactor-status.md`.
 
 ## Uso
 

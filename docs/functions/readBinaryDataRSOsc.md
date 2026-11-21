@@ -1,4 +1,5 @@
 ---
+title: readBinaryDataRSOsc
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/readBinaryDataRSOsc.m
 source_path: Scripts_analisis/data/readBinaryDataRSOsc.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, io, oscilloscope, rohde-schwarz, xml]
 ---
 
-# readBinaryDataRSOsc
+[Código fuente MATLAB](../../src/data/readBinaryDataRSOsc.m)
 
 ## Descripción cualitativa
 
@@ -24,7 +25,7 @@ function data = readBinaryDataRSOsc(dataInfo_filename, dataWaveform_filename)
 
 ## Algoritmo o procedimiento
 
-1. Parsea XML con [[xmltools]].
+1. Parsea XML con [`xmltools`](xmltools.md).
 2. Extrae record lengths, resolución, formato, impedancia y muestras de settling mediante índices de hijos/atributos.
 3. Deriva el tipo para `fread` desde el string de formato.
 4. Lee el binario, descarta las dos primeras palabras y calcula cantidad de waveforms.
@@ -33,7 +34,7 @@ function data = readBinaryDataRSOsc(dataInfo_filename, dataWaveform_filename)
 
 ## Dependencias
 
-Local: [[xmltools]]. MATLAB: IO binario, strings, reshape y mean.
+Local: [`xmltools`](xmltools.md). MATLAB: IO binario, strings, reshape y mean.
 
 ## Efectos secundarios
 
@@ -41,7 +42,7 @@ Abre y cierra archivos de entrada. No escribe resultados.
 
 ## Supuestos, unidades y dimensiones
 
-- `Resolution` se interpreta en [[analysis_daphne_data]] como período temporal.
+- `Resolution` se interpreta en `docs/workflows/analysis_daphne_data.md` como período temporal.
 - Todos los records tienen igual longitud.
 - El binario contiene dos valores iniciales a descartar.
 
@@ -71,6 +72,6 @@ Candidato a `+pds/+io/readRsOscilloscopeBinary.m`, con parser por nombre de tag/
 
 ## Enlaces
 
-- [[xmltools]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
+- [`xmltools`](xmltools.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

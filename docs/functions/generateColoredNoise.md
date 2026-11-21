@@ -1,12 +1,14 @@
 ---
+title: pds.simulation.generateColoredNoise
 type: matlab-function
 status: validated
 tags: [simulation, noise, psd, matlab]
+repo_path: src/+pds/+simulation/generateColoredNoise.m
 ---
 
-# `pds.simulation.generateColoredNoise`
+[Código fuente MATLAB](../../src/+pds/+simulation/generateColoredNoise.m)
 
-Estado del programa de pedestal: [[pedestal-estimation-refactor-status]].
+Estado del programa de pedestal: `docs/status/pedestal-estimation-refactor-status.md`.
 
 ## Propósito
 

@@ -1,4 +1,5 @@
 ---
+title: pds.signal.inverseDft
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,7 +7,7 @@ repo_path: src/+pds/+signal/inverseDft.m
 tags: [matlab, idft, ifft, spectral]
 ---
 
-# inverseDft
+[Código fuente MATLAB](../../src/+pds/+signal/inverseDft.m)
 
 Transformada discreta inversa optimizada mediante `ifft`. MATLAB convierte las entradas numéricas enteras a salida `double`; la API conserva siempre una fila canónica.
 
@@ -47,6 +48,6 @@ La función histórica `mi_idtft` implementaba una IDFT finita, no una DTFT inve
 
 ## Enlaces
 
-- [[forwardDft]]
-- [[mi_idtft]]
-- [[designOptimalFilter]]
+- [`forwardDft`](forwardDft.md)
+- [`mi_idtft`](mi_idtft.md)
+- [`designOptimalFilter`](designOptimalFilter.md)

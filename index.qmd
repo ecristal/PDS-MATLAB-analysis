@@ -1,0 +1,23 @@
+---
+title: PDS-MATLAB-analysis
+toc: false
+---
+
+Herramientas MATLAB para importar waveforms de DAPHNE y analizar su contenido espectral.
+
+## Referencia MATLAB
+
+[Explorar todas las fichas por área](docs/functions/index.md).
+
+- [`pds.io.DaphneWaveformReader`](docs/functions/DaphneWaveformReader.md) lee waveforms de DAPHNE.
+- [`pds.signal.computeSpectrum`](docs/functions/computeSpectrum.md) calcula el espectro de amplitud y la PSD.
+- [`pds.plotting.plotSpectrum`](docs/functions/plotSpectrum.md) grafica el espectro de amplitud o la PSD.
+
+## Guías de análisis
+
+- [Preparar MATLAB](docs/workflows/index.md#preparar-matlab) para usar las funciones del repositorio.
+- [Compilar la documentación](docs/workflows/index.md#compilar-la-documentacion) y abrir la vista previa local.
+
+## Validación
+
+- [Evidencia en MATLAB R2025b](docs/validation/index.md) para la lectura de waveforms y las funciones de espectro.

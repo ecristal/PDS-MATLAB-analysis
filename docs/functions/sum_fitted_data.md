@@ -1,4 +1,5 @@
 ---
+title: sum_fitted_data
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/daphne/sum_fitted_data.m
 source_path: Scripts_analisis/daphne/sum_fitted_data.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, fitting, gaussian, daphne]
 ---
 
-# sum_fitted_data
+[Código fuente MATLAB](../../src/daphne/sum_fitted_data.m)
 
 ## Descripción cualitativa
 
@@ -78,6 +79,6 @@ Candidato a `+pds/+fitting/combineGaussianComponents.m` si se confirma que esta 
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[MATLAB_SCRIPT_CATALOG]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- `docs/catalog/MATLAB_SCRIPT_CATALOG.md`

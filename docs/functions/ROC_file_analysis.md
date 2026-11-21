@@ -1,4 +1,5 @@
 ---
+title: ROC_file_analysis
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/ROC_file_analysis.m
 source_path: Scripts_analisis/data/ROC_file_analysis.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, roc, trigger, metrics]
 ---
 
-# ROC_file_analysis
+[Código fuente MATLAB](../../src/data/ROC_file_analysis.m)
 
 ## Descripción cualitativa
 
@@ -81,6 +82,6 @@ Candidato a `+pds/+metrics/analyzeRocSweep.m`, conservando una definición docum
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[MATLAB_SCRIPT_CATALOG]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- `docs/catalog/MATLAB_SCRIPT_CATALOG.md`

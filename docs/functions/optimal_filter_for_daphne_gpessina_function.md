@@ -1,4 +1,5 @@
 ---
+title: optimal_filter_for_daphne_gpessina_function
 type: matlab-function
 status: compatibility-wrapper
 review_status: tested-runtime
@@ -8,9 +9,9 @@ source_path: Scripts_analisis/data/optimal_filter_for_daphne_gpessina_function.m
 tags: [matlab, optimal-filter, legacy, compatibility]
 ---
 
-# optimal_filter_for_daphne_gpessina_function
+[Código fuente MATLAB](../../src/compat/optimal_filter_for_daphne_gpessina_function.m)
 
-Wrapper deprecated para las firmas históricas de cinco a ocho argumentos. El código nuevo debe usar [[designOptimalFilter]] y [[applyOptimalFilter]].
+Wrapper deprecated para las firmas históricas de cinco a ocho argumentos. El código nuevo debe usar [`designOptimalFilter`](designOptimalFilter.md) y [`applyOptimalFilter`](applyOptimalFilter.md).
 
 ## Firma legacy
 
@@ -56,18 +57,18 @@ reference/noise
   -> scores/histogram
 ```
 
-Soporta ruido blanco, medido, PSD proporcionada, estimación desde pedestal, AR(1), power law, ventanas configurables y regularización explícita. Véase [[designOptimalFilter]].
+Soporta ruido blanco, medido, PSD proporcionada, estimación desde pedestal, AR(1), power law, ventanas configurables y regularización explícita. Véase [`designOptimalFilter`](designOptimalFilter.md).
 
 ## Evidencia
 
 - `TestOptimalFilterCompatibility`: 5 tests sobre firmas de 5–8 argumentos, respuesta unitaria, errores explícitos y wrappers DFT/IDFT.
 - `TestDesignOptimalFilter`: 11 tests de modelos, normalización, preservación de pedestal y entradas/opciones enteras.
-- [[optimal-filter-daphne-reference]]: test con 30,000 waveforms reales.
+- `docs/validation/optimal-filter-daphne-reference.md`: test con 30,000 waveforms reales.
 
 ## Enlaces
 
-- [[designOptimalFilter]]
-- [[applyOptimalFilter]]
-- [[estimateNoisePsd]]
-- [[mi_dft]]
-- [[mi_idtft]]
+- [`designOptimalFilter`](designOptimalFilter.md)
+- [`applyOptimalFilter`](applyOptimalFilter.md)
+- [`estimateNoisePsd`](estimateNoisePsd.md)
+- [`mi_dft`](mi_dft.md)
+- [`mi_idtft`](mi_idtft.md)

@@ -1,4 +1,5 @@
 ---
+title: pds.signal.applyOptimalFilter
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,9 +7,9 @@ repo_path: src/+pds/+signal/applyOptimalFilter.m
 tags: [matlab, optimal-filter, fir, daphne]
 ---
 
-# applyOptimalFilter
+[Código fuente MATLAB](../../src/+pds/+signal/applyOptimalFilter.m)
 
-Aplica coeficientes FIR producidos por [[designOptimalFilter]] a waveforms alineados. Las entradas numéricas enteras se convierten a `double` antes de corregir pedestal y filtrar.
+Aplica coeficientes FIR producidos por [`designOptimalFilter`](designOptimalFilter.md) a waveforms alineados. Las entradas numéricas enteras se convierten a `double` antes de corregir pedestal y filtrar.
 
 ## Firma
 
@@ -49,5 +50,5 @@ Waveforms filtrados completos:
 
 ## Enlaces
 
-- [[designOptimalFilter]]
-- [[optimal-filter-daphne-reference]]
+- [`designOptimalFilter`](designOptimalFilter.md)
+- `docs/validation/optimal-filter-daphne-reference.md`

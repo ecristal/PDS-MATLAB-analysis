@@ -1,4 +1,5 @@
 ---
+title: import_data_daphne_func
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/daphne/import_data_daphne_func.m
 source_path: Scripts_analisis/daphne/import_data_daphne_func.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, io, waveform, daphne]
 ---
 
-# import_data_daphne_func
+[Código fuente MATLAB](../../src/daphne/import_data_daphne_func.m)
 
 ## Descripción cualitativa
 
@@ -25,7 +26,7 @@ function [data, mean_data, Tm] = import_data_daphne_func( ...
 
 ## Responsabilidad dentro del workflow
 
-Es el lector de bajo nivel utilizado por [[extract_and_import_DAPHNE_data]].
+Es el lector de bajo nivel utilizado por [`extract_and_import_DAPHNE_data`](extract_and_import_DAPHNE_data.md).
 
 ## Entradas y salidas
 
@@ -49,7 +50,7 @@ Es el lector de bajo nivel utilizado por [[extract_and_import_DAPHNE_data]].
 
 ## Dependencias
 
-Funciones MATLAB de IO y manipulación matricial. Es llamada por [[extract_and_import_DAPHNE_data]].
+Funciones MATLAB de IO y manipulación matricial. Es llamada por [`extract_and_import_DAPHNE_data`](extract_and_import_DAPHNE_data.md).
 
 ## Efectos secundarios y rutas hard-coded
 
@@ -85,6 +86,7 @@ Candidato a `+pds/+io/readDaphneDat.m`, con ruta explícita, validación de tama
 
 ## Enlaces
 
-- [[extract_and_import_DAPHNE_data]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
+- [`DaphneWaveformReader`](DaphneWaveformReader.md) — lectura individual de waveforms desde un `.dat` binario.
+- [`extract_and_import_DAPHNE_data`](extract_and_import_DAPHNE_data.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

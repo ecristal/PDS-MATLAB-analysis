@@ -1,4 +1,5 @@
 ---
+title: pds.signal.estimateNoisePsd
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,7 +7,7 @@ repo_path: src/+pds/+signal/estimateNoisePsd.m
 tags: [matlab, psd, noise, tukey, colored-noise]
 ---
 
-# estimateNoisePsd
+[Código fuente MATLAB](../../src/+pds/+signal/estimateNoisePsd.m)
 
 Estima una PSD de ruido bilateral a partir de waveforms por filas. Las matrices numéricas, `samplePeriod` y `TukeyRatio` enteros se convierten explícitamente a `double` antes de remover media, ventanear y aplicar FFT.
 
@@ -55,7 +56,7 @@ psdTukey = pds.signal.estimateNoisePsd( ...
 
 ## Enlaces
 
-- [[createWindow]]
-- [[computeSpectrum]]
-- [[designOptimalFilter]]
-- [[optimal-filter-daphne-reference]]
+- [`createWindow`](createWindow.md)
+- [`computeSpectrum`](computeSpectrum.md)
+- [`designOptimalFilter`](designOptimalFilter.md)
+- `docs/validation/optimal-filter-daphne-reference.md`

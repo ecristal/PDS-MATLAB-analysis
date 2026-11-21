@@ -1,13 +1,15 @@
 ---
+title: pds.simulation.generateEventTrain
 type: matlab-function
 status: validated-isolated
 tags: [simulation, poisson, multiplicity, dark-counts, disturbances, ground-truth, matlab]
+repo_path: src/+pds/+simulation/generateEventTrain.m
 ---
 
-# `pds.simulation.generateEventTrain`
+[Código fuente MATLAB](../../src/+pds/+simulation/generateEventTrain.m)
 
-Estado del programa de pedestal: [[pedestal-estimation-refactor-status]].
-Cierre y alcance de la auditoría: [[task12-audit-closure]].
+Estado del programa de pedestal: `docs/status/pedestal-estimation-refactor-status.md`.
+Cierre y alcance de la auditoría: `docs/status/task12-audit-closure.md`.
 Esta actualización de estado documental es posterior al snapshot auditado;
 producción y tests permanecen sin cambios.
 

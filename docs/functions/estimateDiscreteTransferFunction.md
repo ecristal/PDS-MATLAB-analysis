@@ -1,4 +1,5 @@
 ---
+title: pds.identification.estimateDiscreteTransferFunction
 type: matlab-function
 status: tracer-bullet-validated
 tags:
@@ -7,9 +8,10 @@ tags:
   - discrete-time
   - inverse-z
   - matlab
+repo_path: src/+pds/+identification/estimateDiscreteTransferFunction.m
 ---
 
-# `pds.identification.estimateDiscreteTransferFunction`
+[Código fuente MATLAB](../../src/+pds/+identification/estimateDiscreteTransferFunction.m)
 
 ## Propósito
 
@@ -76,7 +78,7 @@ Los criterios disponibles son:
 - `"bic"`;
 - `"aicc"`.
 
-Los diagnósticos y validaciones son los mismos que en [[estimateContinuousTransferFunction]]. La tabla por candidato incluye fit, RMSE, NRMSE, BIC, AICc, estabilidad, validez y mensaje de fallo. `valid` no depende de que AICc sea finita; cada criterio usa solamente el score que necesita.
+Los diagnósticos y validaciones son los mismos que en [`estimateContinuousTransferFunction`](estimateContinuousTransferFunction.md). La tabla por candidato incluye fit, RMSE, NRMSE, BIC, AICc, estabilidad, validez y mensaje de fallo. `valid` no depende de que AICc sea finita; cada criterio usa solamente el score que necesita.
 
 El conteo de coeficientes libres usado para BIC/AICc es:
 
@@ -112,12 +114,12 @@ Esto no equivale a un holdout independiente entre eventos.
 - La recuperación exacta del delay está probada con una respuesta impulsional sintética conocida.
 - Las métricas específicas de pico, undershoot, área negativa, cola, primera
   entrada en banda y asentamiento final se proporcionan mediante
-  [[evaluateTransferFunctionResponse]], pero no participan todavía en la
+  [`evaluateTransferFunctionResponse`](evaluateTransferFunctionResponse.md), pero no participan todavía en la
   selección de candidatos.
 - La equivalencia `filter(B,A,u)` está verificada sobre un IIR sintético y existe una integración específica DAPHNE FBK SiPM, VGAIN 1700. Esa integración no constituye aprobación científica general.
 - No se realiza normalización de 1 SPE ni sustracción de baseline dentro de esta función.
 - En DAPHNE, la estimación usa el waveform promedio congelado preparado con
-  [[prepareSinglePeTemplate]]; no usa waveforms individuales ni suavizado.
+  [`prepareSinglePeTemplate`](prepareSinglePeTemplate.md); no usa waveforms individuales ni suavizado.
 
 ## Evidencia del snapshot candidato — 2026-08-14
 
@@ -141,6 +143,6 @@ Esto no equivale a un holdout independiente entre eventos.
 
 ## Relacionado
 
-- [[estimateContinuousTransferFunction]]
-- [[np02-transfer-function-estimation]]
-- [[iir-daphne-fbk-vgain-1700]]
+- [`estimateContinuousTransferFunction`](estimateContinuousTransferFunction.md)
+- `docs/legacy/np02-transfer-function-estimation.md`
+- `docs/validation/iir-daphne-fbk-vgain-1700.md`

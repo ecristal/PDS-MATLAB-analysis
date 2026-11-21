@@ -1,4 +1,5 @@
 ---
+title: fit2SPE
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/fit2SPE.m
 source_path: Scripts_analisis/data/fit2SPE.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, spe, fitting, filter]
 ---
 
-# fit2SPE
+[Código fuente MATLAB](../../src/data/fit2SPE.m)
 
 ## Descripción cualitativa
 
@@ -73,6 +74,6 @@ Candidato a `+pds/+fitting/fitSinglePhotoelectronTemplate.m`, separando cálculo
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[MATLAB_SCRIPT_CATALOG]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- `docs/catalog/MATLAB_SCRIPT_CATALOG.md`

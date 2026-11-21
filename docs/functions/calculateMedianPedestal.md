@@ -1,4 +1,5 @@
 ---
+title: calculateMedianPedestal
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/daphne/calculateMedianPedestal.m
 source_path: Scripts_analisis/daphne/calculateMedianPedestal.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, pedestal, preprocessing, daphne]
 ---
 
-# calculateMedianPedestal
+[Código fuente MATLAB](../../src/daphne/calculateMedianPedestal.m)
 
 ## Descripción cualitativa
 
@@ -25,7 +26,7 @@ function [pedestal, pedestal_25, pedestal_75, out_seed] = ...
 
 ## Responsabilidad dentro del workflow
 
-[[analysis_daphne_data]] la utiliza para caracterizar el nivel de pedestal y su dispersión antes de integrar o filtrar waveforms.
+`docs/workflows/analysis_daphne_data.md` la utiliza para caracterizar el nivel de pedestal y su dispersión antes de integrar o filtrar waveforms.
 
 ## Entradas
 
@@ -88,6 +89,6 @@ Candidato a una función de preprocesamiento, por ejemplo `+pds/+preprocess/esti
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[MATLAB_SCRIPT_CATALOG]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- `docs/catalog/MATLAB_SCRIPT_CATALOG.md`

@@ -1,4 +1,5 @@
 ---
+title: pds.signal.createWindow
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,7 +7,7 @@ repo_path: src/+pds/+signal/createWindow.m
 tags: [matlab, window, tukey, hann, hamming]
 ---
 
-# createWindow
+[Código fuente MATLAB](../../src/+pds/+signal/createWindow.m)
 
 Genera ventanas espectrales sin requerir funciones de toolbox. Los vectores numéricos personalizados, `sampleCount` y `TukeyRatio`, incluidas clases enteras, se validan y convierten a `double`.
 
@@ -38,8 +39,8 @@ w = pds.signal.createWindow(2048, "tukey", TukeyRatio=0.25);
 
 ## Uso físico
 
-- Para PSD, la corrección de potencia es `sum(window.^2)`; [[estimateNoisePsd]] la aplica automáticamente.
-- Ventanear una plantilla modifica su forma. [[designOptimalFilter]] no aplica una ventana a la señal de referencia silenciosamente.
+- Para PSD, la corrección de potencia es `sum(window.^2)`; [`estimateNoisePsd`](estimateNoisePsd.md) la aplica automáticamente.
+- Ventanear una plantilla modifica su forma. [`designOptimalFilter`](designOptimalFilter.md) no aplica una ventana a la señal de referencia silenciosamente.
 - La ventana apropiada depende de estacionariedad, discontinuidades en bordes y fuga espectral.
 
 ## Evidencia
@@ -48,6 +49,6 @@ w = pds.signal.createWindow(2048, "tukey", TukeyRatio=0.25);
 
 ## Enlaces
 
-- [[estimateNoisePsd]]
-- [[forwardDft]]
-- [[designOptimalFilter]]
+- [`estimateNoisePsd`](estimateNoisePsd.md)
+- [`forwardDft`](forwardDft.md)
+- [`designOptimalFilter`](designOptimalFilter.md)

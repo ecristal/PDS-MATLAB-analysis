@@ -1,4 +1,5 @@
 ---
+title: my_gaussian_fit
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/my_gaussian_fit.m
 source_path: Scripts_analisis/data/my_gaussian_fit.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, fitting, gaussian]
 ---
 
-# my_gaussian_fit
+[Código fuente MATLAB](../../src/data/my_gaussian_fit.m)
 
 ## Descripción cualitativa
 
@@ -75,6 +76,6 @@ Candidato a `+pds/+fitting/fitGaussianPeak.m`, separando índice del bin y valor
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[gaussian_fit_SNR]]
-- [[analysis_daphne_data_dependencies]]
+- `docs/workflows/analysis_daphne_data.md`
+- [`gaussian_fit_SNR`](gaussian_fit_SNR.md)
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

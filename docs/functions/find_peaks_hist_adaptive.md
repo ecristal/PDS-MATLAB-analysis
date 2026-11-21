@@ -1,4 +1,5 @@
 ---
+title: find_peaks_hist_adaptive
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/find_peaks_hist_adaptive.m
 source_path: Scripts_analisis/data/find_peaks_hist_adaptive.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, histogram, peaks, signal-processing]
 ---
 
-# find_peaks_hist_adaptive
+[Código fuente MATLAB](../../src/data/find_peaks_hist_adaptive.m)
 
 ## Descripción cualitativa
 
@@ -78,6 +79,6 @@ Candidato a `+pds/+signal/findHistogramPeaks.m`, acompañado por parámetros de 
 
 ## Enlaces
 
-- [[gaussian_fit_SNR]]
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
+- [`gaussian_fit_SNR`](gaussian_fit_SNR.md)
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

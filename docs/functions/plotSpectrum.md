@@ -1,18 +1,19 @@
 ---
+title: pds.plotting.plotSpectrum
 type: matlab-function
 status: project-api
 review_status: tested-runtime
 review_mode: [static, runtime]
 repo_path: src/+pds/+plotting/plotSpectrum.m
-input: "[[computeSpectrum]]"
+input: pds.signal.computeSpectrum
 tags: [matlab, plotting, spectrum, decibel, runtime-validated]
 ---
 
-# plotSpectrum
-
 ## Propósito
 
-Visualiza amplitud o PSD producida por [[computeSpectrum]] sin modificar la estructura numérica original.
+Visualiza amplitud o PSD producida por [`pds.signal.computeSpectrum`](computeSpectrum.md) sin modificar la estructura numérica original.
+
+[Código fuente MATLAB](../../src/+pds/+plotting/plotSpectrum.m)
 
 ## Firma
 
@@ -54,6 +55,8 @@ Los valores cero producen `-Inf` por defecto. `MinimumDecibels` permite aplicar 
 
 ## Ejemplo dBFS
 
+Para obtener `spectrum`, ejecuta el [ejemplo mínimo de `computeSpectrum`](computeSpectrum.md#ejemplo-mínimo).
+
 ```matlab
 pds.plotting.plotSpectrum(spectrum, ...
     Quantity="amplitude", ...
@@ -64,6 +67,8 @@ pds.plotting.plotSpectrum(spectrum, ...
 ```
 
 ## Ejemplo PSD lineal
+
+Calcula primero `noiseSpectrum` con `computeSpectrum` a partir de los registros de ruido y su período de muestreo.
 
 ```matlab
 figure;
@@ -172,7 +177,7 @@ Casos cubiertos:
 - No selecciona automáticamente dBFS/dBV.
 - El caller conserva responsabilidad sobre la referencia física correcta.
 
-## Enlaces
+## Funciones relacionadas
 
-- [[computeSpectrum]]
-- [[f_fourier]]
+- [`pds.signal.computeSpectrum`](computeSpectrum.md) calcula la estructura que recibe `plotSpectrum`.
+- [`f_fourier`](f_fourier.md) conserva la interfaz espectral histórica.

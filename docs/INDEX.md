@@ -30,6 +30,8 @@ La documentación cubre el workflow histórico `analysis_daphne_data.mlx` y las 
 
 ## Ingesta y acceso a datos
 
+- [[DaphneWaveformReader]] — lectura por waveform de archivos DAPHNE `.dat` y `.7z`, con longitud explícita o de los metadatos.
+- [[readDaqNpz]] / [[daq-npz-import]] — lector MATLAB y auditoría de la calibración DAQ NPZ de noviembre de 2026.
 - [[extract_and_import_DAPHNE_data]]
 - [[import_data_daphne_func]]
 - [[getDataFromWafflesPickleFile]]
@@ -49,6 +51,7 @@ La documentación cubre el workflow histórico `analysis_daphne_data.mlx` y las 
 ## Procesamiento espectral y filtrado
 
 - [[designOptimalFilter]] — diseño autoritativo: ruido blanco, coloreado medido/estimado/proporcionado, AR(1) y 1/f.
+- [[designCovarianceOptimalFilter]] — filtro de covarianza temporal completa con shrinkage y prior de ruido independiente.
 - [[applyOptimalFilter]] — aplicación FIR y scores por evento.
 - [[estimateNoisePsd]] — PSD bilateral con corrección de ventana.
 - [[createWindow]] — Tukey, Hann, Hamming, rectangular y ventanas numéricas.
@@ -56,6 +59,11 @@ La documentación cubre el workflow histórico `analysis_daphne_data.mlx` y las 
 - [[optimal_filter_for_daphne_gpessina_function]] — wrapper legacy deprecated.
 - [[mi_dft]] / [[mi_idtft]] — wrappers deprecated y referencias preservadas.
 - [[optimal-filter-daphne-reference]] — validación con 30,000 waveforms DAPHNE y SNR.
+- [[coldbox-m3-november2025-legacy-reproduction]] — reproducción ColdBox M3 CH28 con pedestal en muestras 1:100 y SNR > 5.
+- [[coldbox-m3-legacy-contract-comparison]] — comparación November 2025/September 2026 bajo un contrato de shaping y ajuste idéntico.
+- [[coldbox-september2026-legacy-survey]] — análisis legacy de los 12 canales M1--M6, con low-pass solo para M3/M4 y average single-P.E.
+- [[coldbox-september2026-pof-comparison]] — PoF_OFF/OLD/NEW/ALL comparison for M3 and M6, including fits and an SNR bar-chart summary.
+- [[coldbox-m3-covariance-optimal-filter]] — contrato común con pedestal robusto, rechazo de waveforms espurios y prior de ruido dedicado.
 - [[f_fourier]] — wrapper legacy, resultados de tests y ejemplos completos.
 - [[computeSpectrum]] — API numérica namespaced y validada.
 - [[plotSpectrum]] — visualización lineal/dB con referencia explícita.
@@ -64,7 +72,12 @@ La documentación cubre el workflow histórico `analysis_daphne_data.mlx` y las 
 
 La mayor parte del workflow histórico continúa en `review_mode: static`. Las APIs espectrales y de filtro óptimo ya cuentan con validación runtime aislada en MATLAB R2025b Update 3.
 
-Resultados actuales:
+Última ejecución completa en MATLAB R2025b:
+
+- Total: **190/190 tests aprobados**, 0 fallos y 0 incompletos.
+- `checkcode`: 0 mensajes sobre el código y los tests del contrato ColdBox modificados.
+
+Desglose histórico del primer milestone espectral/optimal-filter (74 tests):
 
 - Baseline espectral previo: 24 tests.
 - Transformadas DFT/IDFT: 13 tests.
@@ -73,7 +86,6 @@ Resultados actuales:
 - Compatibilidad del filtro legacy: 5 tests.
 - Caracterización DFT/IDFT legacy preservada: 3 tests.
 - Integración DAPHNE local: 1 test con 30,000 waveforms.
-- Total: **74/74 tests aprobados**, 0 fallos y 0 incompletos.
-- `checkcode`: 0 mensajes sobre código y tests revisados.
+
 
 La validación DAPHNE obtuvo `SNR=5.38283353` con PSD coloreada estimada preservando la corrección de pedestal configurada, y documentó concordancia con el ajuste legacy. Véase [[optimal-filter-daphne-reference]].

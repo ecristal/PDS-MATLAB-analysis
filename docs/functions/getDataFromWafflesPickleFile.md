@@ -1,4 +1,5 @@
 ---
+title: getDataFromWafflesPickleFile
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,11 +7,11 @@ review_mode: static
 repo_path: src/data/getDataFromWafflesPickleFile.m
 source_path: Scripts_analisis/data/getDataFromWafflesPickleFile.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, python, pickle, waffles, io]
 ---
 
-# getDataFromWafflesPickleFile
+[Código fuente MATLAB](../../src/data/getDataFromWafflesPickleFile.m)
 
 ## Descripción cualitativa
 
@@ -74,6 +75,6 @@ Candidato a `+pds/+io/readWafflesPickle.m`, aunque convendría considerar export
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[analysis_daphne_data_dependencies]]
-- [[MATLAB_SCRIPT_CATALOG]]
+- `docs/workflows/analysis_daphne_data.md`
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`
+- `docs/catalog/MATLAB_SCRIPT_CATALOG.md`

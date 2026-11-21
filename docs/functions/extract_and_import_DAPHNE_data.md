@@ -1,4 +1,5 @@
 ---
+title: extract_and_import_DAPHNE_data
 type: matlab-function
 status: dependency
 review_status: reviewed-static
@@ -6,15 +7,15 @@ review_mode: static
 repo_path: src/daphne/extract_and_import_DAPHNE_data.m
 source_path: Scripts_analisis/daphne/extract_and_import_DAPHNE_data.m
 workflow:
-  - "[[analysis_daphne_data]]"
+  - "docs/workflows/analysis_daphne_data.md"
 tags: [matlab, io, extraction, daphne]
 ---
 
-# extract_and_import_DAPHNE_data
+[Código fuente MATLAB](../../src/daphne/extract_and_import_DAPHNE_data.m)
 
 ## Descripción cualitativa
 
-Adaptador de entrada que acepta archivos DAPHNE `.dat`, `.dat.gz`/`.gz` o `.7z`, descomprime cuando corresponde y delega la lectura del contenido en [[import_data_daphne_func]].
+Adaptador de entrada que acepta archivos DAPHNE `.dat`, `.dat.gz`/`.gz` o `.7z`, descomprime cuando corresponde y delega la lectura del contenido en [`import_data_daphne_func`](import_data_daphne_func.md).
 
 ## Firma
 
@@ -25,12 +26,12 @@ function [data, mean_data, Tm] = extract_and_import_DAPHNE_data( ...
 
 ## Responsabilidad dentro del workflow
 
-Es la ruta principal de ingestión de waveforms archivados para [[analysis_daphne_data]]. Oculta parcialmente la diferencia entre un `.dat` directo y un archivo comprimido.
+Es la ruta principal de ingestión de waveforms archivados para `docs/workflows/analysis_daphne_data.md`. Oculta parcialmente la diferencia entre un `.dat` directo y un archivo comprimido.
 
 ## Entradas y salidas
 
 - Entradas: canal, longitud de waveform, ruta, indicador de formato binario/texto, tipo numérico, endianness e indicador de guardado `.mat`.
-- Salidas: matriz `data`, waveform medio `mean_data` y período de muestreo `Tm`, producidos por [[import_data_daphne_func]].
+- Salidas: matriz `data`, waveform medio `mean_data` y período de muestreo `Tm`, producidos por [`import_data_daphne_func`](import_data_daphne_func.md).
 
 ## Algoritmo o procedimiento
 
@@ -43,7 +44,7 @@ Es la ruta principal de ingestión de waveforms archivados para [[analysis_daphn
 
 ## Dependencias
 
-- Local: [[import_data_daphne_func]].
+- Local: [`import_data_daphne_func`](import_data_daphne_func.md).
 - MATLAB: `fileparts`, `gunzip`, `isfile`, `delete`, `system`.
 - Externa: `C:\Program Files\7-Zip\7z.exe`.
 
@@ -84,6 +85,7 @@ Candidato a `+pds/+io/readDaphneArchive.m`, separando extracción segura, selecc
 
 ## Enlaces
 
-- [[analysis_daphne_data]]
-- [[import_data_daphne_func]]
-- [[analysis_daphne_data_dependencies]]
+- [`DaphneWaveformReader`](DaphneWaveformReader.md) — lectura individual de waveforms desde un `.7z` o `.dat` binario.
+- `docs/workflows/analysis_daphne_data.md`
+- [`import_data_daphne_func`](import_data_daphne_func.md)
+- `docs/dependency-maps/analysis_daphne_data_dependencies.md`

@@ -13,3 +13,7 @@ inventory/TEST_*.md
 
 # Local Obsidian UI/workspace configuration
 .obsidian/
+
+# Local Quarto build artifacts
+/.quarto/
+**/*.quarto_ipynb

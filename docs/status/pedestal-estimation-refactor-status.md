@@ -1,7 +1,7 @@
 ---
 type: project-status
 status: active
-updated: 2026-09-12
+updated: 2026-09-14
 tags: [pedestal, simulation, refactor, validation, daphne, status]
 ---
 
@@ -9,7 +9,7 @@ tags: [pedestal, simulation, refactor, validation, daphne, status]
 
 ## Resumen ejecutivo
 
-Las Tareas 0–12 del plan de pedestal están implementadas. Las Tareas 0–10 viven en
+Las Tareas 0–13 del plan de pedestal están implementadas. Las Tareas 0–10 viven en
 el commit local verificado:
 
 ```text
@@ -20,8 +20,10 @@ el commit local verificado:
 Las Tareas 11 y 12 están implementadas, verificadas y guardadas juntas en el
 commit local `2c3a286d1a1a24e971070b708317c8d6e24905a2`. La Tarea 12 cuenta con
 aprobación estática independiente del snapshot exacto; véase [[task12-audit-closure]].
-No se realizó push. El próximo bloque funcional es la Tarea 13, seguida por la
-comparación de estimadores de la Tarea 14.
+La Tarea 13 está implementada y aprobada por revisión independiente de software,
+sin stage ni commit; véase [[task13-audit-closure]]. No se realizó push.
+La Tarea 14 está autorizada y en curso; protocolo y progreso en
+[[task14-pedestal-comparison]].
 
 ## Tareas y progreso del proyecto
 
@@ -45,10 +47,27 @@ de comenzar; la documentación/revisión final de Tarea 17 abarca todo el proyec
 - [x] **Tarea 11 — Dark counts y perturbaciones grandes.**
 - [x] **Tarea 12 — Multiplicidad configurable.**
 
+- [x] **Tarea 13 — Componer trazas largas y recortar waveforms.** Completada y auditada; sin commit.
+  - [x] Inspeccionar promedios de todos los eventos y coeficientes manuales FBK/HPK.
+  - [x] Comparar respuesta y undershoot sin reidentificación; originales preservados.
+  - [x] Confirmar Ts=16 ns y alcance FBK VGAIN1700; duplicación accidental aclarada.
+  - [x] Comprobar promedio de todas las multiplicidades y reajuste FBK1700 con registros disjuntos.
+  - Evidencia específica de configuración: [[task13-fbk-vgain1700]].
+  - [x] Implementar y verificar composición, burn-in, crop y ground truth mediante TDD.
+  - [x] Gates runtime: 14/14 focalizados, 173/173 estándar; checkcode 0.
+  - [x] Integración FBK1700: cuatro escenarios con parámetros sintéticos explícitos.
+  - [x] Revisión independiente del snapshot G2 exacto: SPEC y QUALITY aprobados.
+  - Cierre y trazabilidad: [[task13-audit-closure]]; sin stage ni commit.
+  - Evidencia y límites: [[hd-mezzanine-manual-iir]].
+
 ### Pendientes
 
-- [ ] **Tarea 13 — Componer trazas largas y recortar waveforms.**
-- [ ] **Tarea 14 — Comparar estimadores en datos sintéticos.**
+- [ ] **Tarea 14 — Comparar estimadores en datos sintéticos.** En curso.
+  - [x] Fijar contrato de métricas y separación desarrollo/evaluación.
+  - [ ] Verificar helper de comparación mediante TDD.
+  - [ ] Ejecutar piloto FBK1700 y matriz ampliada con holdout.
+  - [ ] Revisar resultados y snapshot final.
+  - Protocolo: [[task14-pedestal-comparison]].
 - [ ] **Tarea 15 — Validación exploratoria DAPHNE ampliada.**
 - [ ] **Tarea 16 — Integración conservadora con el filtro.**
 - [ ] **Tarea 17 — Documentación y revisión independiente final del proyecto.**
@@ -67,6 +86,9 @@ Los flags de calidad no eliminan eventos automáticamente. `validEventMask` perm
 que una etapa posterior aplique una selección explícita manteniendo los diagnósticos.
 
 ### Simulación
+
+- [[simulatePedestalStressWaveforms]] — composición FIR/IIR, baseline, ruido en parent,
+  crop y clipping explícito; probado y auditado en G2, véase [[task13-audit-closure]].
 
 - [[generateColoredNoise]] — ruido real con PSD bilateral, RNG local, RMS objetivo y
   recorte central trazable.
@@ -159,9 +181,12 @@ inicial/final idénticos; el certificado está en [[task12-audit-closure]].
 scientificApproval = false
 ```
 
-Los modelos identificados con los datos DAPHNE actuales no reproducen adecuadamente
-el undershoot, el área negativa post-pico ni el settling largo. Véase
-[[iir-daphne-fbk-vgain-1700]].
+La identificación inicial documentada en [[iir-daphne-fbk-vgain-1700]] no reprodujo
+adecuadamente el undershoot del dataset/template ensayado. No es una limitación
+general de los IIR: el modelo manual y el reajuste sobre promedios de todas las
+multiplicidades FBK VGAIN1700 reproducen su tendencia; véase [[task13-fbk-vgain1700]].
+La cola fuera de la ventana observada sigue siendo extrapolación, y la aprobación
+científica global permanece pendiente.
 
 La validación de [[estimatePedestal]] sobre DAPHNE es exploratoria y está documentada
 en [[pedestal-daphne-fbk-vgain-1700]]. El conjunto puede estar afectado por ruido
@@ -187,9 +212,11 @@ la Tarea 15.
 
 ## Próximo paso
 
-La auditoría de Tarea 12 está cerrada. Con autorización posterior, la
-Tarea 13 compondrá trazas progenitoras largas con baseline, ruido y respuesta FIR/IIR
-antes del crop, sin perder la multiplicidad ni los demás componentes de ground truth.
+Las auditorías de Tareas 12 y 13 están cerradas. La Tarea 13 implementa:
+composición de trazas largas, baseline, ruido, FIR/IIR y crop con truth.
+Integración FBK1700, gates y revisión independiente completados en G2.
+La Tarea 14 está iniciada; no se han elegido método ni thresholds nuevos.
+La autorización de Tarea 14 no incluye commit de Tarea 13 ni iniciar Tarea 15.
 
 ## Notas relacionadas
 

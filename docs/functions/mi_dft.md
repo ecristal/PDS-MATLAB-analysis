@@ -1,4 +1,5 @@
 ---
+title: mi_dft
 type: matlab-function
 status: compatibility-wrapper
 review_status: tested-runtime
@@ -8,9 +9,9 @@ source_path: Scripts_analisis/data/mi_dft.m
 tags: [matlab, dft, legacy, compatibility]
 ---
 
-# mi_dft
+[Código fuente MATLAB](../../src/compat/mi_dft.m)
 
-Wrapper deprecated para la DFT histórica. El reemplazo autoritativo es [[forwardDft]]; para PSD se usa [[estimateNoisePsd]].
+Wrapper deprecated para la DFT histórica. El reemplazo autoritativo es [`forwardDft`](forwardDft.md); para PSD se usa [`estimateNoisePsd`](estimateNoisePsd.md).
 
 ## Firma
 
@@ -46,7 +47,7 @@ El blob Git se verificó antes y después del movimiento.
 
 ## Enlaces
 
-- [[forwardDft]]
-- [[inverseDft]]
-- [[estimateNoisePsd]]
-- [[designOptimalFilter]]
+- [`forwardDft`](forwardDft.md)
+- [`inverseDft`](inverseDft.md)
+- [`estimateNoisePsd`](estimateNoisePsd.md)
+- [`designOptimalFilter`](designOptimalFilter.md)

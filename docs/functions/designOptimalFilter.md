@@ -1,4 +1,5 @@
 ---
+title: pds.signal.designOptimalFilter
 type: matlab-function
 status: project-api
 review_status: tested-runtime
@@ -6,7 +7,7 @@ repo_path: src/+pds/+signal/designOptimalFilter.m
 tags: [matlab, optimal-filter, matched-filter, psd, colored-noise, daphne]
 ---
 
-# designOptimalFilter
+[Código fuente MATLAB](../../src/+pds/+signal/designOptimalFilter.m)
 
 Diseña un matched/optimal filter FIR para una plantilla real alineada.
 
@@ -35,7 +36,7 @@ b = reverse(w)
 - `w` son pesos del estimador de amplitud.
 - `b` son los coeficientes FIR causales devueltos.
 - La normalización garantiza `w·s = 1`.
-- [[applyOptimalFilter]] devuelve uno para la plantilla alineada dentro de tolerancia.
+- [`applyOptimalFilter`](applyOptimalFilter.md) devuelve uno para la plantilla alineada dentro de tolerancia.
 
 No se aplica `conj(S)` en la construcción de los pesos: la conjugación/reversión aparece al expresar el producto escalar como FIR causal. Esta distinción evita mezclar pesos, correlación y coeficientes de convolución.
 
@@ -71,7 +72,7 @@ Usa PSD plana unitaria. El resultado es el matched filter convencional.
     Window="tukey", TukeyRatio=0.25);
 ```
 
-La PSD se estima con [[estimateNoisePsd]], N bins y corrección de potencia de ventana. `PedestalSampleCount` define la corrección por registro y se llama a la estimación con `RemoveMean=false`; así la media del registro completo no cancela silenciosamente la corrección de pedestal configurada.
+La PSD se estima con [`estimateNoisePsd`](estimateNoisePsd.md), N bins y corrección de potencia de ventana. `PedestalSampleCount` define la corrección por registro y se llama a la estimación con `RemoveMean=false`; así la media del registro completo no cancela silenciosamente la corrección de pedestal configurada.
 
 ### PSD coloreada proporcionada
 
@@ -175,13 +176,13 @@ Con PSD expresada en amplitud²/Hz, `predictedNoiseVariance = Fs/gainBeforeNorma
 
 `TestDesignOptimalFilter`: 11 tests runtime para blanco, medido, proporcionado, AR(1), power law, regularización, selección de pedestal, preservación de `PedestalSampleCount`, conversión segura de datos y opciones escalares enteras, y validación.
 
-El test local DAPHNE está documentado en [[optimal-filter-daphne-reference]].
+El test local DAPHNE está documentado en `docs/validation/optimal-filter-daphne-reference.md`.
 
 ## Enlaces
 
-- [[applyOptimalFilter]]
-- [[estimateNoisePsd]]
-- [[createWindow]]
-- [[forwardDft]]
-- [[inverseDft]]
-- [[optimal_filter_for_daphne_gpessina_function]]
+- [`applyOptimalFilter`](applyOptimalFilter.md)
+- [`estimateNoisePsd`](estimateNoisePsd.md)
+- [`createWindow`](createWindow.md)
+- [`forwardDft`](forwardDft.md)
+- [`inverseDft`](inverseDft.md)
+- [`optimal_filter_for_daphne_gpessina_function`](optimal_filter_for_daphne_gpessina_function.md)

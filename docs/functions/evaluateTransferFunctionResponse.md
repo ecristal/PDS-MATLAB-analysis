@@ -1,10 +1,12 @@
 ---
+title: pds.identification.evaluateTransferFunctionResponse
 type: matlab-function
 status: validated
 tags: [identification, metrics, validation, matlab]
+repo_path: src/+pds/+identification/evaluateTransferFunctionResponse.m
 ---
 
-# `pds.identification.evaluateTransferFunctionResponse`
+[Código fuente MATLAB](../../src/+pds/+identification/evaluateTransferFunctionResponse.m)
 
 Compara una respuesta objetivo y una predicción usando métricas separadas del fit de identificación.
 

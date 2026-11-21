@@ -1,10 +1,12 @@
 ---
+title: pds.plotting.plotTransferFunctionEstimate
 type: matlab-function
 status: validated
 tags: [plotting, identification, validation, matlab]
+repo_path: src/+pds/+plotting/plotTransferFunctionEstimate.m
 ---
 
-# `pds.plotting.plotTransferFunctionEstimate`
+[Código fuente MATLAB](../../src/+pds/+plotting/plotTransferFunctionEstimate.m)
 
 Genera una figura reusable, sin escribir archivos, para revisar una o más reconstrucciones frente a un target.
 
