@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Compress, extract, or remove files in the current working directory.
 set -u -o pipefail
+trap 'exit 130' INT
+trap 'exit 143' TERM
 
 usage() {
     cat <<'USAGE'
@@ -22,6 +24,7 @@ Quote deletion globs, such as '*.tmp', to match names at every depth.
 Compression creates a sibling .7z and deletes the input after verification.
 Extraction renames incoming files on collision and deletes the archive only
 on success. A pre-existing compression destination is an error.
+Ctrl+C stops the batch.
 Requires Bash, GNU find/coreutils, and 7-Zip for compress and extract.
 USAGE
 }
@@ -42,8 +45,46 @@ find_7zip() {
     fail '7-Zip is required. Add 7z or 7zz to PATH.'
 }
 
+run_7zip() {
+    local status=0
+    "$seven_zip" "$@" || status=$?
+    # 7-Zip returns 255 when the user cancels. A Windows console abort can
+    # also surface as the low byte of STATUS_CONTROL_C_EXIT in Git Bash.
+    case $status in
+        255) return 130 ;;
+        58)
+            if [[ $OSTYPE == msys* || $OSTYPE == cygwin* ]]; then return 130; fi
+            ;;
+    esac
+    return "$status"
+}
+
+verify_compression() {
+    local archive=$1 original=$2
+    local -a statuses
+    run_7zip x -so -bd -- "$archive" | cmp - "$original"
+    statuses=("${PIPESTATUS[@]}")
+    if (( statuses[0] == 130 || statuses[1] == 130 )); then return 130; fi
+    if (( statuses[0] == 143 || statuses[1] == 143 )); then return 143; fi
+    (( statuses[0] == 0 && statuses[1] == 0 ))
+}
+
+report_failure() {
+    local status=$1 message=$2
+    case $status in
+        130|143)
+            printf 'Batch interrupted.\n' >&2
+            return "$status"
+            ;;
+    esac
+    printf '%s\n' "$message" >&2
+    return 1
+}
+
 compress_file() (
-    local path=$1 directory=. name stem archive scratch temporary
+    local path=$1 directory=. name stem archive scratch temporary status=0
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
     name=${path##*/}
     if [[ $path == */* ]]; then directory=${path%/*}; fi
     if [[ ! -f $path || -L $path ]]; then
@@ -65,11 +106,12 @@ compress_file() (
     scratch=$(mktemp -d ./.compress-7z.XXXXXXXX) || return 1
     temporary=$scratch/archive.7z
     trap 'rm -f -- "$temporary"; rmdir -- "$scratch"' EXIT
-    if ! "$seven_zip" a -bd -bso0 -mx="$level" -mmt="$threads" -m0="$method" \
-            -md="$dictionary" -ms="$solid" -spd -- "$temporary" "./$name" ||
-        ! "$seven_zip" x -so -bd -- "$temporary" | cmp - "./$name"; then
-        printf 'Compression verification failed for %s\n' "$path" >&2
-        return 1
+    run_7zip a -bd -bso0 -mx="$level" -mmt="$threads" -m0="$method" \
+        -md="$dictionary" -ms="$solid" -spd -- "$temporary" "./$name" &&
+        verify_compression "$temporary" "./$name" || status=$?
+    if (( status != 0 )); then
+        report_failure "$status" "Compression verification failed for $path"
+        return "$?"
     fi
     if ! mv -nT -- "$temporary" "$archive" || [[ -e $temporary ]]; then
         printf 'Could not publish archive for %s\n' "$path" >&2
@@ -80,7 +122,7 @@ compress_file() (
 )
 
 extract_archive() {
-    local archive=$1 target=.
+    local archive=$1 target=. status=0
     if (( extract_to_folder )); then target=${archive%.*}; fi
     if (( dry_run )); then
         printf 'Would extract and remove: %s -> %s\n' "$archive" "$target"
@@ -90,10 +132,11 @@ extract_archive() {
         printf 'Extraction destination is a symbolic link: %s\n' "$target" >&2
         return 1
     fi
-    if ! "$seven_zip" t -bd -bso0 -- "$archive" ||
-        ! "$seven_zip" x -bd -bso0 -y -aou "-o$target" -- "$archive"; then
-        printf 'Extraction failed. Archive retained: %s\n' "$archive" >&2
-        return 1
+    run_7zip t -bd -bso0 -- "$archive" &&
+        run_7zip x -bd -bso0 -y -aou "-o$target" -- "$archive" || status=$?
+    if (( status != 0 )); then
+        report_failure "$status" "Extraction failed. Archive retained: $archive"
+        return "$?"
     fi
     rm -- "$archive" || return 1
     printf 'Extracted: %s -> %s\n' "$archive" "$target"
@@ -109,9 +152,17 @@ remove_file() {
 }
 
 process_paths() {
-    local action=$1 path status=0
+    local action=$1 path status=0 result
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
     while IFS= read -r -d '' path; do
-        "$action" "$path" || status=1
+        result=0
+        "$action" "$path" || result=$?
+        case $result in
+            0) ;;
+            130|143) return "$result" ;;
+            *) status=1 ;;
+        esac
     done
     return "$status"
 }
