@@ -26,7 +26,7 @@ arguments
 end
 
 totalClock = tic;
-[~,module] = fileparts(regexprep(scanRoot,'[\\/]+$',''));
+module = scanModuleName(scanRoot);
 assert(strlength(module)>0,'Pass the module directory containing scan_metadata.txt.');
 figureTitle = options.Campaign + " - Module " + module;
 assert(~isempty(options.Vbias) && ~isempty(options.Vgain) && ~isempty(options.Channels), ...
@@ -137,7 +137,7 @@ for vbias = biasValues
             channelConfig = readback.channels([readback.channels.channel] == channel);
             assert(isscalar(channelConfig) && channelConfig.bias == vbias, ...
                 'Missing or mismatched hardware readback for channel %d.',channel);
-            points(end+1) = struct('archive',fullfile(point,sprintf('channel_%d.7z',channel)), ...
+            points(end+1) = struct('archive',scanChannelFile(point,channel), ...
                 'channel',channel,'offset',channelConfig.offset,'vbias',vbias,'vgain',vgain); %#ok<AGROW>
         end
     end

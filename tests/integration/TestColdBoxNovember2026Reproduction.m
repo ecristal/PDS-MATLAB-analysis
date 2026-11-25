@@ -9,8 +9,8 @@ classdef TestColdBoxNovember2026Reproduction < matlab.unittest.TestCase
             expected = readtable(fullfile(reference,'summary.csv'),TextType='string');
             source = load(fullfile(reference,'pipeline.mat'),'pipeline');
             p = source.pipeline;
-            config = pds.coldbox.november2026(fileparts(reference));
-            shaper = load(config.ShaperFile,'numz_planta_integrator','denz_planta_integrator');
+            shaper = load(fullfile(root,'src','+pds','+coldbox','private','november2026_shaper.mat'), ...
+                'numz_planta_integrator','denz_planta_integrator');
             testCase.assertEqual(shaper.numz_planta_integrator,p.bHp);
             testCase.assertEqual(shaper.denz_planta_integrator,p.aHp);
             testCase.assertEqual(height(expected),336);

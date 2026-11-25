@@ -1,24 +1,25 @@
-function config = november2026(runRoot)
-%NOVEMBER2026 Paths and settings for the November 2026 M3/M4 analysis.
+function config = november2026(runRoot,module)
+%NOVEMBER2026 Load the scan settings for a ColdBox module from its metadata.
 arguments
-    runRoot (1,1) string
+    runRoot (1,1) string {mustBeFolder}
+    module (1,1) string {mustBeMember(module,["M1","M2","M3","M4","M5","M6"])}
 end
 config.Campaign = "ColdBox November 2026";
-config.ScanRoot = fullfile(runRoot,'runs','VGAIN_SCANS','M3');
+config.ScanRoot = fullfile(runRoot,'runs','VGAIN_SCANS',module);
+metadata = fileread(fullfile(config.ScanRoot,'scan_metadata.txt'));
 config.ShaperFile = fullfile(fileparts(mfilename('fullpath')), ...
     'private','november2026_shaper.mat');
-config.Vbias = [770 783 796 808 821 834 847 860];
-config.Vgain = 500:100:2500;
-config.ScanChannels = [8 9];
+config.Vbias = readScanList(metadata,'bias_values');
+gains = readScanList(metadata,'vgain_values');
+config.Vgain = gains(gains>=500 & gains<=2500);
+assert(~isempty(config.Vgain),'No VGAIN settings between 500 and 2500 DAC in %s.',config.ScanRoot);
+config.ScanChannels = readScanList(metadata,'channels');
 config.SamplePeriod = 16e-9;
 config.AdcBits = 14;
+end
 
-noiseRoot = fullfile(runRoot,'runs','enoise');
-config.NoiseLabels = ["M3_M4","M3_M4_ENOISE_N50000_L2048_CRP_OFF"];
-config.NoiseFolders = [fullfile(noiseRoot,config.NoiseLabels(1),'AFE1_vbias_19p4v','vbias_500','vgain_500'), ...
-    fullfile(noiseRoot,config.NoiseLabels(2),'vbias_500','vgain_500')];
-config.NoiseChannels = 8:11;
-config.NoiseChannelTitles = ["M3","M3","M4","M4"] + " DAPHNE CH " + string(config.NoiseChannels);
-config.NoiseSubtitle = config.Campaign + " | Vbias 500 DAC | Vgain 500 DAC";
-config.NoiseRoiMHz = 6;
+function values = readScanList(metadata,key)
+values = str2double(split(readAcquisitionParameter(metadata,key),",")).';
+assert(all(isfinite(values) & values>=0 & values==fix(values)) && ...
+    numel(unique(values))==numel(values),'Expected distinct nonnegative integers for %s.',key);
 end

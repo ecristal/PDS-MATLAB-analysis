@@ -13,7 +13,8 @@ bias = unique(data.VbiasDAC).';
 gain = unique(data.VgainDAC).';
 channels = unique(data.Channel).';
 assert(~isempty(channels),'The scan summary is empty.');
-metadata = struct('campaign',"ColdBox November 2026",'module',"M3",'adcBits',14);
+metadata = struct('campaign',"ColdBox November 2026", ...
+    'module',scanModuleName(runFolder),'adcBits',14);
 pipelineFile = fullfile(runFolder,'pipeline.mat');
 if isfile(pipelineFile)
     saved = load(pipelineFile,'pipeline');

@@ -14,8 +14,14 @@ arguments
 end
 source = load(fullfile(runFolder,'pipeline.mat'),'pipeline');
 pipeline = source.pipeline;
+if ~isfield(pipeline,'module')
+    pipeline.module = scanModuleName(runFolder);
+end
+if ~isfield(pipeline,'campaign')
+    pipeline.campaign = "ColdBox November 2026";
+end
 if ~isfield(pipeline,'figureTitle')
-    pipeline.figureTitle = "ColdBox November 2026 - Module M3";
+    pipeline.figureTitle = pipeline.campaign + " - Module " + pipeline.module;
 end
 if ~isfield(pipeline,'bootstrapSeed')
     pipeline.bootstrapSeed = 20261119;
@@ -63,7 +69,7 @@ for k = 1:numel(points)
     else
         archive = point.archive;
         if strlength(options.ScanRoot)>0
-            archive = fullfile(options.ScanRoot,relative,sprintf('channel_%d.7z',row.Channel));
+            archive = scanChannelFile(fullfile(options.ScanRoot,relative),row.Channel);
         end
         speMeanRaw = replaySinglePe(archive,events,selected,timing.polarity);
     end

@@ -1,15 +1,18 @@
 # Reproducción del análisis ColdBox de noviembre de 2026
 
 Abre MATLAB desde la raíz de PDS-MATLAB-analysis y ejecuta
-`setupPDSAnalysisPath`. Los ejemplos requieren MATLAB R2025b, 7-Zip,
+`setupPDSAnalysisPath`. Los ejemplos requieren MATLAB R2025b,
 Signal Processing Toolbox, Statistics and Machine Learning Toolbox y
 Curve Fitting Toolbox. La ejecución con hilos usa Parallel Computing
-Toolbox. Los registros DAPHNE se leen desde la carpeta de la campaña.
+Toolbox. Los registros DAPHNE se leen desde la carpeta de la campaña en
+formato `.dat` o `.7z`. La lectura de `.7z` requiere 7-Zip.
 
-## Barrido del módulo M3
+## Barrido por módulo
 
-En MATLAB, asigna a `runRoot` la carpeta `NOVEMBER2026_RUN`. El perfil
-proporciona `cfg.ShaperFile`, que apunta a
+En MATLAB, asigna a `runRoot` la carpeta de la campaña y selecciona un
+módulo de `M1` a `M6`. El perfil lee los canales y los valores de Vbias
+y Vgain de `runs/VGAIN_SCANS/<módulo>/scan_metadata.txt`. Usa los valores
+de Vgain adquiridos entre 500 y 2500 DAC. `cfg.ShaperFile` apunta a
 [`november2026_shaper.mat`](../../src/+pds/+coldbox/private/november2026_shaper.mat).
 El archivo contiene los vectores `numz_planta_integrator` y
 `denz_planta_integrator`, idénticos a `bHp` y `aHp` en el `pipeline.mat`
@@ -19,7 +22,8 @@ a otro archivo de coeficientes para una campaña diferente.
 
 ```matlab
 setupPDSAnalysisPath;
-cfg = pds.coldbox.november2026(runRoot);
+module = "M4";
+cfg = pds.coldbox.november2026(runRoot,module);
 out = fullfile(pwd,"outputs","coldbox-november-2026");
 
 [summary, scanRun, performance] = pds.coldbox.analyzeScan( ...
@@ -30,25 +34,34 @@ out = fullfile(pwd,"outputs","coldbox-november-2026");
 figureFolder = pds.coldbox.plotScanSummary(scanRun);
 ```
 
-`MaxWorkers=0` permite usar el máximo que determine MATLAB en función del
-límite de CPU, la memoria disponible y el número de puntos. Con
+`MaxWorkers=0` usa el máximo que permiten el límite de CPU de MATLAB y el
+número de puntos. El límite automático por memoria se aplica en Windows.
+En Linux puedes fijar `MaxWorkers` según la RAM disponible. Con
 `UseParallel=false` se ejecuta el mismo análisis por punto en serie.
-Para una prueba corta, selecciona `Vbias=770, Vgain=[1700 2200], Channels=[8 9]`.
+Para una prueba corta, elige `Vbias=cfg.Vbias(1), Vgain=cfg.Vgain(1)`
+y conserva `Channels=cfg.ScanChannels`.
 
 El flujo genera `pipeline.mat`, `summary.csv`, archivos de tiempos, un
 informe y seis figuras por punto en PNG y FIG. `point_results.mat` guarda
 los identificadores y los cortes de eventos, las ventanas, el ajuste de
-0 y 1 PE y las formas de onda promedio. Las seis figuras globales usan
-`summary.csv` y dejan huecos donde el ajuste queda sin resolver.
+0 y 1 PE y las formas de onda promedio. Para un módulo con dos canales,
+se generan seis figuras globales a partir de `summary.csv`. Los puntos
+sin ajuste válido se muestran como huecos.
 
 ## Comparación de ruido electrónico
 
 ```matlab
+noiseRoot = fullfile(runRoot,"runs","enoise");
+labels = ["M3_M4","M3_M4_ENOISE_N50000_L2048_CRP_OFF"];
+folders = [fullfile(noiseRoot,labels(1),"AFE1_vbias_19p4v","vbias_500","vgain_500"), ...
+           fullfile(noiseRoot,labels(2),"vbias_500","vgain_500")];
+channels = 8:11;
+titles = ["M3","M3","M4","M4"] + " DAPHNE CH " + string(channels);
 spectra = pds.coldbox.compareElectronicNoise( ...
-    cfg.NoiseFolders, fullfile(out,"enoise"), Labels=cfg.NoiseLabels, ...
-    Channels=cfg.NoiseChannels, ChannelTitles=cfg.NoiseChannelTitles, ...
-    Subtitle=cfg.NoiseSubtitle, RoiMHz=cfg.NoiseRoiMHz, ...
-    SamplePeriod=cfg.SamplePeriod, AdcBits=cfg.AdcBits);
+    folders, fullfile(out,"enoise"), Labels=labels, ...
+    Channels=channels, ChannelTitles=titles, RoiMHz=6, ...
+    Subtitle="ColdBox November 2026 | Vbias 500 DAC | Vgain 500 DAC", ...
+    SamplePeriod=16e-9, AdcBits=14);
 ```
 
 La comparación resta la media de cada tramo, usa la misma longitud de FFT
@@ -61,15 +74,16 @@ toma y canal, una referencia de 16 384 ADU y una marca de 6 MHz.
 ```matlab
 % Reajustar los escalares guardados, con la semilla del barrido.
 refit = pds.coldbox.reprocessScan(scanRun,fullfile(out,"refit"), ...
-    Mode="histogram",Vbias=770,Vgain=1700,Channels=8);
+    Mode="histogram",Vbias=cfg.Vbias(1),Vgain=cfg.Vgain(1),Channels=cfg.ScanChannels(1));
 
 % Regenerar las medidas y figuras SPE con la selección guardada.
 spe = pds.coldbox.reprocessScan(scanRun,fullfile(out,"spe"), ...
-    Mode="spe",Vbias=860,Vgain=500,Channels=8);
+    Mode="spe",Vbias=cfg.Vbias(1),Vgain=cfg.Vgain(1),Channels=cfg.ScanChannels(1));
 
 % Medir serie e hilos con la misma configuración y salidas.
 comparison = pds.coldbox.benchmarkThreads(cfg.ScanRoot,cfg.ShaperFile,out, ...
-    struct('Vbias',860,'Vgain',500,'Channels',8,'MaxWorkers',0));
+    struct('Vbias',cfg.Vbias(1),'Vgain',cfg.Vgain(1), ...
+        'Channels',cfg.ScanChannels(1),'MaxWorkers',4));
 ```
 
 `reprocessScan` requiere una carpeta de salida nueva y acepta los

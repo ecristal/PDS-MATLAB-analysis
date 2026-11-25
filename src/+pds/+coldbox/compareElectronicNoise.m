@@ -73,7 +73,7 @@ save(fullfile(outputFolder,'electronic_noise_spectra.mat'),'-struct','results');
 end
 
 function [amplitude,rmsNoise,segmentsTotal] = averageChannel(dataset,channel,samplePeriod,segmentLength)
-filename = fullfile(dataset.Folder,sprintf('channel_%d.7z',channel));
+filename = scanChannelFile(dataset.Folder,channel);
 reader = pds.io.DaphneWaveformReader(filename);
 closeReader = onCleanup(@() reader.close()); %#ok<NASGU>
 assert(reader.WaveformCount == dataset.RecordCount && ...
