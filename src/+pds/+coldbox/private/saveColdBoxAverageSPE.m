@@ -1,5 +1,5 @@
 function saveColdBoxAverageSPE(folder,row,pipeline,speMean,extrema)
-%SAVECOLDBOXAVERAGESPE Render the live-script SPE layout with the notch enabled.
+%SAVECOLDBOXAVERAGESPE Render the SPE average with its notch setting.
 f = figure('Visible','off','Units','pixels','Position',[100 100 560 420], ...
     'Color','w','PaperUnits','inches','PaperPosition',[0 0 560/96 420/96]);
 cleanup = onCleanup(@() close(f));
@@ -7,8 +7,12 @@ time = (0:numel(speMean)-1)*1e6/pipeline.sampleRateHz;
 plot(time,speMean);
 hold on;
 grid on;
-subtitle = sprintf('Vbias %d DAC - Vgain %d DAC - Channel %d - %.4f MHz notch', ...
-    row.VbiasDAC,row.VgainDAC,row.Channel,pipeline.notchFrequencyHz/1e6);
+notchLabel = "notch off";
+if scanUsesNotch(pipeline)
+    notchLabel = sprintf('%.4f MHz notch',pipeline.notchFrequencyHz/1e6);
+end
+subtitle = sprintf('Vbias %d DAC - Vgain %d DAC - Channel %d - %s', ...
+    row.VbiasDAC,row.VgainDAC,row.Channel,notchLabel);
 title('Average single PE - ' + pipeline.figureTitle,subtitle);
 if all(isfinite(extrema))
     yline(extrema(2),'r--');

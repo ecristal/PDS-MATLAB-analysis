@@ -17,7 +17,7 @@ grid on;
 title({['Average waveform - ' id],subtitle},'Interpreter','latex','FontSize',14);
 xlabel('$\mu$s','Interpreter','latex','FontSize',12);
 ylabel('ADU','Interpreter','latex','FontSize',12);
-legend('Average signal','Trigger filtered','Interpreter','latex','FontSize',10);
+legend('Average signal','Waveform used for scoring','Interpreter','latex','FontSize',10);
 saveFigure(f,folder,['average_PE' suffix]);
 clear closeFigure
 
@@ -42,7 +42,7 @@ saveColdBoxAverageSPE(folder,r,p,speMean,extrema);
 f = newFigure();
 closeFigure = onCleanup(@() close(f));
 layout = tiledlayout(f,1,3);
-labels = ["Filtered pulse peak","Early pedestal","Late pedestal"];
+labels = ["Diagnostic pulse peak","Early pedestal","Late pedestal"];
 for k = 1:3
     nexttile(layout);
     values = boxplotInputs(:,k);

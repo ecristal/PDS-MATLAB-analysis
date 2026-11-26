@@ -1,8 +1,9 @@
-function result = fitPhotoelectronPeaks(scores,train,evaluation,minimalVeto,bootstrapCount,stream)
+function result = fitPhotoelectronPeaks(scores,train,evaluation,minimalVeto,bootstrapCount,stream,options)
 %FITPHOTOELECTRONPEAKS Fit the pedestal and first PE in independent records.
 % Scores are one scalar per event. Train, evaluation and minimalVeto are
 % logical masks on those same events. Only train determines discovery, bin
 % limits and bin width. Fits and bootstrap on evaluation use that grid.
+% ComputeDiagnostics controls the extra evaluation bins and veto comparison.
 arguments
     scores (:,1) double {mustBeReal,mustBeFinite}
     train (:,1) logical
@@ -10,6 +11,7 @@ arguments
     minimalVeto (:,1) logical = evaluation
     bootstrapCount (1,1) double {mustBeInteger,mustBeNonnegative} = 0
     stream = []
+    options.ComputeDiagnostics (1,1) logical = true
 end
 assert(all([numel(train),numel(evaluation),numel(minimalVeto)]==numel(scores)), ...
     'Fit masks must match the number of scores.');
@@ -80,12 +82,14 @@ result.binning.Selected = (1:height(result.binning)).'==k;
 
 y = scores(evaluation);
 result.fit = fitPair(y,cal,result.edgesADU,result.binWidthADU);
-evalSNR = nan(size(widths));
-for j = find(isfinite(snrTrain))
-    fitResult = fitPair(y,cal,grids{j},widths(j));
-    if fitResult.valid, evalSNR(j) = fitResult.snr; end
+if options.ComputeDiagnostics
+    evalSNR = nan(size(widths));
+    for j = find(isfinite(snrTrain))
+        fitResult = fitPair(y,cal,grids{j},widths(j));
+        if fitResult.valid, evalSNR(j) = fitResult.snr; end
+    end
+    result.binning.EvaluationSNR = evalSNR(:);
 end
-result.binning.EvaluationSNR = evalSNR(:);
 if ~result.fit.valid
     result.message = "Independent evaluation did not pass the 0/1 PE fit checks.";
     return
@@ -97,8 +101,10 @@ if bootstrapCount>0
     end
     result.fit.snrCI95 = bootstrapSNR(y,cal,result.edgesADU,result.binWidthADU,bootstrapCount,stream);
 end
-benchmark = fitPair(scores(minimalVeto),cal,result.edgesADU,result.binWidthADU);
-if benchmark.valid, result.minimalVetoSNR = benchmark.snr; end
+if options.ComputeDiagnostics
+    benchmark = fitPair(scores(minimalVeto),cal,result.edgesADU,result.binWidthADU);
+    if benchmark.valid, result.minimalVetoSNR = benchmark.snr; end
+end
 end
 
 function [cal,orders,support] = discoverPEComb(x,limits,fd)

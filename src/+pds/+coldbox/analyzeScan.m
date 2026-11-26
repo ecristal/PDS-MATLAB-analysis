@@ -2,9 +2,11 @@ function [summary, outputFolder, performance] = analyzeScan(scanRoot,shaperFile,
 %ANALYZESCAN Analyze a ColdBox-format, externally triggered Vbias/Vgain scan.
 % Pass the module directory with scan_metadata.txt, the reference IIR MAT
 % file and a root for the timestamped outputs. UseParallel enables threads.
+% UseTukey, UseNotch, UseLowPass, UseIntegrator and UseBoxcar select stages.
+% LowPassHz is in Hz. BoxcarLength counts the current sample.
 arguments
     scanRoot (1,1) string {mustBeFolder}
-    shaperFile (1,1) string {mustBeFile}
+    shaperFile (1,1) string
     outputRoot (1,1) string
     options.Vbias (1,:) double {mustBeInteger,mustBeNonnegative,mustBeFinite} = []
     options.Vgain (1,:) double {mustBeInteger,mustBeNonnegative,mustBeFinite} = []
@@ -17,10 +19,18 @@ arguments
     options.LateExcursionSigma (1,1) double {mustBePositive} = 6
     options.SamplePeriod (1,1) double {mustBePositive,mustBeFinite} = 16e-9
     options.AdcBits (1,1) double {mustBePositive,mustBeInteger} = 14
+    options.UseTukey (1,1) logical = true
+    options.UseNotch (1,1) logical = true
     options.NotchFrequencyHz (1,1) double {mustBePositive,mustBeFinite} = 10.0098e6
     options.NotchQ (1,1) double {mustBePositive,mustBeFinite} = 15
+    options.UseLowPass (1,1) logical = true
     options.LowPassHz (1,1) double {mustBePositive,mustBeFinite} = 2e6
-    options.BoxcarPastSamples (1,1) double {mustBeNonnegative,mustBeInteger} = 17
+    options.UseIntegrator (1,1) logical = true
+    options.UseBoxcar (1,1) logical = true
+    options.BoxcarLength (1,:) double {mustBePositive,mustBeInteger,mustBeFinite} = []
+    options.BoxcarPastSamples (1,:) double {mustBeNonnegative,mustBeInteger,mustBeFinite} = []
+    options.SweepLowPassHz (1,:) double {mustBePositive,mustBeFinite} = []
+    options.SweepBoxcarLengths (1,:) double {mustBePositive,mustBeInteger,mustBeFinite} = []
     options.BootstrapSeed (1,1) double {mustBeNonnegative,mustBeInteger} = 20261119
     options.Campaign (1,1) string = "ColdBox November 2026"
 end
@@ -42,26 +52,69 @@ count = configNumber(scanMeta,'waveform_count');
 lengthSamples = configNumber(scanMeta,'waveform_length');
 
 fs = 1/options.SamplePeriod;
-notchFrequency = options.NotchFrequencyHz;
-notchQ = options.NotchQ;
-notchCenter = notchFrequency/(fs/2);
-[bNotch,aNotch] = iirnotch(notchCenter,notchCenter/notchQ);
-[bLow,aLow] = butter(3,options.LowPassHz/(fs/2),'low');
-shaper = load(shaperFile,'numz_planta_integrator','denz_planta_integrator');
+isSweep = ~isempty(options.SweepLowPassHz) || ~isempty(options.SweepBoxcarLengths);
+analyzer = @analyzePoint;
+publisher = @publishPoint;
+runTag = module;
+if isSweep
+    assert(~isempty(options.SweepLowPassHz) && ~isempty(options.SweepBoxcarLengths), ...
+        'Supply both the low-pass and boxcar sweep axes.');
+    assert(options.UseLowPass && options.UseBoxcar,'The sweep requires the low-pass and boxcar stages.');
+    assert(module~="M3" || options.UseNotch,'The M3 SNR sweep requires the notch.');
+    assert(all(options.SweepLowPassHz<fs/2),'All sweep cutoffs must be below Nyquist (%g Hz).',fs/2);
+    analyzer = @sweepPoint;
+    publisher = @publishSweepPoint;
+    runTag = module + "_snr_sweep";
+end
+boxcarLength = [options.BoxcarLength,options.BoxcarPastSamples+1];
+assert(numel(boxcarLength)<=1,'Specify one scalar value for BoxcarLength or BoxcarPastSamples.');
+if isempty(boxcarLength), boxcarLength = 18; end
+
+bNotch = 1; aNotch = 1;
+if options.UseNotch
+    assert(options.NotchFrequencyHz<fs/2, ...
+        'pds:coldbox:analyzeScan:NotchNyquist','NotchFrequencyHz must be below Nyquist (%g Hz).',fs/2);
+    notchCenter = options.NotchFrequencyHz/(fs/2);
+    [bNotch,aNotch] = iirnotch(notchCenter,notchCenter/options.NotchQ);
+end
+bLow = 1; aLow = 1;
+if options.UseLowPass && ~isSweep
+    assert(options.LowPassHz<fs/2, ...
+        'pds:coldbox:analyzeScan:LowPassNyquist','LowPassHz must be below Nyquist (%g Hz).',fs/2);
+    [bLow,aLow] = butter(3,options.LowPassHz/(fs/2),'low');
+end
+bHp = 1; aHp = 1;
+if options.UseIntegrator
+    mustBeFile(shaperFile);
+    shaper = load(shaperFile,'numz_planta_integrator','denz_planta_integrator');
+    bHp = shaper.numz_planta_integrator;
+    aHp = shaper.denz_planta_integrator;
+end
 pipeline = struct('sampleRateHz',fs,'adcBits',options.AdcBits, ...
-    'notchFrequencyHz',notchFrequency,'notchQ',notchQ, ...
-    'bNotch',bNotch,'aNotch',aNotch,'bLow',bLow,'aLow',aLow, ...
-    'bHp',shaper.numz_planta_integrator,'aHp',shaper.denz_planta_integrator, ...
-    'shaperFile',shaperFile,'boxcarPastSamples',options.BoxcarPastSamples,'lowPassHz',options.LowPassHz, ...
+    'useTukey',options.UseTukey,'useNotch',options.UseNotch, ...
+    'notchFrequencyHz',options.NotchFrequencyHz,'notchQ',options.NotchQ,'bNotch',bNotch,'aNotch',aNotch, ...
+    'useLowPass',options.UseLowPass,'lowPassHz',options.LowPassHz,'bLow',bLow,'aLow',aLow, ...
+    'useIntegrator',options.UseIntegrator,'shaperFile',shaperFile,'bHp',bHp,'aHp',aHp, ...
+    'useBoxcar',options.UseBoxcar,'boxcarLength',boxcarLength,'boxcarPastSamples',boxcarLength-1, ...
     'figureTitle',figureTitle,'campaign',options.Campaign,'module',module, ...
     'bootstrapSeed',options.BootstrapSeed, ...
     'lateDelayUs',options.LateDelayUs,'lateOffsetSigma',options.LateOffsetSigma, ...
     'lateExcursionSigma',options.LateExcursionSigma);
+if isSweep
+    pipeline.sweepLowPassHz = unique(options.SweepLowPassHz);
+    pipeline.sweepBoxcarLengths = unique(options.SweepBoxcarLengths);
+    pipeline.sweepBLow = zeros(numel(pipeline.sweepLowPassHz),4);
+    pipeline.sweepALow = zeros(size(pipeline.sweepBLow));
+    for i = 1:numel(pipeline.sweepLowPassHz)
+        [pipeline.sweepBLow(i,:),pipeline.sweepALow(i,:)] = ...
+            butter(3,pipeline.sweepLowPassHz(i)/(fs/2),'low');
+    end
+end
 points = scanPoints(scanRoot,options.Vbias,options.Vgain, ...
     options.Channels,count,lengthSamples);
 assert(~isempty(points),'Select at least one Vbias, Vgain and channel.');
 stamp = string(datetime('now','TimeZone','UTC','Format','yyyyMMdd_HHmmss_SSS'));
-outputFolder = fullfile(outputRoot,module + "_" + stamp + "_UTC");
+outputFolder = fullfile(outputRoot,runTag + "_" + stamp + "_UTC");
 mkdir(outputFolder);
 fprintf('Run output: %s\n',outputFolder);
 save(fullfile(outputFolder,'pipeline.mat'),'pipeline');
@@ -75,7 +128,7 @@ mode = "serial";
 if options.UseParallel
     assert(license('test','Distrib_Computing_Toolbox'), ...
         'UseParallel requires Parallel Computing Toolbox.');
-    [workers,memoryLimit,hostGiB] = workerLimit(cpuLimit,options.MaxWorkers,numel(points),count,lengthSamples);
+    [workers,memoryLimit,hostGiB] = workerLimit(cpuLimit,options.MaxWorkers,numel(points),count,lengthSamples,isSweep);
     poolClock = tic;
     pool = gcp('nocreate');
     if isempty(pool)
@@ -95,15 +148,20 @@ end
 runClock = tic;
 if options.UseParallel
     [summary,pointTimes] = runThreaded(points,outputFolder,pipeline,count,lengthSamples, ...
-        options.BootstrapCount,pool,workers);
+        options.BootstrapCount,pool,workers,analyzer,publisher);
 else
     [summary,pointTimes] = runSerial(points,outputFolder,pipeline,count,lengthSamples, ...
-        options.BootstrapCount);
+        options.BootstrapCount,analyzer,publisher);
 end
 processingSeconds = toc(runClock);
 summary = sortrows(summary,{'Channel','VbiasDAC','VgainDAC'});
 pointTimes = sortrows(pointTimes,{'Channel','VbiasDAC','VgainDAC'});
-writetable(summary,fullfile(outputFolder,'summary.csv'));
+if isSweep
+    writetable(summary,fullfile(outputFolder,'snr_grid.csv'));
+    summary = pds.coldbox.plotSNRSweep(outputFolder);
+else
+    writetable(summary,fullfile(outputFolder,'summary.csv'));
+end
 writetable(pointTimes,fullfile(outputFolder,'point_timing.csv'));
 performance = table(mode,workers,cpuLimit,memoryLimit,hostGiB,height(summary),poolStartup, ...
     processingSeconds,toc(totalClock),sum(pointTimes.ReadSeconds), ...
@@ -112,7 +170,7 @@ performance = table(mode,workers,cpuLimit,memoryLimit,hostGiB,height(summary),po
     'Points','PoolStartupSeconds','ProcessingSeconds','WallSeconds', ...
     'ReadSecondsSum','ComputeSecondsSum','ExportSecondsSum'});
 writetable(performance,fullfile(outputFolder,'performance.csv'));
-writeReport(outputFolder,summary,pipeline,performance);
+if ~isSweep, writeReport(outputFolder,summary,pipeline,performance); end
 fprintf('Completed %d points in %.1f seconds (%s).\n',height(summary),performance.WallSeconds,mode);
 end
 
@@ -144,7 +202,7 @@ for vbias = biasValues
 end
 end
 
-function [workers,memoryLimit,available] = workerLimit(cpuLimit,requested,nPoints,nSamples,lengthSamples)
+function [workers,memoryLimit,available] = workerLimit(cpuLimit,requested,nPoints,nSamples,lengthSamples,isSweep)
 workers = min(cpuLimit,nPoints);
 if requested>0, workers = min(workers,requested); end
 memoryLimit = NaN;
@@ -152,26 +210,26 @@ available = NaN;
 if ispc
     [~,hostMemory] = memory;
     available = hostMemory.PhysicalMemory.Available/2^30;
-    % Two full double matrices plus room for the raw input and batched filters.
-    bytesPerPoint = 16*nSamples*lengthSamples+96*2^20;
+    % The sweep also retains both notch prefixes and an intermediate waveform.
+    bytesPerPoint = (16+24*isSweep)*nSamples*lengthSamples+96*2^20;
     memoryLimit = max(1,floor((hostMemory.PhysicalMemory.Available-256*2^20)/bytesPerPoint));
     workers = min(workers,memoryLimit);
 end
 end
 
-function [summary,times] = runSerial(points,folder,p,n,m,bootstrap)
+function [summary,times] = runSerial(points,folder,p,n,m,bootstrap,analyzer,publisher)
 summary = table();
 times = table();
 for k = 1:numel(points)
     point = points(k);
     [raw,readSeconds] = loadPoint(point,n,m);
-    result = analyzePoint(raw,p,point,bootstrap);
+    result = analyzer(raw,p,point,bootstrap);
     clear raw
-    [summary,times] = publishPoint(folder,p,point,result,readSeconds,summary,times);
+    [summary,times] = publisher(folder,p,point,result,readSeconds,summary,times);
 end
 end
 
-function [summary,times] = runThreaded(points,folder,p,n,m,bootstrap,pool,workers)
+function [summary,times] = runThreaded(points,folder,p,n,m,bootstrap,pool,workers,analyzer,publisher)
 summary = table();
 times = table();
 futures = parallel.FevalFuture.empty(1,0);
@@ -180,7 +238,7 @@ readTimes = [];
 next = 1;
 try
     for slot = 1:workers
-        [futures(slot),readTimes(slot)] = submitPoint(pool,points(next),p,n,m,bootstrap);
+        [futures(slot),readTimes(slot)] = submitPoint(pool,points(next),p,n,m,bootstrap,analyzer);
         indices(slot) = next;
         next = next+1;
     end
@@ -189,7 +247,7 @@ try
         point = points(indices(slot));
         readSeconds = readTimes(slot);
         if next<=numel(points)
-            [futures(slot),readTimes(slot)] = submitPoint(pool,points(next),p,n,m,bootstrap);
+            [futures(slot),readTimes(slot)] = submitPoint(pool,points(next),p,n,m,bootstrap,analyzer);
             indices(slot) = next;
             next = next+1;
         else
@@ -197,7 +255,7 @@ try
             indices(slot) = [];
             readTimes(slot) = [];
         end
-        [summary,times] = publishPoint(folder,p,point,result,readSeconds,summary,times);
+        [summary,times] = publisher(folder,p,point,result,readSeconds,summary,times);
     end
 catch exception
     cancel(futures);
@@ -205,9 +263,9 @@ catch exception
 end
 end
 
-function [future,readSeconds] = submitPoint(pool,point,p,n,m,bootstrap)
+function [future,readSeconds] = submitPoint(pool,point,p,n,m,bootstrap,analyzer)
 [raw,readSeconds] = loadPoint(point,n,m);
-future = parfeval(pool,@analyzePoint,1,raw,p,point,bootstrap);
+future = parfeval(pool,analyzer,1,raw,p,point,bootstrap);
 end
 
 function [raw,readSeconds] = loadPoint(point,n,m)
@@ -242,10 +300,99 @@ save_coldbox_scan_figures(destination,row,result.timing,p,result.pe,result.evalu
 saveColdBoxLatePedestalComparison(destination,row,result.timing,p,result.audit);
 summary = [summary; row];
 writetable(summary,fullfile(folder,'summary.csv'));
-times = [times; table(point.channel,point.vbias,point.vgain,readSeconds,result.computeSeconds, ...
-    toc(exportClock),'VariableNames',{'Channel','VbiasDAC','VgainDAC','ReadSeconds','ComputeSeconds','ExportSeconds'})];
+times = [times; timingRow(point,readSeconds,result.computeSeconds,toc(exportClock))];
 fprintf('Finished %d/%d CH %d | %s | accepted %d / %d | SNR %.3f | DR %.1f\n', ...
     point.vbias,point.vgain,point.channel,row.Status,row.Accepted,row.Records,row.SNR,row.HistoricalDR);
+end
+
+function [summary,times] = publishSweepPoint(folder,~,point,result,readSeconds,summary,times)
+exportClock = tic;
+destination = fullfile(folder,'point_grids');
+if ~isfolder(destination), mkdir(destination); end
+name = sprintf('snr_grid_vbias_%d_vgain_%d_ch_%d.csv',point.vbias,point.vgain,point.channel);
+writetable(result.grid,fullfile(destination,name));
+summary = [summary; result.grid];
+times = [times; timingRow(point,readSeconds,result.computeSeconds,toc(exportClock))];
+fprintf('Finished sweep Vbias %d | Vgain %d | CH %d | resolved %d / %d\n', ...
+    point.vbias,point.vgain,point.channel,nnz(isfinite(result.grid.SNR)),height(result.grid));
+end
+
+function row = timingRow(point,readSeconds,computeSeconds,exportSeconds)
+row = table(point.channel,point.vbias,point.vgain,readSeconds,computeSeconds,exportSeconds, ...
+    'VariableNames',{'Channel','VbiasDAC','VgainDAC','ReadSeconds','ComputeSeconds','ExportSeconds'});
+end
+
+function result = sweepPoint(raw,p,point,~)
+started = tic;
+[centered,q] = preparePoint(raw,p);
+clear raw
+[taper,~] = pulseTaper(size(centered,2),q.onset,p);
+prefix = p;
+prefix.useLowPass = false;
+prefix.useIntegrator = false;
+prefix.useBoxcar = false;
+diagnosticInput = diagnosticFilterBatches(centered,prefix);
+scoreInput = scoreFilterBatches(centered,taper,prefix);
+clear centered
+
+cutoffs = p.sweepLowPassHz;
+lengths = p.sweepBoxcarLengths;
+[lengthGrid,cutoffGrid] = meshgrid(lengths,cutoffs/1e6);
+shape = size(lengthGrid);
+snr = nan(shape); accepted = nan(shape); scoreSample = nan(shape);
+reason = strings(shape);
+for i = 1:numel(cutoffs)
+    b = p.sweepBLow(i,:);
+    a = p.sweepALow(i,:);
+    try
+        d = diagnosePoint(filter(b,a,diagnosticInput,[],2),q,p);
+    catch exception
+        if ~strcmp(exception.identifier,'pds:coldbox:InsufficientDiagnosticReference')
+            rethrow(exception);
+        end
+        reason(i,:) = string(exception.message);
+        continue
+    end
+    train = d.accepted & q.training;
+    evaluation = d.accepted & ~q.training;
+    accepted(i,:) = nnz(d.accepted);
+    if nnz(train)<=100 || nnz(evaluation)<=100
+        reason(i,:) = "Too few events after quality gates.";
+        continue
+    end
+    unboxed = filter(b,a,scoreInput,[],2);
+    if p.useIntegrator
+        unboxed = filter(p.bHp,p.aHp,unboxed,[],2);
+    end
+    referenceMean = mean(unboxed(d.beforeLate & q.training,:),1);
+    for j = 1:numel(lengths)
+        boxcar = [lengths(j)-1 0];
+        [sample,~,valid] = locateScore(movmean(referenceMean,boxcar,2),q,taper);
+        if ~valid
+            reason(i,j) = "The score window is outside the flat part of the taper.";
+            continue
+        end
+        % Include the complete history of the three scored samples. No
+        % other per-record boxcar outputs enter the fit.
+        first = max(1,sample-lengths(j));
+        local = movmean(unboxed(:,first:sample+1),boxcar,2);
+        scores = 2*mean(local(:,end-2:end),2);
+        fit = pds.calibration.fitPhotoelectronPeaks(scores,train,evaluation,evaluation,0,[], ...
+            ComputeDiagnostics=false);
+        scoreSample(i,j) = sample;
+        reason(i,j) = fit.message;
+        if fit.status=="resolved", snr(i,j) = fit.fit.snr; end
+    end
+    clear unboxed
+end
+numCells = numel(snr);
+status = repmat("unresolved",numCells,1);
+status(isfinite(snr(:))) = "resolved";
+grid = table(repmat(point.channel,numCells,1),repmat(point.vbias,numCells,1), ...
+    repmat(point.vgain,numCells,1),cutoffGrid(:),lengthGrid(:),snr(:),accepted(:),scoreSample(:),status,reason(:), ...
+    'VariableNames',{'Channel','VbiasDAC','VgainDAC','LowPassMHz','BoxcarLength', ...
+    'SNR','Accepted','ScoreSample','Status','StatusReason'});
+result = struct('grid',grid,'computeSeconds',toc(started));
 end
 
 function result = analyzePoint(raw,p,point,bootstrap)
@@ -255,67 +402,31 @@ channel = point.channel;
 offset = point.offset;
 vbias = point.vbias;
 vgain = point.vgain;
-ids = (1:n).';
-training = mod(ids,2) == 1;
-rail = any(raw == 0 | raw >= 2^p.adcBits-1,2);
-duplicate = [false; all(raw(2:end,:) == raw(1:end-1,:),2)];
-eligible = ~rail & ~duplicate;
-reference = eligible & training;
-assert(nnz(reference)>100,'Too few intact training waveforms.');
-
-% Locate the synchronized pulse in the central part of the raw record.
-pulseWindow = 201:min(450,m);
-profile = trimmean(double(raw(reference,:)),10,1);
-profile = movmean(profile,5);
-pulseBaseline = median(profile(180:205));
-[peak,relativePeak] = max(abs(profile(pulseWindow)-pulseBaseline));
-pp = pulseWindow(relativePeak);
-assert(isfinite(peak) && peak>0,'No pulse found in the external trigger window.');
-polarity = sign(profile(pp)-pulseBaseline);
-pulse = polarity*(profile-pulseBaseline);
-before = max(1,pp-60):pp-1;
-onset = before(find(pulse(before)<=0.05*peak,1,'last'))+1;
-assert(isscalar(onset) && onset>=118,'Cannot establish a 100-sample pre-pulse region.');
-pre = onset-115:onset-16;
-[baseline,quality] = pds.preprocess.estimatePedestal(raw(:,pre), ...
-    SampleIndices=1:numel(pre),Method="median-of-means",BlockSize=10);
-centered = polarity*pds.preprocess.subtractPedestal(raw,baseline);
-
-% Measure diagnostics on the notch + low-pass copy, then select original IDs.
+[centered,q] = preparePoint(raw,p);
 clear raw
+ids = q.ids; training = q.training; rail = q.rail; duplicate = q.duplicate;
+eligible = q.eligible; pp = q.pp; polarity = q.polarity; onset = q.onset;
+pre = q.pre; baseline = q.baseline; quality = q.quality;
+
 diagnostic = diagnosticFilterBatches(centered,p);
-diagnosticMean = mean(diagnostic(reference,:),1);
-[~,diagnosticPeak] = max(diagnosticMean(pulseWindow));
-diagnosticPeak = pulseWindow(diagnosticPeak);
-preOffset = median(diagnostic(:,pre),2);
-preExcursion = max(abs(diagnostic(:,pre)-preOffset),[],2);
-preThreshold = robustFence(preExcursion(reference));
-pedestalOutlier = abs(preOffset-median(preOffset(reference))) > ...
-    robustFence(abs(preOffset(reference)-median(preOffset(reference))));
-outOfTime = preExcursion>preThreshold;
-beforeLate = eligible & ~outOfTime & ~pedestalOutlier;
-late = pds.preprocess.vetLatePedestal(diagnostic,pre,pp,1/p.sampleRateHz,beforeLate & training, ...
-    DelayUs=p.lateDelayUs,OffsetSigma=p.lateOffsetSigma,ExcursionSigma=p.lateExcursionSigma);
-accepted = beforeLate & ~late.offsetVeto & ~late.excursionVeto;
+d = diagnosePoint(diagnostic,q,p);
+clear diagnostic
+beforeLate = d.beforeLate; accepted = d.accepted; late = d.late;
+preOffset = d.preOffset; preExcursion = d.preExcursion; preThreshold = d.preThreshold;
+outOfTime = d.outOfTime; pedestalOutlier = d.pedestalOutlier;
+diagnosticPeak = d.diagnosticPeak; filteredPeak = d.filteredPeak;
 lateOffset = late.representativeOffsetADU;
-filteredPeak = diagnostic(:,diagnosticPeak);
-clear raw diagnostic
 
 % The late gate uses the untapered diagnostic copy. The Tukey taper is only
 % part of pulse scoring, and stays flat across the prompt score window.
-edge = floor((onset-1)/2);
-alpha = 2*max(0,edge)/(m-1);
-taper = pds.signal.createWindow(m,"tukey",TukeyRatio=alpha);
+[taper,alpha] = pulseTaper(m,onset,p);
 shaped = scoreFilterBatches(centered,taper,p);
 train = accepted & training;
 eval = accepted & ~training;
 assert(nnz(train)>100 && nnz(eval)>100,'Too few events after pre-pulse quality gates.');
-search = onset:min(pp+160,m);
 referenceMean = mean(shaped(beforeLate & training,:),1);
-[scorePeak,relativeSample] = max(referenceMean(search));
-scoreSample = search(relativeSample);
-assert(isfinite(scorePeak) && scorePeak>0 && scoreSample<m && ...
-    all(taper(onset:scoreSample+1) == 1), 'Score window is outside the flat part of the Tukey taper.');
+[scoreSample,scorePeak,validScore] = locateScore(referenceMean,q,taper);
+assert(validScore,'Score window is outside the flat part of the Tukey taper.');
 scores = 2*mean(shaped(:,scoreSample-1:scoreSample+1),2);
 assert(all(isfinite(scores)),'Nonfinite event score.');
 shapedMean = mean(shaped(eval,:),1);
@@ -395,6 +506,80 @@ result = struct('row',row,'timing',timing,'events',events,'pe',pe,'rawMean',rawM
     'scorePeak',scorePeak,'evaluationScores',scores(eval),'computeSeconds',toc(computeClock));
 end
 
+function [centered,q] = preparePoint(raw,p)
+[n,m] = size(raw);
+ids = (1:n).';
+training = mod(ids,2) == 1;
+rail = any(raw == 0 | raw >= 2^p.adcBits-1,2);
+duplicate = [false; all(raw(2:end,:) == raw(1:end-1,:),2)];
+eligible = ~rail & ~duplicate;
+reference = eligible & training;
+assert(nnz(reference)>100,'Too few intact training waveforms.');
+
+% Locate the synchronized pulse in the central part of the raw record.
+pulseWindow = 201:min(450,m);
+profile = trimmean(double(raw(reference,:)),10,1);
+profile = movmean(profile,5);
+pulseBaseline = median(profile(180:205));
+[peak,relativePeak] = max(abs(profile(pulseWindow)-pulseBaseline));
+pp = pulseWindow(relativePeak);
+assert(isfinite(peak) && peak>0,'No pulse found in the external trigger window.');
+polarity = sign(profile(pp)-pulseBaseline);
+pulse = polarity*(profile-pulseBaseline);
+before = max(1,pp-60):pp-1;
+onset = before(find(pulse(before)<=0.05*peak,1,'last'))+1;
+assert(isscalar(onset) && onset>=118,'Cannot establish a 100-sample pre-pulse region.');
+pre = onset-115:onset-16;
+[baseline,quality] = pds.preprocess.estimatePedestal(raw(:,pre), ...
+    SampleIndices=1:numel(pre),Method="median-of-means",BlockSize=10);
+centered = polarity*pds.preprocess.subtractPedestal(raw,baseline);
+
+q = struct('ids',ids,'training',training,'rail',rail,'duplicate',duplicate, ...
+    'eligible',eligible,'reference',reference,'pulseWindow',pulseWindow, ...
+    'pp',pp,'polarity',polarity,'onset',onset,'pre',pre,'baseline',baseline,'quality',quality);
+end
+
+function d = diagnosePoint(diagnostic,q,p)
+diagnosticMean = mean(diagnostic(q.reference,:),1);
+[~,diagnosticPeak] = max(diagnosticMean(q.pulseWindow));
+diagnosticPeak = q.pulseWindow(diagnosticPeak);
+preOffset = median(diagnostic(:,q.pre),2);
+preExcursion = max(abs(diagnostic(:,q.pre)-preOffset),[],2);
+preThreshold = robustFence(preExcursion(q.reference));
+pedestalOutlier = abs(preOffset-median(preOffset(q.reference))) > ...
+    robustFence(abs(preOffset(q.reference)-median(preOffset(q.reference))));
+outOfTime = preExcursion>preThreshold;
+beforeLate = q.eligible & ~outOfTime & ~pedestalOutlier;
+assert(nnz(beforeLate & q.training)>=100, ...
+    'pds:coldbox:InsufficientDiagnosticReference','Too few training events before the late veto.');
+late = pds.preprocess.vetLatePedestal(diagnostic,q.pre,q.pp,1/p.sampleRateHz,beforeLate & q.training, ...
+    DelayUs=p.lateDelayUs,OffsetSigma=p.lateOffsetSigma,ExcursionSigma=p.lateExcursionSigma);
+accepted = beforeLate & ~late.offsetVeto & ~late.excursionVeto;
+filteredPeak = diagnostic(:,diagnosticPeak);
+d = struct('diagnosticPeak',diagnosticPeak,'preOffset',preOffset, ...
+    'preExcursion',preExcursion,'preThreshold',preThreshold, ...
+    'outOfTime',outOfTime,'pedestalOutlier',pedestalOutlier,'beforeLate',beforeLate, ...
+    'accepted',accepted,'late',late,'filteredPeak',filteredPeak);
+end
+
+function [taper,alpha] = pulseTaper(m,onset,p)
+alpha = 0;
+taper = ones(1,m);
+if p.useTukey
+    edge = floor((onset-1)/2);
+    alpha = 2*max(0,edge)/(m-1);
+    taper = pds.signal.createWindow(m,"tukey",TukeyRatio=alpha);
+end
+end
+
+function [sample,peak,valid] = locateScore(referenceMean,q,taper)
+search = q.onset:min(q.pp+160,numel(taper));
+[peak,relativeSample] = max(referenceMean(search));
+sample = search(relativeSample);
+valid = isfinite(peak) && peak>0 && sample<numel(taper) && ...
+    all(taper(q.onset:sample+1)==1);
+end
+
 function diagnostic = diagnosticFilterBatches(centered,p)
 diagnostic = zeros(size(centered));
 for first = 1:1024:size(centered,1)
@@ -408,15 +593,19 @@ shaped = zeros(size(centered));
 window = reshape(taper,1,[]);
 for first = 1:1024:size(centered,1)
     rows = first:min(first+1023,size(centered,1));
-    x = diagnosticBandwidth(centered(rows,:).*window,p);
-    x = filter(p.bHp,p.aHp,x,[],2);
-    shaped(rows,:) = movmean(x,[p.boxcarPastSamples 0],2);
+    x = centered(rows,:);
+    if p.useTukey, x = x.*window; end
+    x = diagnosticBandwidth(x,p);
+    if p.useIntegrator, x = filter(p.bHp,p.aHp,x,[],2); end
+    if p.useBoxcar, x = movmean(x,[p.boxcarLength-1 0],2); end
+    shaped(rows,:) = x;
 end
 end
 
 function filtered = diagnosticBandwidth(waveforms,p)
-notched = filter(p.bNotch,p.aNotch,waveforms,[],2);
-filtered = filter(p.bLow,p.aLow,notched,[],2);
+filtered = waveforms;
+if p.useNotch, filtered = filter(p.bNotch,p.aNotch,filtered,[],2); end
+if p.useLowPass, filtered = filter(p.bLow,p.aLow,filtered,[],2); end
 end
 
 function audit = compareLatePedestalSelection(centered,scores,before,after,late,beforeFit,afterFit)
@@ -487,21 +676,35 @@ fprintf(fid,'Execution: %s, %d worker(s), %.2f s wall time (%.2f s pool setup).\
     performance.Mode,performance.Workers,performance.WallSeconds,performance.PoolStartupSeconds);
 fprintf(fid,'Processed %d channel-points and %d records. %d points resolved 0 and 1 PE.\n\n', ...
     height(summary),sum(summary.Records),nnz(summary.Status=="resolved"));
-fprintf(fid,['The SNR estimator uses pedestal subtraction, Tukey taper, a %.4f MHz notch (Q = %g), ' ...
-    'a %g MHz third-order Butterworth low-pass, the reference integrator IIR, ' ...
-    'and a causal %d-sample moving average.\n\n'], ...
-    p.notchFrequencyHz/1e6,p.notchQ,p.lowPassHz/1e6,p.boxcarPastSamples+1);
+state = ["off","on"];
+fprintf(fid,'| Stage | State | Setting | Routes |\n|---|---|---|---|\n');
+fprintf(fid,'| Tukey window | %s | | SNR |\n',state(1+p.useTukey));
+fprintf(fid,'| Notch | %s | %.4f MHz, Q = %g | Diagnostic, SNR, SPE |\n', ...
+    state(1+p.useNotch),p.notchFrequencyHz/1e6,p.notchQ);
+fprintf(fid,'| Butterworth low-pass | %s | %g MHz, order 3 | Diagnostic, SNR |\n', ...
+    state(1+p.useLowPass),p.lowPassHz/1e6);
+fprintf(fid,'| Reference IIR integrator | %s | | SNR |\n',state(1+p.useIntegrator));
+fprintf(fid,'| Causal boxcar | %s | %d samples, including the current sample | SNR |\n\n', ...
+    state(1+p.useBoxcar),p.boxcarLength);
 fprintf(fid,['Odd IDs determine pulse and score windows, amplitude calibration and quality thresholds. ' ...
-    'Even IDs estimate SNR and supply the original waveforms for the notch-filtered 1-PE average. The late gate is applied to the original event IDs before histogram fitting. ' ...
+    'Even IDs estimate SNR and supply the centered waveforms for the 1-PE average. ' ...
+    'The late gate is applied to the original event IDs before histogram fitting. ' ...
     'The comparison column uses the same score calibration after only rail and duplicate removal. ' ...
     'Bootstrap intervals condition on training and use independent evaluation record resamples.\n\n']);
-fprintf(fid,['Historical DR uses %d divided by the notch-filtered 1-PE peak-to-peak amplitude. ' ...
-    'ADC headroom uses the raw 1-PE average, measured pedestal and %d-bit rails. ' ...
+fprintf(fid,['Historical DR uses %d divided by the 1-PE peak-to-peak amplitude with the notch %s. ' ...
+    'ADC headroom uses the 1-PE average before filtering, the measured pedestal and %d-bit rails. ' ...
     'A linearity measurement needs saturation data. The spectral plot shows the shaped waveform ' ...
-    'in the legacy normalization.\n\n'],2^p.adcBits,p.adcBits);
-fprintf(fid,'Each point has the Live Script layouts for the average waveform, integral histogram, spectrum and 1-PE waveform, plus a diagnostic boxplot panel. Figures accompany a point MAT file with event masks, estimated windows and fit diagnostics, and a separate histogram model file. Reference-layout PNGs use 700 by 525 pixels. A supplemental comparison shows the raw all-waveform averages and notch-filtered 1-PE averages before and after the late veto. Histograms stay in raw score ADU with per-point limits and a bin width chosen on training. The red overlay includes higher PE orders supported by local maxima near the common peak spacing. SNR is evaluated from a joint, bin-integrated 0- and 1-PE fit.\n\n');
+    'in the legacy normalization.\n\n'],2^p.adcBits,state(1+p.useNotch),p.adcBits);
+fprintf(fid,['Each point has the Live Script layouts for the average waveform, integral histogram, ' ...
+    'spectrum and 1-PE waveform, plus a diagnostic boxplot panel. Figures accompany a point MAT ' ...
+    'file with event masks, estimated windows and fit diagnostics, and a separate histogram model ' ...
+    'file. Reference-layout PNGs use 700 by 525 pixels. A supplemental comparison shows the ' ...
+    'all-waveform averages and the 1-PE averages before and after the late veto. Histograms stay ' ...
+    'in raw score ADU with per-point limits and a bin width chosen on training. The red overlay ' ...
+    'includes higher PE orders supported by local maxima near the common peak spacing. SNR is ' ...
+    'evaluated from a joint, bin-integrated 0- and 1-PE fit.\n\n']);
 fprintf(fid,['The late ROI starts %.2f us after the raw pulse peak. ' ...
-    'The notch/low-pass diagnostic vetoes a block offset above %.1f robust early contrast scales ' ...
+    'The diagnostic branch vetoes a block offset above %.1f robust early contrast scales ' ...
     'or an excursion above %.1f robust early sample scales. Both scales are learned on ' ...
     'odd records passing initial quality gates. The late raw baseline is not subtracted. ' ...
     'Both SPE comparison curves use the same training-defined 1-PE score interval.\n\n'], ...

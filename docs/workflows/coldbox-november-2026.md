@@ -48,6 +48,78 @@ los identificadores y los cortes de eventos, las ventanas, el ajuste de
 se generan seis figuras globales a partir de `summary.csv`. Los puntos
 sin ajuste válido se muestran como huecos.
 
+## Selección de filtros del barrido
+
+Las cinco etapas están activas por defecto. Cada opción controla la etapa
+en todas las rutas donde se usa.
+
+| Opción | Ruta | Configuración |
+|---|---|---|
+| `UseTukey` | SNR | La ventana usa el inicio del pulso estimado. |
+| `UseNotch` | Diagnóstico, SNR y promedio de 1 PE | `NotchFrequencyHz=10.0098e6` y `NotchQ=15` |
+| `UseLowPass` | Diagnóstico y SNR | `LowPassHz=2e6` Hz, Butterworth de tercer orden |
+| `UseIntegrator` | SNR | Coeficientes IIR de `cfg.ShaperFile` |
+| `UseBoxcar` | SNR | `BoxcarLength=18` muestras en total |
+
+Este ejemplo analiza M1 con el notch desactivado, un corte de 1.5 MHz
+y un boxcar causal de 12 muestras.
+
+```matlab
+cfg = pds.coldbox.november2026(runRoot,"M1");
+[summary, scanRun, performance] = pds.coldbox.analyzeScan( ...
+    cfg.ScanRoot, cfg.ShaperFile, out, ...
+    Vbias=cfg.Vbias, Vgain=cfg.Vgain, Channels=cfg.ScanChannels, ...
+    SamplePeriod=cfg.SamplePeriod, AdcBits=cfg.AdcBits, Campaign=cfg.Campaign, ...
+    UseNotch=false, UseLowPass=true, LowPassHz=1.5e6, ...
+    UseBoxcar=true, BoxcarLength=12, UseParallel=true, MaxWorkers=4);
+```
+
+`BoxcarLength` incluye la muestra actual. La opción anterior
+`BoxcarPastSamples` sigue contando solo las muestras previas. Indica
+una de las dos opciones. Con `UseIntegrator=false` se admite `""`
+como ruta al archivo de coeficientes.
+
+`pipeline.mat` guarda la configuración y los coeficientes usados.
+El informe registra las etapas activas. El reprocesamiento de resultados
+guardados usa los mismos escalares y el mismo ajuste del notch para el
+promedio de 1 PE. Para cambiar la cadena de procesamiento, vuelve a
+ejecutar el barrido desde los archivos DAPHNE.
+
+## Barrido de LPF y boxcar para maximizar el SNR
+
+Ejemplo para M3 a Vbias 796 DAC. Cada archivo DAPHNE de cada Vgain y
+canal se lee una sola vez. Cada corte Butterworth tiene sus propios vetos
+y se comparte el resultado previo al boxcar entre todas las longitudes.
+El ajuste de 0 y 1 PE calcula el SNR con las reglas del barrido estándar.
+El notch es obligatorio en el sweep de M3.
+
+```matlab
+cfg = pds.coldbox.november2026(runRoot,"M3");
+out = fullfile(pwd,"outputs","coldbox-snr-sweep");
+[best,sweepRun,performance] = pds.coldbox.sweepSNR( ...
+    cfg.ScanRoot,cfg.ShaperFile,out,(1:0.5:10)*1e6,10:30, ...
+    Vbias=796,Vgain=500:100:2500,Channels=cfg.ScanChannels, ...
+    SamplePeriod=cfg.SamplePeriod,AdcBits=cfg.AdcBits,Campaign=cfg.Campaign, ...
+    UseNotch=true,UseParallel=true,MaxWorkers=4);
+disp(best);
+disp(sweepRun);
+```
+
+El ejemplo evalúa 399 combinaciones por Vgain y canal. Con los dos
+canales de M3 son 16 758 ajustes de cuadrícula y una malla por
+Vgain y canal. Para una prueba corta, usa `[1.5 2]*1e6`, `[12 18]`,
+`Vgain=500` y `Channels=8`. En otros módulos, usa los valores del perfil
+y el estado del notch que corresponda al estudio.
+
+`snr_grid.csv` registra cada combinación, incluidos los ajustes sin
+resolver. `best_snr.csv` registra el mayor SNR observado por Vbias,
+Vgain y canal y marca los máximos en el borde de la cuadrícula.
+En caso de empate, se elige el menor corte y luego el boxcar más corto.
+La malla omite los ajustes sin resolver. La cuadrícula usa el estimador
+estándar sin las réplicas bootstrap ni los ajustes de diagnóstico.
+Para regenerar las figuras y los máximos desde el CSV guardado, ejecuta
+`pds.coldbox.plotSNRSweep(sweepRun)`.
+
 ## Comparación de ruido electrónico
 
 ```matlab
@@ -100,6 +172,16 @@ verificar con el subconjunto del ejemplo anterior.
 ```matlab
 setenv("PDS_COLDBOX_NOV2026_REFERENCE",referenceRun);
 results = runtests("tests/integration/TestColdBoxNovember2026Reproduction.m");
+assertSuccess(results);
+```
+
+La prueba de los interruptores usa un punto real de M3 y verifica que
+los valores del diagnóstico y del SNR se calculen directamente sobre la
+señal centrada cuando todas las etapas están desactivadas.
+
+```matlab
+setenv("PDS_COLDBOX_NOV2026_RUN_ROOT",runRoot);
+results = runtests("tests/integration/TestColdBoxScanFilters.m");
 assertSuccess(results);
 ```
 

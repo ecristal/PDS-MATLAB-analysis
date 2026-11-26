@@ -16,12 +16,16 @@ assert(~isempty(channels),'The scan summary is empty.');
 metadata = struct('campaign',"ColdBox November 2026", ...
     'module',scanModuleName(runFolder),'adcBits',14);
 pipelineFile = fullfile(runFolder,'pipeline.mat');
+speLabel = "Notch-filtered 1-PE average";
 if isfile(pipelineFile)
     saved = load(pipelineFile,'pipeline');
     for name = ["campaign","module","adcBits"]
         if isfield(saved.pipeline,name)
             metadata.(name) = saved.pipeline.(name);
         end
+    end
+    if ~scanUsesNotch(saved.pipeline)
+        speLabel = "1-PE average (notch off)";
     end
 end
 if strlength(options.Campaign)>0, metadata.campaign = options.Campaign; end
@@ -57,9 +61,10 @@ names = string(bias);
 
 amplitudeGuide = fullScaleADU/drGuide;
 plotSNRvsSPEAmplitude(data,gain,bias,channels,colors,names,snrRange,snrGuide,amplitudeGuide, ...
-    outputFolder,figureTitle,metadata.module);
+    outputFolder,figureTitle + " - " + speLabel,metadata.module);
 if options.OnlySNRvsSPE
-    writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide,figureTitle,fullScaleADU);
+    writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide, ...
+        figureTitle,fullScaleADU,speLabel);
     fprintf('Scan figures: %s\n',outputFolder);
     return
 end
@@ -118,7 +123,7 @@ f = newFigure(1240,650);
 closeFigure = onCleanup(@() close(f));
 layout = tiledlayout(f,1,numel(channels),'TileSpacing','compact','Padding','compact');
 title(layout,{'SPE Peak-to-Peak Amplitude vs VGAIN (DAC)', ...
-    char(figureTitle + " - Notch-filtered 1-PE average")}, ...
+    char(figureTitle + " - " + speLabel)}, ...
     'FontName','Times New Roman','FontWeight','normal','FontSize',24);
 for index = 1:numel(channels)
     channel = channels(index);
@@ -140,11 +145,13 @@ end
 exportFigure(f,outputFolder,'spe_peak_to_peak_vs_vgain_' + metadata.module);
 clear closeFigure
 
-writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide,figureTitle,fullScaleADU);
+writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide, ...
+    figureTitle,fullScaleADU,speLabel);
 fprintf('Scan figures: %s\n',outputFolder);
 end
 
-function writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide,figureTitle,fullScaleADU)
+function writeFigureNotes(runFolder,outputFolder,data,valid,channels,snrGuide,drGuide,amplitudeGuide, ...
+    figureTitle,fullScaleADU,speLabel)
 fid = fopen(fullfile(outputFolder,'figure_notes.md'),'w');
 assert(fid>=0,'Cannot write figure notes.');
 note = onCleanup(@() fclose(fid));
@@ -154,9 +161,9 @@ fprintf(fid,['Each curve corresponds to a recorded Vbias DAC setting. ' ...
     'The source records DAC codes, so the legend displays Vbias in DAC. ' ...
     'Resolved measurements are connected in Vgain order; unresolved points leave gaps.\n\n']);
 fprintf(fid,['Dynamic range is the historical ADC extrapolation (%d divided by the ' ...
-    'notch-filtered 1-PE peak-to-peak amplitude), in PE equivalents, and is plotted ' ...
+    'peak-to-peak amplitude of the %s), in PE equivalents, and is plotted ' ...
     'on a log axis. The vertical guide at 1500 PE denotes that metric. The separate ' ...
-    'ADCHeadroomPE column is based on the raw ADC waveform.\n\n'],fullScaleADU);
+    'ADCHeadroomPE column is based on the raw ADC waveform.\n\n'],fullScaleADU,speLabel);
 fprintf(fid,['The SNR vs SPE-amplitude figure uses a logarithmic amplitude axis. ' ...
     'Its red guide at %.2f ADU is the amplitude corresponding to %d PE of historical DR.\n\n'], ...
     amplitudeGuide,drGuide);
@@ -169,12 +176,11 @@ for channel = channels
 end
 end
 
-function plotSNRvsSPEAmplitude(data,gain,bias,channels,colors,names,snrRange,snrGuide,ampGuide,folder,figureTitle,module)
+function plotSNRvsSPEAmplitude(data,gain,bias,channels,colors,names,snrRange,snrGuide,ampGuide,folder,subtitle,module)
 f = newFigure(1240,650);
 closeFigure = onCleanup(@() close(f));
 layout = tiledlayout(f,1,numel(channels),'TileSpacing','compact','Padding','compact');
-title(layout,{'SNR vs SPE Peak-to-Peak Amplitude', ...
-    char(figureTitle + " - Notch-filtered 1-PE average")}, ...
+title(layout,{'SNR vs SPE Peak-to-Peak Amplitude',char(subtitle)}, ...
     'FontName','Times New Roman','FontWeight','normal','FontSize',24);
 amp = data.SinglePEPeakToPeakADU(isfinite(data.SinglePEPeakToPeakADU));
 xx = [min([amp; ampGuide])/1.15,max([amp; ampGuide])*1.15];

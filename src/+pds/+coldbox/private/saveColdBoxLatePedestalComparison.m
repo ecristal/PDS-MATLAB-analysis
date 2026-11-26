@@ -6,7 +6,10 @@ cleanup = onCleanup(@() close(f));
 layout = tiledlayout(f,2,1,'TileSpacing','compact');
 t = (0:numel(audit.beforeMean)-1)*1e6/pipeline.sampleRateHz;
 start = t(timing.lateOnset);
-titles = ["Average waveform","Average single PE with common PE window and notch"];
+titles = ["Average waveform","Average single PE with common PE window (notch off)"];
+if scanUsesNotch(pipeline)
+    titles(2) = "Average single PE with common PE window and notch";
+end
 before = [audit.beforeMean; filter(pipeline.bNotch,pipeline.aNotch,audit.beforeMatchedSPE)];
 after = [audit.afterMean; filter(pipeline.bNotch,pipeline.aNotch,audit.afterMatchedSPE)];
 for i = 1:2
